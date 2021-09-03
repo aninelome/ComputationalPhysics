@@ -4,7 +4,7 @@
 #include <fstream> // acces to ofstream class 
 #include <math.h>
 #include <armadillo>
-#include <iomanip> 
+#include <iomanip>
 
 using namespace std;
 using namespace arma;
