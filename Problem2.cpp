@@ -4,11 +4,7 @@
 #include <fstream> // acces to ofstream class 
 #include <math.h>
 #include <armadillo>
-<<<<<<< HEAD
 #include <iomanip>
-=======
-#include <iomanip> 
->>>>>>> 4491fc5f703cd812698cc1e3a57bf10ca210d876
 
 using namespace std;
 using namespace arma;
