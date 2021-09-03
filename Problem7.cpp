@@ -35,6 +35,17 @@ int main(int argc, char const *argv[]){
         v[i] = (g[i] - c[i]*v[i+1]) / b[i]; 
     }
 
-     cout << v;
+    // write x and U(x) to a textfile 
+    ofstream file; 
+    file.open("solutions_prob7.txt", ios::out); //opens file in out/write mode
+
+    for (int i = 0; i < n; i++){
+        file << setw(15) << setprecision(3) << x[i];
+        file <<fixed<< setw(15) << setprecision(8) << v[i] << endl; 
+
+    }
+
+    file.close(); 
+
     return 0; 
 }
