@@ -41,11 +41,13 @@ def epsilon_i(U,V): #returnerer relativ feil
 #Lager lister med filnavnene vi skal hente ut data fra
 filename1 = ["prob7_n_10.txt", "prob7_n_100.txt", "prob7_n_1000.txt"]
 filename2 = ["prob2_n_10.txt", "prob2_n_100.txt", "prob2_n_1000.txt"]
+n_list = [10,100,1000]
 
 #Regner ut og plotter absolutt feil for ulike n
-for i in range 3:
+for i in range (3):
     x, u, v = hentdata(filename1[i], filename2[i])
-    plt.plot(X, delta, label = f"n = {n}")
+    delta = Delta_i(u,v)
+    plt.plot(x, delta, label = f"n = {n_list[i]}")
 
 #Lager mappe til bildene
 path = "./results/"
@@ -61,9 +63,10 @@ plt.savefig("delta_i.pdf")
 plt.show()
 
 #Regner ut og plotter absolutt feil for ulike n
-for i in range 3:
+for i in range (3):
     x, u, v = hentdata(filename1[i], filename2[i])
-    plt.plot(X, epsilon, label = f"n = {n}")
+    epsilon = epsilon_i(u,v)
+    plt.plot(x, epsilon, label = f"n = {n_list[i]}")
 
 #Fullfører plott med relativ feil
 plt.legend()
