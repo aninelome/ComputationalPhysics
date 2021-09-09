@@ -12,7 +12,7 @@ using namespace std;
 using namespace arma;
 
 
-void V(int n, const char* filename){
+void V(int n, string filename){
       double h = 1./(n-1);
       double hh = h*h;
       vec a(n), b(n), c(n), g(n), v(n);
@@ -47,12 +47,11 @@ void V(int n, const char* filename){
 
     // write x and U(x) to a textfile
     ofstream file;
-    file.open(filename, ios::out); //opens file in out/write mode
+    file.open("garbagefiles/" + filename, ios::out); //opens file in out/write mode
 
     for (int i = 0; i < n; i++){
         file << setw(25) << setprecision(3) << x(i);
         file <<fixed<< setw(25) << setprecision(8) << v(i) << endl;
-
     }
 
     file.close();
@@ -60,7 +59,7 @@ void V(int n, const char* filename){
 }
 
 
-void V_special(int n, const char* filename){
+void V_special(int n, string filename){
       double h = 1./(n-1);
       double hh = h*h;
       vec a(n), c(n), g(n), v(n);
@@ -97,7 +96,7 @@ void V_special(int n, const char* filename){
 
     // write x and U(x) to a textfile
     ofstream file;
-    file.open(filename, ios::out); //opens file in out/write mode
+    file.open("garbagefiles/" + filename, ios::out); //opens file in out/write mode
 
     // ./output.txt
 
@@ -114,17 +113,17 @@ void V_special(int n, const char* filename){
 // set a path for these files. 
 
 int main () {
-    int n = 10 pow(6)
+    int n = pow(10,6); 
 
     // Begin measuring time for the general algorithm 
     clock_t t1_gen = clock(); 
 
     for (int i = 0; i <= n; i++) {
-        V(i, "prob10_n_{}.txt")
+        V(i, "prob10_n_{}.txt"); 
     }
 
     // Stop measuring time 
-    clock_t t2 = clock(); 
+    clock_t t2_gen = clock(); 
 
     // Begin measuring time for the special algorithm 
     clock_t t1_special = clock();

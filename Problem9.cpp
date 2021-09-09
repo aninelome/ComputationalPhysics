@@ -6,21 +6,19 @@
 #include <armadillo>
 #include <cmath>
 #include <iomanip>
+#include <string>
 
 using namespace std;
 using namespace arma;
 
-void V_special(int n, const char* filename){
+void V_special(int n, string filename){
       double h = 1./(n-1);
       double hh = h*h;
-      vec a(n), c(n), g(n), v(n);
+      vec g(n), v(n);
 
-
-      // fill vectors a, b, c with values
-      a.fill( -1);
-      //b.fill( 2);
-      int b = 3/2; 
-      c.fill( -1);
+    // all vectors are same number 
+      int a, c = -1;
+      int b = 3/2;
 
       vec x = linspace(0, 1, n);
       vec f_x = 100.0*exp(-10*x);
@@ -58,9 +56,11 @@ void V_special(int n, const char* filename){
     file.close();
     return;
 }
+
 int main(int argc, char const *argv[]){
-  V_special(10, "prob9_n_10.txt");
-  V_special(100, "prob9_n_100.txt");
-  V_special(1000, "prob9_n_1000.txt");
+    for (int i = 1; i <= 4; i++) {
+        int n = pow(10, i);
+        V_special(n, "prob9_n_" + to_string(n) + ".txt");
+    }
     return 0;
 }

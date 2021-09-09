@@ -5,6 +5,8 @@
 #include <math.h>
 #include <armadillo>
 #include <cmath>
+#include <iomanip>
+#include <string>
 
 using namespace std;
 using namespace arma;
@@ -55,9 +57,26 @@ void V(int n, const char* filename){
     file.close();
     return;
 }
+
+/* 
+
+// Alternative, make this work 
+
+
+int main(int argc, char const *argv[]){
+    for (int i = 1; i <= 4; i++) {
+        int n = pow(10, i);
+        V(n, "prob7_n_" + to_string(n) + ".txt");
+    }
+    return 0;
+}
+*/
+
 int main(int argc, char const *argv[]){
   V(10, "prob7_n_10.txt");
   V(100, "prob7_n_100.txt");
   V(1000, "prob7_n_1000.txt");
+  V(10000, "prob7_n_10000.txt"); 
+  V(100000, "prob7_n_100000.txt");
     return 0;
 }
