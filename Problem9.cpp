@@ -57,7 +57,7 @@ void V_special(int n, string filename){
     return;
 }
 
-int main(int argc, char const *argv[]){
+int main(int argc, char const *argv[]){ 
     for (int i = 1; i <= 4; i++) {
         int n = pow(10, i);
         V_special(n, "prob9_n_" + to_string(n) + ".txt");

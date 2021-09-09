@@ -47,29 +47,26 @@ void V(int n, string filename){
 
     // write x and U(x) to a textfile
     ofstream file;
-    file.open("garbagefiles/" + filename, ios::out); //opens file in out/write mode
+    file.open(filename, ios::out); //opens file in out/write mode
 
     for (int i = 0; i < n; i++){
         file << setw(25) << setprecision(3) << x(i);
         file <<fixed<< setw(25) << setprecision(8) << v(i) << endl;
+
     }
 
     file.close();
     return;
 }
 
-
 void V_special(int n, string filename){
       double h = 1./(n-1);
       double hh = h*h;
-      vec a(n), c(n), g(n), v(n);
+      vec g(n), v(n);
 
-
-      // fill vectors a, b, c with values
-      a.fill( -1);
-      //b.fill( 2);
-      int b = 3/2; 
-      c.fill( -1);
+    // all vectors are same number 
+      int a, c = -1;
+      int b = 3/2;
 
       vec x = linspace(0, 1, n);
       vec f_x = 100.0*exp(-10*x);
@@ -96,9 +93,7 @@ void V_special(int n, string filename){
 
     // write x and U(x) to a textfile
     ofstream file;
-    file.open("garbagefiles/" + filename, ios::out); //opens file in out/write mode
-
-    // ./output.txt
+    file.open(filename, ios::out); //opens file in out/write mode
 
     for (int i = 0; i < n; i++){
         file << setw(25) << setprecision(3) << x(i);
@@ -110,37 +105,37 @@ void V_special(int n, string filename){
     return;
 }
 
-// set a path for these files. 
 
 int main () {
-    int n = pow(10,6); 
+    //int n = pow(10,6); 
 
     // Begin measuring time for the general algorithm 
     clock_t t1_gen = clock(); 
 
-    for (int i = 0; i <= n; i++) {
-        V(i, "prob10_n_{}.txt"); 
+    for (int i = 1; i <= 4; i++) {
+        int n = pow(10, i);
+        V_special(n, "prob10_gen_n_" + to_string(n) + ".txt");
     }
 
-    // Stop measuring time 
-    clock_t t2_gen = clock(); 
+    clock_t t2_gen = clock(); // Stop measuring time 
+
 
     // Begin measuring time for the special algorithm 
     clock_t t1_special = clock();
 
-    for (int i = 0; i <= n; i++) {
-        V_special(i, "prob10_n_{}.txt"); 
+    for (int i = 1; i <= 4; i++) {
+        int n = pow(10, i);
+        V_special(n, "prob10_spess_n_" + to_string(n) + ".txt");
     }
 
-    // Stop measuring time
-    clock_t t2_special = clock();
+    clock_t t2_special = clock(); // Stop measuring time
 
     // Calculate the elapsed time.
     double duration_seconds_gen = ((double) (t2_gen - t1_gen)) / CLOCKS_PER_SEC;
     double duration_seconds_special = ((double) (t2_special - t1_special)) / CLOCKS_PER_SEC; 
 
-    cout << "General Algorithm: " << duration_seconds_gen << " s" << endl; 
-    cout << "Special Algorithm: " << duration_seconds_special << " s" << endl; 
+    //cout << "General Algorithm: " << duration_seconds_gen << " s" << endl; 
+    //cout << "Special Algorithm: " << duration_seconds_special << " s" << endl; 
 
     return 0; 
 }
