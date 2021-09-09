@@ -18,7 +18,7 @@ def plotV(n, filename):
         V_x.append(float(numbers[1]))
 
     infile.close()
-
+    
     plt.title("Comparison Poisson equation with different n values")
     plt.plot(x, V_x, label = f"n = {n}")
     plt.xlabel("x")
