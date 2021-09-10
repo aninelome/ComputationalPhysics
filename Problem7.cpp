@@ -12,12 +12,12 @@ using namespace std;
 using namespace arma;
 
 
-vec U(vec x){
+vec U(vec x){// define function for exact solution
   return 1. - (1. - exp(-10))*x - arma::exp(-10.*x);
 }
 
-void V(int n, string filename){
-      vec a(n), b(n), c(n), g(n), v(n);
+void V(int n, string filename){// function computing the approximation v(x) for a given n using the algorithm for Gaussian elimination
+      vec a(n), b(n), c(n), g(n), v(n); // define vectors
 
 
       // fill vectors a, b, c with values
@@ -25,16 +25,18 @@ void V(int n, string filename){
       b.fill( 2);
       c.fill( -1);
 
-      vec x = linspace(0, 1, n);
-      double h = x(1)-x(0);
+      vec x = linspace(0, 1, n);       // define x from 0 to 1
+      double h = x(1)-x(0);           // define h and h^2
       double hh = h*h;
       vec f_x = 100.0*exp(-10*x);
 
+
+      // set initial values for g
       g(0) = hh*f_x(0);
       g = hh*f_x;
 
 
-      for (int i = 2; i <= n-2; i++) {
+      for (int i = 2; i <= n-2; i++) {            // calculate b and g
           b(i) = b(i) - a(i)/b(i-1) * c(i-1);
           g(i) = g(i) - a(i)/b(i-1) * g(i-1);
       }
@@ -44,14 +46,12 @@ void V(int n, string filename){
     v(n-1) = 0;
     v(n-2) = g(n-2)/b(n-2);
 
-    for (int i = n-3; i >= 1; i--) {
+    for (int i = n-3; i >= 1; i--) {              // calculate v
         v(i) = (g(i) - c(i)*v(i+1)) / b(i);
 
     }
 
-
-
-    // write x and U(x) to a textfile
+    // write x and v(x) to a textfile
     ofstream file;
     file.open(filename, ios::out); //opens file in out/write mode
     vec res = U(x);

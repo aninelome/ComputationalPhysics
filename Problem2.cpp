@@ -9,11 +9,12 @@
 using namespace std;
 using namespace arma;
 
-vec U(vec x){ //define function
+
+vec U(vec x){ // define function for exact solution
     return 1 - (1 - exp(-10))*x - exp(-10*x);
   }
 
-void readU(int n, const char* filename){
+void compute_U(int n, const char* filename){ // define function that computes u(x) and writes to file for a given n
     vec x = linspace(0, 1, n);
     vec res = U(x);
 
@@ -32,12 +33,10 @@ void readU(int n, const char* filename){
 }
 
 int main(int argc, char const *argv[]){
-  readU(10, "prob2_n_10.txt");
-  readU(100, "prob2_n_100.txt");
-  readU(1000, "prob2_n_1000.txt");
-  readU(10000, "prob2_n_10000.txt");
-  readU(100000, "prob2_n_100000.txt");
-  readU(1000000, "prob2_n_1000000.txt");
-  readU(10000000, "prob2_n_10000000.txt");
+  for (int i = 1; i <= 7; i++) {
+      int n = pow(10, i);
+      cout << "n = " << n << endl;
+      compute_U(n, "prob2_n_" + to_string(n) + ".txt");
+  }
   return 0;
 }
