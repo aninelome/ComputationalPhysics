@@ -40,14 +40,8 @@ filename2 = ["prob2_n_10.txt", "prob2_n_100.txt", "prob2_n_1000.txt", "prob2_n_1
 
 
 n_list = [10**i for i in range(1,8)]
-"""
-def Delta_i(U,V): #returnerer absolutt feil
-    delta = np.log10(np.abs(U-V))
-    return delta
 
-def epsilon_i(U,V): #returnerer relativ feil
-    epsilon = np.log10(np.abs((U-V)/U))
-    return epsilon
+
 
 
 

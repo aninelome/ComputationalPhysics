@@ -17,8 +17,6 @@ vec U(vec x){
 }
 
 void V(int n, string filename){
-      double h = 1./(n-1);
-      double hh = h*h;
       vec a(n), b(n), c(n), g(n), v(n);
 
 
@@ -28,8 +26,8 @@ void V(int n, string filename){
       c.fill( -1);
 
       vec x = linspace(0, 1, n);
-      h = x(1)-x(0);
-      hh = h*h;
+      double h = x(1)-x(0);
+      double hh = h*h;
       vec f_x = 100.0*exp(-10*x);
 
       g(0) = hh*f_x(0);
