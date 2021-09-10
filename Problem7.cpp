@@ -55,8 +55,11 @@ void V(int n, string filename){
     ofstream file;
     file.open(filename, ios::out); //opens file in out/write mode
     vec res = U(x);
-    vec RelativeError = arma::log10(arma::abs(res - v)/res);
     vec AbsoluteError = arma::log10(arma::abs(res-v));
+    vec RelativeError = vec(size(AbsoluteError)).fill(0.);
+    for (int i = 1; i < n-1; i++) RelativeError(i) = log10(fabs(res(i)-v(i)/res(i)));
+
+
     for (int i = 0; i < n; i++){
         file << setw(25) << setprecision(3) << x(i);
         file <<fixed<< setw(25) << setprecision(8) << v(i);
@@ -70,8 +73,9 @@ void V(int n, string filename){
 
 
 int main(int argc, char const *argv[]){
-    for (int i = 1; i <= 4; i++) {
+    for (int i = 1; i <= 7; i++) {
         int n = pow(10, i);
+        cout << "n = " << n << endl;
         V(n, "prob7_n_" + to_string(n) + ".txt");
     }
     return 0;
