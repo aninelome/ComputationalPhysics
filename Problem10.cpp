@@ -43,15 +43,6 @@ void V(int n, string filename){
         v(i) = (g(i) - c(i)*v(i+1)) / b(i);
     }
 
-    // write x and v to a textfile
-    ofstream file;
-    file.open(filename, ios::out); //opens file in out/write mode
-    for (int i = 0; i < n; i++){
-        file << setw(25) << setprecision(3) << x(i);
-        file <<fixed<< setw(25) << setprecision(8) << v(i) << endl;
-    }
-    file.close();
-
     return;
 }
 
@@ -89,30 +80,16 @@ void V_special(int n, string filename){
         v(i) = (g(i) - c(i)*v(i+1)) / b(i);
     }
 
-    // write x and v to a textfile
-    ofstream file;
-    file.open(filename, ios::out); //opens file in out/write mode
-
-    for (int i = 0; i < n; i++){
-        file << setw(25) << setprecision(3) << x(i);
-        file <<fixed<< setw(25) << setprecision(8) << v(i) << endl;
-    }
-
-    file.close();
     return;
 }
 
-
-
 int main () {
-    //int n = pow(10,6); 
-
     // Begin measuring time for the general algorithm 
     clock_t t1_gen = clock(); 
 
     for (int i = 1; i <= 6; i++) {
         int n = pow(10, i);
-        V_special(n, "prob10_gen_n_" + to_string(n) + ".txt");
+        V(n, "prob10_gen_n_" + to_string(n) + ".txt");
     }
 
     clock_t t2_gen = clock(); // Stop measuring time 
