@@ -1,7 +1,10 @@
 # Project1
 
-Compile and link using g++ main.cpp -o main.exe
+Compile and link using
 
-Run the program using ./Problem2.exe
+Mac: g++ filename.cpp -o filename.exe -std=c++11 -larmadillo 
 
-After this, run "read_a_file.py" in order to get the plot 
+Windows: g++ filename.cpp -o filename.exe
+
+Run the program using ./filename.exe
+
