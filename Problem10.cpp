@@ -102,6 +102,8 @@ void V_special(int n, string filename){
     return;
 }
 
+
+
 int main () {
     //int n = pow(10,6); 
 
