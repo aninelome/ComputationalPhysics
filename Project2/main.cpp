@@ -13,5 +13,6 @@ int main(){
     eigval.print();
     eigvec.print();
 
+    analytic_eigprob(6);
    return 0;
 }

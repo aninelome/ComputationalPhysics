@@ -8,5 +8,7 @@
 using namespace std;
 using namespace arma;
 
-mat make_A(int N);
-void solve_eig_prob(mat A, vec* eigval, mat* eigvec);
+
+mat make_A(int );
+void solve_eig_prob(mat , vec* , mat* );
+void analytic_eigprob(int );
