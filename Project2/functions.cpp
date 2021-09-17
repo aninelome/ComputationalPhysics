@@ -53,9 +53,6 @@ mat mat_make_test_A(int N) {
 
 
 double max_offdiag_symmetric(mat A, int* k, int* l) {
-    /* function that identifies the largest off-diagonal element in the matrix (assume symmetric matrix)
-                     then writes the matrix indices for this element to the two integer references
-                        then returns the value of this matrix element. */
     int N = A.n_rows;
     double maxElement = 0.0;
     // runs through the top diagonal elements of A
@@ -72,10 +69,13 @@ double max_offdiag_symmetric(mat A, int* k, int* l) {
 }
 
 
-void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l){
-  double tol = 1e-10;
+void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
   int N = A.n_rows;
-  while abs(A(k,l)) > tol{
+  double tau;
+  double t;
+  double c;
+  double s;
+  while (abs(A(k,l)) > tol){
     tau = (A(l,l) - A(k,k))/ (2*A(k,l));
     if (tau > 0){
       t = -tau + sqrt(1+tau*tau);
@@ -85,30 +85,39 @@ void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l){
     }
     c = 1 / sqrt(1+(t*t));
     s = c*t;
+    double temp_Akk = A(k,k);
     A(k,k) = A(k,k)*c*c - 2*A(k,l)*c*s + A(l,l)*s*s;
-    A(l,l) = A(l,l)*c*c + 2*A(k,l)*c*s + A(k,k)*s*s;
+    A(l,l) = A(l,l)*c*c + 2*A(k,l)*c*s + temp_Akk*s*s;
     A(k,l) = 0;
     A(l,k) = 0;
-  for (i != l,k){
-    double temp_Aik = A(i,k);
-    A(i,k) = A(i,k)*c - A(i,i)*s;
-    A(k,i) = A(i,k);
-    A(i,l) = A(i,l)*c + temp_Aik*s;
-    A(l,i) = A(i,l);
+  for (int i = 0; i < N; i++){
+    if (i != l && i != k){
+      double temp_Aik = A(i,k);
+      A(i,k) = A(i,k)*c - A(i,l)*s;
+      A(k,i) = A(i,k);
+      A(i,l) = A(i,l)*c + temp_Aik*s;
+      A(l,i) = A(i,l);
+    }
   }
-  for (i=0; i<N; i++){
+  for (int i=0; i<N; i++){
     double temp_Rik = R(i,k);
     R(i,k) = R(i,k)*c - R(i,l)*s;
     R(i,l) = R(i,l)*c + temp_Rik*s;
   }
-  double max_offdiag_A = max_offdiag_symmetric(A6, &k, &l);
+  double max_offdiag_A = max_offdiag_symmetric(A, &k, &l);
 
   }
   return;
 }
 
-void jacobi_eigensolver(const arma::mat& A, double eps, arma::vec& eigenvalues, arma::mat& eigenvectors,
-const int maxiter, int& iterations, bool& converged){
-
-    return;
+void jacobi_eigensolver(mat& A, mat& R, double tol, vec& eigenvalues, mat& eigenvectors,
+const int maxiter, int iterations, bool converged, int k, int l){
+  int N = A.n_rows;
+  jacobi_rotate(A, R, k,l, tol);
+  cout << A << endl;
+  for (int i = 0; i < N; i++){
+    eigenvalues(i) = A(i,i);
+  eigenvectors = R;
+}
+  return;
   }

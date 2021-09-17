@@ -28,6 +28,11 @@ then writes the matrix indices for this element to the two integer references
 then returns the value of this matrix element. */
 double max_offdiag_symmetric(mat , int* , int* );
 
+//
+void jacobi_rotate(mat& ,mat& , int , int , double);
+
+//
+void jacobi_eigensolver(mat& ,mat& , double, vec& , mat& , const int, int, bool, int, int);
 
 
 // Tests:

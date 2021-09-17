@@ -3,6 +3,6 @@
 #include "functions.hpp"
 
 int main(){
-  test_max_offdiag(max_elem);
+  test_max_offdiag();
   return 0;
 }
