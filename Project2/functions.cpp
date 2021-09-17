@@ -4,7 +4,8 @@ using namespace std;
 using namespace arma;
 
 mat make_tridiagonal(int N, double a, double d){
-    mat A = mat(N,N);               // Making A
+    mat A = mat(N,N);  
+    A.fill(0);           // Making A
     for (int i = 0; i <= N-2; i++){ // Filling A
         A(i,i) = d;
         A(i+1,i) = a;
@@ -76,24 +77,31 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
   double c;
   double s;
   while (abs(A(k,l)) > tol){
+    cout << k << "  " << l << endl;
     tau = (A(l,l) - A(k,k))/ (2*A(k,l));
-    if (tau > 0){
-      t = -tau + sqrt(1+tau*tau);
+    if (tau >= 0){
+      t = 1/(tau + sqrt(1+tau*tau));
+      c = 1 / sqrt(1+(t*t));
+      s = c*t;
     }
     if (tau < 0){
-      t = -tau - sqrt(1+tau*tau);
+      t = -1/(-tau + sqrt(1+tau*tau));
+      c = 1;
+      s = 0;
     }
-    c = 1 / sqrt(1+(t*t));
-    s = c*t;
+    
     double temp_Akk = A(k,k);
-    A(k,k) = A(k,k)*c*c - 2*A(k,l)*c*s + A(l,l)*s*s;
-    A(l,l) = A(l,l)*c*c + 2*A(k,l)*c*s + temp_Akk*s*s;
+    double temp_All = A(l,l);
+    double temp_Akl = A(k,l);
+    A(k,k) = temp_Akk*c*c - 2*temp_Akl*c*s + temp_All*s*s;
+    A(l,l) = temp_All*c*c + 2*temp_Akl*c*s + temp_Akk*s*s;
     A(k,l) = 0;
     A(l,k) = 0;
   for (int i = 0; i < N; i++){
     if (i != l && i != k){
       double temp_Aik = A(i,k);
-      A(i,k) = A(i,k)*c - A(i,l)*s;
+      double temp_Ail = A(i,l);
+      A(i,k) = A(i,k)*c - temp_Ail*s;
       A(k,i) = A(i,k);
       A(i,l) = A(i,l)*c + temp_Aik*s;
       A(l,i) = A(i,l);
@@ -101,11 +109,12 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
   }
   for (int i=0; i<N; i++){
     double temp_Rik = R(i,k);
-    R(i,k) = R(i,k)*c - R(i,l)*s;
+    double temp_Ril = R(i,l);
+    R(i,k) = R(i,k)*c - temp_Ril*s;
     R(i,l) = R(i,l)*c + temp_Rik*s;
   }
   double max_offdiag_A = max_offdiag_symmetric(A, &k, &l);
-
+  cout << A << endl;
   }
   return;
 }
@@ -113,8 +122,13 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
 void jacobi_eigensolver(mat& A, mat& R, double tol, vec& eigenvalues, mat& eigenvectors,
 const int maxiter, int iterations, bool converged, int k, int l){
   int N = A.n_rows;
-  jacobi_rotate(A, R, k,l, tol);
+  cout << "A før Jacobi" << endl;
   cout << A << endl;
+  cout << R << endl;
+  jacobi_rotate(A, R, k,l, tol);
+  cout << "A etter Jacobi" << endl;
+  cout << A << endl;
+  cout << R << endl;
   for (int i = 0; i < N; i++){
     eigenvalues(i) = A(i,i);
   eigenvectors = R;
