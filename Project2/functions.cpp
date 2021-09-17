@@ -1,5 +1,7 @@
 #include "functions.hpp"
 
+using namespace std;
+using namespace arma;
 
 mat make_A(int N){                 // Function to make A
     double n = N + 1;
