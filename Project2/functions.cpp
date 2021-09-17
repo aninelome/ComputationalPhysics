@@ -76,27 +76,26 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
   double t;
   double c;
   double s;
-  while (abs(A(k,l)) > tol){
-    cout << k << "  " << l << endl;
-    tau = (A(l,l) - A(k,k))/ (2*A(k,l));
-    if (tau >= 0){
-      t = 1/(tau + sqrt(1+tau*tau));
-      c = 1 / sqrt(1+(t*t));
-      s = c*t;
-    }
-    if (tau < 0){
-      t = -1/(-tau + sqrt(1+tau*tau));
-      c = 1;
-      s = 0;
-    }
-    
-    double temp_Akk = A(k,k);
-    double temp_All = A(l,l);
-    double temp_Akl = A(k,l);
-    A(k,k) = temp_Akk*c*c - 2*temp_Akl*c*s + temp_All*s*s;
-    A(l,l) = temp_All*c*c + 2*temp_Akl*c*s + temp_Akk*s*s;
-    A(k,l) = 0;
-    A(l,k) = 0;
+  cout << k << "  " << l << endl;
+  tau = (A(l,l) - A(k,k))/ (2*A(k,l));
+  if (tau >= 0){
+    t = 1/(tau + sqrt(1+tau*tau));
+    c = 1 / sqrt(1+(t*t));
+    s = c*t;
+  }
+  if (tau < 0){
+    t = -1/(-tau + sqrt(1+tau*tau));
+    c = 1;
+    s = 0;
+  }
+  
+  double temp_Akk = A(k,k);
+  double temp_All = A(l,l);
+  double temp_Akl = A(k,l);
+  A(k,k) = temp_Akk*c*c - 2*temp_Akl*c*s + temp_All*s*s;
+  A(l,l) = temp_All*c*c + 2*temp_Akl*c*s + temp_Akk*s*s;
+  A(k,l) = 0;
+  A(l,k) = 0;
   for (int i = 0; i < N; i++){
     if (i != l && i != k){
       double temp_Aik = A(i,k);
@@ -113,10 +112,8 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
     R(i,k) = R(i,k)*c - temp_Ril*s;
     R(i,l) = R(i,l)*c + temp_Rik*s;
   }
-  double max_offdiag_A = max_offdiag_symmetric(A, &k, &l);
-  cout << A << endl;
-  }
-  return;
+
+ return;
 }
 
 void jacobi_eigensolver(mat& A, mat& R, double tol, vec& eigenvalues, mat& eigenvectors,
@@ -125,7 +122,17 @@ const int maxiter, int iterations, bool converged, int k, int l){
   cout << "A før Jacobi" << endl;
   cout << A << endl;
   cout << R << endl;
-  jacobi_rotate(A, R, k,l, tol);
+  while (abs(A(k,l)) > tol){
+    iterations = iterations +1;
+    if (iterations >= maxiter) {
+      cout << "Too many iterations!" << endl;
+      exit(0);
+    }
+    jacobi_rotate(A, R, k,l, tol);
+    double max_offdiag_A = max_offdiag_symmetric(A, &k, &l);
+    cout << A << endl;
+  }
+  converged = true;
   cout << "A etter Jacobi" << endl;
   cout << A << endl;
   cout << R << endl;
