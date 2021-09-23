@@ -122,14 +122,13 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
 }
 
 
-
-void jacobi_eigensolver(mat& A, mat& R, double tol, vec& eigenvalues, mat& eigenvectors,
+int jacobi_eigensolver(mat& A, mat& R, double tol, vec& eigenvalues, mat& eigenvectors,
 const int maxiter, int iterations, bool converged, int k, int l){
   int N = A.n_rows;
   while (abs(A(k,l)) > tol && iterations <= maxiter){
     iterations = iterations +1;
-    cout << k << l << endl;
-    A.print();
+    //cout << k << l << endl;
+
     jacobi_rotate(A, R, k,l, tol);
     double max_offdiag_A = max_offdiag_symmetric(A, &k, &l);
   }
@@ -139,6 +138,6 @@ const int maxiter, int iterations, bool converged, int k, int l){
   for (int i = 0; i < N; i++){
     eigenvalues(i) = A(i,i);
   eigenvectors = R;
-  }
-  return;
+}
+  return iterations;
 }

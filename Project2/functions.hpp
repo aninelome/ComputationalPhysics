@@ -31,7 +31,7 @@ double max_offdiag_symmetric(mat , int* , int* );
 void jacobi_rotate(mat& ,mat& , int , int , double);
 
 //
-void jacobi_eigensolver(mat& ,mat& , double, vec& , mat& , const int, int, bool, int, int);
+int jacobi_eigensolver(mat& ,mat& , double, vec& , mat& , const int, int, bool, int, int);
 
 
 // Tests:

@@ -3,8 +3,13 @@
 #include "functions.hpp"
 
 int main(){
-  vec N = {10, 50, 100, 1000, 10000};
-  for (int i = 0; sizeof(N); i++){
+  ofstream file;
+  file.open("plot_prob6.txt", ios::out); //opens file in out/write mode
+  arma::vec N = vec(4);
+  N(0) = 10; N(1) = 50; N(2) = 100; N(3) = 250;
+//Run through our functions and print the number of iterations for each value of N
+  for (int i = 0; i < N.size(); i++){
+    //cout << N.size() << endl;
     double n = N(i)+1;
     double h = 1/n;
     double a = -1/(h*h);
@@ -16,15 +21,15 @@ int main(){
     double maxA6 = max_offdiag_symmetric(A, &k, &l);
     vec eigenvalues(N(i));
     mat eigenvectors(N(i),N(i));
-    int maxiter, iterations;
+    int maxiter;
     maxiter = 1000000;
     bool converged;
     double tol = 1e-10;
-    jacobi_eigensolver(A, R, tol, eigenvalues, eigenvectors, maxiter, 0, converged, k,l);
-    cout << "Eigenvalues" << endl;
-    eigenvalues.print();
-    cout << "Eigenvectors" << endl;
-    eigenvectors.print();
+    int iterations = jacobi_eigensolver(A, R, tol, eigenvalues, eigenvectors, maxiter, 0, converged, k,l);
+    file << setw(25) << setprecision(3) << N(i);
+    file <<fixed<< setw(25) << setprecision(8) << iterations << endl;
   }
+  file.close();
   return 0;
+
 }
