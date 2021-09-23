@@ -4,7 +4,7 @@ using namespace std;
 using namespace arma;
 
 mat make_tridiagonal(int N, double a, double d){
-    mat A = mat(N,N);  
+    mat A = mat(N,N);
     A.fill(0);           // Making A
     for (int i = 0; i <= N-2; i++){ // Filling A
         A(i,i) = d;
@@ -77,7 +77,7 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
   double t;
   double c;
   double s;
- 
+
   if (A(k,l) != 0.){
     tau = (A(l,l) - A(k,k))/ (2*A(k,l));
     if (tau >= 0.){
@@ -133,11 +133,12 @@ const int maxiter, int iterations, bool converged, int k, int l){
     jacobi_rotate(A, R, k,l, tol);
     double max_offdiag_A = max_offdiag_symmetric(A, &k, &l);
   }
+  cout << "N = " << N << endl;
+  cout << "iterations = " << iterations << endl;
   converged = true;
   for (int i = 0; i < N; i++){
     eigenvalues(i) = A(i,i);
   eigenvectors = R;
-  } 
-  A.print();
+  }
   return;
 }
