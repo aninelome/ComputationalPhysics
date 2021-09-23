@@ -139,5 +139,6 @@ const int maxiter, int iterations, bool converged, int k, int l){
     eigenvalues(i) = A(i,i);
   eigenvectors = R;
 }
+
   return iterations;
 }
