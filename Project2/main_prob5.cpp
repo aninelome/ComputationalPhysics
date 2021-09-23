@@ -4,8 +4,6 @@
 
 int main(){
   /*Ting som må fikses/ spm:
-  - FÅR FEIL I ITERASJON NUMMER 4!!!!!!!!
-  - Skal programmet exite når vi når maxiter?
   - Hvorfor converged = true?
   */
   int N = 6;
