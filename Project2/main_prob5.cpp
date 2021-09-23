@@ -7,7 +7,7 @@ int main(){
   - Hvorfor converged = true?
   */
   int N = 6;
-  double n = N+1;
+  double n = N+2;
   double h = 1/n;
   double a = -1/(h*h);
   double d = 2/(h*h);
