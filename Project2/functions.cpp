@@ -15,10 +15,12 @@ mat make_tridiagonal(int N, double a, double d){
 return A;
 }
 
+
 void solve_eig_prob(mat A, vec* eigval, mat* eigvec){
     eig_sym((*eigval), (*eigvec), A);
     return;
 }
+
 
 void analytic_eigprob(int N, double a, double d){
     vec lambda = vec(N);
@@ -52,7 +54,6 @@ mat mat_make_test_A(int N) {
 }
 
 
-
 double max_offdiag_symmetric(mat A, int* k, int* l) {
     int N = A.n_rows;
     double maxElement = 0.0;
@@ -76,26 +77,30 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
   double t;
   double c;
   double s;
-  cout << k << "  " << l << endl;
-  tau = (A(l,l) - A(k,k))/ (2*A(k,l));
-  if (tau >= 0){
-    t = 1/(tau + sqrt(1+tau*tau));
-    c = 1 / sqrt(1+(t*t));
+ 
+  if (A(k,l) != 0.){
+    tau = (A(l,l) - A(k,k))/ (2*A(k,l));
+    if (tau >= 0.){
+      t = 1./(tau + sqrt(1.+tau*tau));
+    }else{
+      t = -1./(-tau + sqrt(1.+tau*tau));
+    }
+    c = 1./sqrt(1.+t*t);
     s = c*t;
+
   }
-  if (tau < 0){
-    t = -1/(-tau + sqrt(1+tau*tau));
-    c = 1;
-    s = 0;
+  else{
+    c = 1.;
+    s = 0.;
   }
-  
+
   double temp_Akk = A(k,k);
   double temp_All = A(l,l);
   double temp_Akl = A(k,l);
   A(k,k) = temp_Akk*c*c - 2*temp_Akl*c*s + temp_All*s*s;
   A(l,l) = temp_All*c*c + 2*temp_Akl*c*s + temp_Akk*s*s;
-  A(k,l) = 0;
-  A(l,k) = 0;
+  A(k,l) = 0.0;
+  A(l,k) = 0.0;
   for (int i = 0; i < N; i++){
     if (i != l && i != k){
       double temp_Aik = A(i,k);
@@ -116,29 +121,23 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
  return;
 }
 
+
+
 void jacobi_eigensolver(mat& A, mat& R, double tol, vec& eigenvalues, mat& eigenvectors,
 const int maxiter, int iterations, bool converged, int k, int l){
   int N = A.n_rows;
-  cout << "A før Jacobi" << endl;
-  cout << A << endl;
-  cout << R << endl;
-  while (abs(A(k,l)) > tol){
+  while (abs(A(k,l)) > tol && iterations <= maxiter){
     iterations = iterations +1;
-    if (iterations >= maxiter) {
-      cout << "Too many iterations!" << endl;
-      exit(0);
-    }
+    cout << k << l << endl;
+    A.print();
     jacobi_rotate(A, R, k,l, tol);
     double max_offdiag_A = max_offdiag_symmetric(A, &k, &l);
-    cout << A << endl;
   }
   converged = true;
-  cout << "A etter Jacobi" << endl;
-  cout << A << endl;
-  cout << R << endl;
   for (int i = 0; i < N; i++){
     eigenvalues(i) = A(i,i);
   eigenvectors = R;
-}
+  } 
+  A.print();
   return;
-  }
+}

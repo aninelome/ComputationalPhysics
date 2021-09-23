@@ -13,14 +13,12 @@ int main(){
   double h = 1/n;
   double a = -1/(h*h);
   double d = 2/(h*h);
-  cout << "a=" << a << endl;
   mat A6 = make_tridiagonal(N, a, d);
-  cout << "A6= " << A6 << endl;
   mat R6 = make_tridiagonal(N, 0, 1);
   int k;
   int l;
   double maxA6 = max_offdiag_symmetric(A6, &k, &l);
-
+  A6.print();
   vec eigenvalues(N);
   mat eigenvectors(N,N);
   int maxiter, iterations;
