@@ -1,4 +1,3 @@
-
 #include <iostream> // input and output
 #include <fstream>
 #include <math.h>
