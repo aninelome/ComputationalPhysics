@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 fontsize = 10
 ticksize = 10
 
+"""
+Plotting number of transformations versus dimension of matrix
+"""
 def plot_prob6(filename):
     N = np.loadtxt("plot_prob6.txt", usecols=0)
     it = np.loadtxt("plot_prob6.txt", usecols=1)
@@ -21,7 +24,9 @@ def plot_prob6(filename):
     print(f"Scale = {s}")
     return
 
-
+"""
+Function reading from file
+"""
 def read_data(filename):
     with open(filename, "r") as infile:
         keys = infile.readline().split()
@@ -34,6 +39,10 @@ def read_data(filename):
     return d
 
 
+"""
+Function plotting the three eigenvectors corresponding to
+the three lowest eigenvalues, and of the corresponding analytical
+eigenvectors, plotted against corresponding positions x"""
 def plot_eigenvectors2(filename1, filename2):
     eigvecs = {}
     eigvecs["approx"] = read_data(filename1)
