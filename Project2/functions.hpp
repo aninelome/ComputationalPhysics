@@ -42,7 +42,7 @@ rotation method. The function checks that all the nondiagonal elements of the ma
 is less than a tolerance you give as an input. It also stops when the number of
 iterations gets bigger than the variable maxiter which you give as an inputargument.*/
 int jacobi_eigensolver(mat& A, mat& R, double tol, vec& eigenvalues, mat& eigenvectors,
-const int maxiter, int iterations, bool converged, int k, int l);
+const int maxiter, int iterations, bool *converged, int k, int l);
 
 
 // Tests in testing.cpp:
