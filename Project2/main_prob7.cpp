@@ -4,10 +4,9 @@
 
 
 int main(){
-  arma::vec n_values = vec(3);
+  arma::vec n_values = vec(2);
   n_values(0) = 10;
-  n_values(1) = 50;
-  n_values(2) = 100;
+  n_values(1) = 100;
   for (int i = 0; i < n_values.size(); i++){
   double n = n_values(i);
   int N = n-2;
@@ -27,28 +26,13 @@ int main(){
   bool converged;
   double tol = 1e-10;
   jacobi_eigensolver(A, R, tol, eigenvalues, eigenvectors, maxiter, 0, converged, k,l);
-  //cout << "Eigenvalues" << endl;
-  //eigenvalues.print();
-  //cout << "Eigenvectors" << endl;
-  //eigenvectors.print();
 
-  //Experimental approach:
-  // ---------------------------------------------------
+  vec lambda;  // Analytic eigenvalues
+  mat v;       // Analytic eigenvectors
+  analytic_eigprob(N, a, d, &lambda, &v);
 
-  vec lambda = vec(N);
-  mat v = mat(N,N);
-  for (int i = 0; i <= N-1; i++) {
-      lambda(i) = d + 2*a*cos(((i+1)*M_PI)/(N+1));
-      for (int k = 0; k <= N-1; k++) {
-          v(k,i) = sin(((k+1)*(i+1)*M_PI)/(N+1));
-        }
-    }
-
-  v = normalise(v, 2, 0);
 
   uvec index_analytic = sort_index(lambda);
-
-// -----------------------------------------------
 
   uvec index = sort_index(eigenvalues);
 

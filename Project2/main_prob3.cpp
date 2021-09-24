@@ -16,22 +16,26 @@ int main(){
     mat eigvec;
     solve_eig_prob(A6, &eigval, &eigvec);
 
+    vec lambda;
+    mat v;
+    analytic_eigprob(6, a, d, &lambda, &v);
+
+    cout << "\n" << endl;
     cout << "Eigenvalues computed with Armadillo`s arma::eig_sym:" << endl;
     eigval.print();
-
-    cout << "Eigenvectors computed with Armadillo`s arma::eig_sym:" << endl;
-    eigvec.print();
-
-
-    vec lambda = vec(N);
-    mat v = mat(N,N);
-    analytic_eigprob(6, a, d, &lambda, &v);
+    cout << "\n" << endl;
 
     cout << "Eigenvalues computed analytically" << endl;
     lambda.print();
+    cout << "\n" << endl;
+
+    cout << "Eigenvectors computed with Armadillo`s arma::eig_sym:" << endl;
+    eigvec.print();
+    cout << "\n" << endl;
 
     cout << "Eigenvectors computed analytically" << endl;
     v.print();
+    cout << "\n" << endl;
 
     /* Now the both the eigenvalues and eigenvectors computed
     with armadillo and the analytical solutions are printed to terminal,

@@ -23,13 +23,15 @@ void solve_eig_prob(mat A, vec* eigval, mat* eigvec){
 
 
 void analytic_eigprob(int N, double a, double d, vec* lambda, mat* v){
+   (*lambda) = vec(N);
+    (*v) = mat(N,N);
     for (int i = 0; i <= N-1; i++) {
-        (*lambda(i)) = d + 2*a*cos(((i+1)*M_PI)/(N+1));
+        (*lambda)(i) = d + 2*a*cos(((i+1)*M_PI)/(N+1));
         for (int k = 0; k <= N-1; k++) {
-            (*v(k,i)) = sin(((k+1)*(i+1)*M_PI)/(N+1));
+            (*v)(k,i) = sin(((k+1)*(i+1)*M_PI)/(N+1));
         }
     }
-    (*v) = normalise((*v), 2, 0);
+      (*v) = normalise((*v), 2, 0);
 return;
 }
 
