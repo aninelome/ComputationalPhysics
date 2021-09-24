@@ -7,7 +7,7 @@ int main(){
   - Hvorfor converged = true?
   */
   int N = 6;
-  double n = N+2;
+  double n = N+1;
   double h = 1/n;
   double a = -1/(h*h);
   double d = 2/(h*h);
@@ -22,11 +22,10 @@ int main(){
   int maxiter, iterations;
   maxiter = 10000;
   bool converged;
-  double tol = 1e-10;
+  double tol = 1e-20;
   jacobi_eigensolver(A6, R6, tol, eigenvalues, eigenvectors, maxiter, 0, converged, k,l);
-  cout << "Eigenvalues" << endl;
-  eigenvalues.print();
-  cout << "Eigenvectors" << endl;
-  eigenvectors.print();
+  eigenvalues.print("Eignevlaues = ");
+  eigenvectors.print("Eigenvectors = ");
+  //eigenvectors.print();
   return 0;
 }
