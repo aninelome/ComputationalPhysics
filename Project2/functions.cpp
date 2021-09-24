@@ -74,7 +74,7 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
   double c;
   double s;
 
-  if (A(k,l) != 0.){
+  if (A(k,l) != 0.){ // Find angel theta
     tau = (A(l,l) - A(k,k))/ (2*A(k,l));
     if (tau >= 0.){
       t = 1./(tau + sqrt(1.+tau*tau));
@@ -93,21 +93,21 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
   double temp_Akk = A(k,k);
   double temp_All = A(l,l);
   double temp_Akl = A(k,l);
-  A(k,k) = temp_Akk*c*c - 2*temp_Akl*c*s + temp_All*s*s;
+  A(k,k) = temp_Akk*c*c - 2*temp_Akl*c*s + temp_All*s*s; //Updates the diagonal elements
   A(l,l) = temp_All*c*c + 2*temp_Akl*c*s + temp_Akk*s*s;
-  A(k,l) = 0.0;
+  A(k,l) = 0.0; // Sets the largest element to zero
   A(l,k) = 0.0;
-  for (int i = 0; i < N; i++){
+  for (int i = 0; i < N; i++){ //updates the off-diagonal elemnts =! 0 
     if (i != l && i != k){
       double temp_Aik = A(i,k);
       double temp_Ail = A(i,l);
-      A(i,k) = A(i,k)*c - temp_Ail*s;
+      A(i,k) = A(i,k)*c - temp_Ail*s; 
       A(k,i) = A(i,k);
       A(i,l) = A(i,l)*c + temp_Aik*s;
       A(l,i) = A(i,l);
     }
   }
-  for (int i=0; i<N; i++){
+  for (int i=0; i<N; i++){// Updates matrix R/ estimets the eigenvectors 
     double temp_Rik = R(i,k);
     double temp_Ril = R(i,l);
     R(i,k) = R(i,k)*c - temp_Ril*s;
@@ -119,16 +119,21 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
 
 
 int jacobi_eigensolver(mat& A, mat& R, double tol, vec& eigenvalues, mat& eigenvectors,
-const int maxiter, int iterations, bool converged, int k, int l){
+const int maxiter, int iterations, bool *converged, int k, int l){
   int N = A.n_rows;
-  while (abs(A(k,l)) > tol && iterations <= maxiter){
+  while (abs(A(k,l)) > tol && iterations < maxiter){
     iterations = iterations +1;
     jacobi_rotate(A, R, k,l, tol);
     double max_offdiag_A = max_offdiag_symmetric(A, &k, &l);
   }
   cout << "N = " << N << endl;
   cout << "iterations = " << iterations << endl;
-  converged = true;
+  if (iterations == maxiter){
+    *converged = false;
+  }
+  else{
+    *converged = true;
+  }
   for (int i = 0; i < N; i++){
     eigenvalues(i) = A(i,i);
   eigenvectors = R;

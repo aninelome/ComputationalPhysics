@@ -20,12 +20,18 @@ int main(){
   vec eigenvalues(N);
   mat eigenvectors(N,N);
   int maxiter, iterations;
-  maxiter = 10000;
+  maxiter = 1000;
   bool converged;
   double tol = 1e-20;
-  jacobi_eigensolver(A6, R6, tol, eigenvalues, eigenvectors, maxiter, 0, converged, k,l);
-  eigenvalues.print("Eignevlaues = ");
-  eigenvectors.print("Eigenvectors = ");
-  //eigenvectors.print();
+  jacobi_eigensolver(A6, R6, tol, eigenvalues, eigenvectors, maxiter, 0, &converged, k,l);
+  if (converged){
+    cout << "jacobi solver has converged" << endl;
+    eigenvalues.print("Eignevlaues = ");
+    eigenvectors.print("Eigenvectors = ");
+  }
+  else {
+    cout << "Jacobi solver has not converged!!!!" << endl;
+  }
+
   return 0;
 }
