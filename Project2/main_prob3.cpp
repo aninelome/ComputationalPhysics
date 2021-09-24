@@ -12,12 +12,12 @@ int main(){
     mat A6 = make_tridiagonal(N, a, d);
 
 
-    vec eigval;
-    mat eigvec;
+    vec eigval;  // Eigenvalues computed with Armadillo
+    mat eigvec;  // Eigenvectors computed with Armadillo
     solve_eig_prob(A6, &eigval, &eigvec);
 
-    vec lambda;
-    mat v;
+    vec lambda; // Analytic eigenvalues
+    mat v;      // Analytic eigenvectors 
     analytic_eigprob(6, a, d, &lambda, &v);
 
     cout << "\n" << endl;

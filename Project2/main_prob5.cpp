@@ -16,7 +16,7 @@ int main(){
   int k;
   int l;
   double maxA6 = max_offdiag_symmetric(A6, &k, &l);
-  A6.print();
+  
   vec eigenvalues(N);
   mat eigenvectors(N,N);
   int maxiter, iterations;
