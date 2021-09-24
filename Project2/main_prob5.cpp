@@ -20,7 +20,7 @@ int main(){
   vec eigenvalues(N);
   mat eigenvectors(N,N);
   int maxiter, iterations;
-  maxiter = 100;
+  maxiter = 10000;
   bool converged;
   double tol = 1e-10;
   jacobi_eigensolver(A6, R6, tol, eigenvalues, eigenvectors, maxiter, 0, converged, k,l);
