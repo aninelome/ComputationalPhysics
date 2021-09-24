@@ -4,7 +4,12 @@
 
 
 int main(){
-  double n = 10;
+  arma::vec n_values = vec(3);
+  n_values(0) = 10;
+  n_values(1) = 50;
+  n_values(2) = 100;
+  for (int i = 0; i < n_values.size(); i++){
+  double n = n_values(i);
   int N = n-2;
   double h = 1/n;
   vec x = linspace(0, 1, n);
@@ -18,14 +23,14 @@ int main(){
   vec eigenvalues(N);
   mat eigenvectors(N,N);
   int maxiter, iterations;
-  maxiter = 1000;
+  maxiter = 100000000;
   bool converged;
   double tol = 1e-10;
   jacobi_eigensolver(A, R, tol, eigenvalues, eigenvectors, maxiter, 0, converged, k,l);
-  cout << "Eigenvalues" << endl;
-  eigenvalues.print();
-  cout << "Eigenvectors" << endl;
-  eigenvectors.print();
+  //cout << "Eigenvalues" << endl;
+  //eigenvalues.print();
+  //cout << "Eigenvectors" << endl;
+  //eigenvectors.print();
 
   //Experimental approach:
   // ---------------------------------------------------
@@ -48,7 +53,7 @@ int main(){
   uvec index = sort_index(eigenvalues);
 
   ofstream file1;
-  file1.open("eigvecs_and_x_values_n10.txt", ios::out); //opens file1 in out/write mode
+  file1.open("eigvecs_and_x_values_n" + to_string(int(n_values(i))) + ".txt", ios::out); //opens file1 in out/write mode
 
   file1 << setw(25) << 0 << setw(25) << 0 << setw(25) << 0 << setw(25) << 0 << endl;
     for (int i = 0; i < N; i++){
@@ -62,7 +67,7 @@ int main(){
   file1.close();
 
   ofstream file2;
-  file2.open("analytical_eigvecs_n10.txt", ios::out); //opens file2 in out/write mode
+  file2.open("analytical_eigvecs_n" + to_string(int(n_values(i))) + ".txt", ios::out); //opens file2 in out/write mode
   file2 << setw(25) << 0 << setw(25) << 0 << setw(25) << 0 << setw(25) << 0 << endl;
     for (int i = 0; i < N; i++){
       file2 << setw(25) << setprecision(3) << x(i+1);
@@ -73,5 +78,6 @@ int main(){
     }
   file2 << setw(25) << 1 << setw(25) << 0 << setw(25) << 0 << setw(25) << 0 << endl;
   file2.close();
+}
    return 0;
 }

@@ -51,3 +51,7 @@ def plot_eigenvectors(filename1, filename2):
     return
 
 plot_eigenvectors("eigvecs_and_x_values_n10.txt", "analytical_eigvecs_n10.txt")
+
+plot_eigenvectors("eigvecs_and_x_values_n100.txt", "analytical_eigvecs_n100.txt")
+
+plot_eigenvectors("eigvecs_and_x_values_n50.txt", "analytical_eigvecs_n50.txt")
