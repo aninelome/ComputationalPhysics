@@ -25,7 +25,7 @@ int main(){
     int k;
     int l;
 
-    
+
     double maxA = max_offdiag_symmetric(A, &k, &l);
 
     vec eigenvalues(N); // Declare vector for eigenvalues to be computed with jacobi_eigensolver
@@ -52,7 +52,7 @@ int main(){
     to the three lowest eigenvalues, computed with jacobi_eigensolver */
     ofstream file1;
     file1.open("eigvecs_and_x_values_n" + to_string(int(n_values(i))) + ".txt", ios::out); //opens file1 in out/write mode
-
+    file1 << setw(25) << "x" << setw(25) << "vec1" << setw(25) << "vec2" << setw(25) << "vec3" << endl;
     file1 << setw(25) << 0 << setw(25) << 0 << setw(25) << 0 << setw(25) << 0 << endl;
       for (int i = 0; i < N; i++){
         file1 << setw(25) << setprecision(3) << x(i+1);
@@ -70,6 +70,7 @@ int main(){
     to the three lowest eigenvalues, computed analytically */
     ofstream file2;
     file2.open("analytical_eigvecs_n" + to_string(int(n_values(i))) + ".txt", ios::out); //opens file2 in out/write mode
+    file2 << setw(25) << "x" << setw(25) << "vec1" << setw(25) << "vec2" << setw(25) << "vec3" << endl;
     file2 << setw(25) << 0 << setw(25) << 0 << setw(25) << 0 << setw(25) << 0 << endl;
       for (int i = 0; i < N; i++){
         file2 << setw(25) << setprecision(3) << x(i+1);
