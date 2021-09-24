@@ -58,6 +58,7 @@ double max_offdiag_symmetric(mat A, int* k, int* l) {
         for (int i = j+1; i <= N-1; i++) {
             if (abs(A(i,j)) > maxElement) {
                 maxElement = abs(A(i,j));
+                //storing the matrix indices for the biggest off diagonal element
                 (*l) = i;
                 (*k) = j;
             }
