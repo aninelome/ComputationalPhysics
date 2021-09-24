@@ -9,7 +9,8 @@ def plot_prob6(filename):
     plt.loglog(N, it)
     plt.loglog(N, it, "ro")
     plt.show()
-return
-#Finding the slope of the graph to find the scale between number of transformations and N
-s = (np.log10(it[-1]) - np.log10(it[0]))/(np.log10(N[-1]) - np.log10(N[0]))
-print(f"Scale = {s}")
+    #Finding the slope of the graph to find the scale between number of transformations and N
+    s = (np.log10(it[-1]) - np.log10(it[0]))/(np.log10(N[-1]) - np.log10(N[0]))
+    print(f"Scale = {s}")
+    return
+plot_prob6("plot_prob6.txt")
