@@ -22,20 +22,16 @@ void solve_eig_prob(mat A, vec* eigval, mat* eigvec){
 }
 
 
-void analytic_eigprob(int N, double a, double d){
-    vec lambda = vec(N);
-    mat v = mat(N,N);
+void analytic_eigprob(int N, double a, double d, vec* lambda, mat* v){
+   (*lambda) = vec(N);
+    (*v) = mat(N,N);
     for (int i = 0; i <= N-1; i++) {
-        lambda(i) = d + 2*a*cos(((i+1)*M_PI)/(N+1));
+        (*lambda)(i) = d + 2*a*cos(((i+1)*M_PI)/(N+1));
         for (int k = 0; k <= N-1; k++) {
-            v(k,i) = sin(((k+1)*(i+1)*M_PI)/(N+1));
+            (*v)(k,i) = sin(((k+1)*(i+1)*M_PI)/(N+1));
         }
     }
-
-    v = normalise(v, 2, 0);
-    lambda.print();
-    v.print();
-
+      (*v) = normalise((*v), 2, 0);
 return;
 }
 
@@ -125,12 +121,16 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol){
 int jacobi_eigensolver(mat& A, mat& R, double tol, vec& eigenvalues, mat& eigenvectors,
 const int maxiter, int iterations, bool converged, int k, int l){
   int N = A.n_rows;
-  while (abs(A(k,l)) > tol && iterations <= maxiter){
+  while (abs(A(k,l)) > tol ){
     iterations = iterations +1;
-    //cout << k << l << endl;
-
-    jacobi_rotate(A, R, k,l, tol);
-    double max_offdiag_A = max_offdiag_symmetric(A, &k, &l);
+    if (iterations >= maxiter){
+      cout << "Too many iterations! Number of iterations is bigger than maxiter." << endl;
+      exit(0);
+    }
+    else{
+      jacobi_rotate(A, R, k,l, tol);
+      double max_offdiag_A = max_offdiag_symmetric(A, &k, &l);
+    }
   }
   cout << "N = " << N << endl;
   cout << "iterations = " << iterations << endl;

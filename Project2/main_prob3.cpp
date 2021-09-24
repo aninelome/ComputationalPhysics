@@ -11,13 +11,31 @@ int main(){
     double d = 2/(h*h);
     mat A6 = make_tridiagonal(N, a, d);
 
-    vec eigval;
-    mat eigvec;
-    solve_eig_prob(A6, &eigval, &eigvec);
-    eigval.print();
-    eigvec.print();
 
-    analytic_eigprob(6, a, d);
+    vec eigval;  // Eigenvalues computed with Armadillo
+    mat eigvec;  // Eigenvectors computed with Armadillo
+    solve_eig_prob(A6, &eigval, &eigvec);
+
+    vec lambda; // Analytic eigenvalues
+    mat v;      // Analytic eigenvectors 
+    analytic_eigprob(6, a, d, &lambda, &v);
+
+    cout << "\n" << endl;
+    cout << "Eigenvalues computed with Armadillo`s arma::eig_sym:" << endl;
+    eigval.print();
+    cout << "\n" << endl;
+
+    cout << "Eigenvalues computed analytically" << endl;
+    lambda.print();
+    cout << "\n" << endl;
+
+    cout << "Eigenvectors computed with Armadillo`s arma::eig_sym:" << endl;
+    eigvec.print();
+    cout << "\n" << endl;
+
+    cout << "Eigenvectors computed analytically" << endl;
+    v.print();
+    cout << "\n" << endl;
 
     /* Now the both the eigenvalues and eigenvectors computed
     with armadillo and the analytical solutions are printed to terminal,
