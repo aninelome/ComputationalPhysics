@@ -46,6 +46,5 @@ In testing.cpp we test that a function from functions.cpp works as intended.
 How to build and run the main-functions
 ----------------------------------------
 
-Build in linux: g++ functions.cpp functions.hpp main_probN.cpp -o main.exe -larmadillo
-Build in IOS: 
+Build in: g++ functions.cpp functions.hpp main_probN.cpp -o main.exe -larmadillo
 Run: ./main.exe
