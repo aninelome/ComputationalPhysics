@@ -1,8 +1,11 @@
 
-all: compile run
+all: compile link run
 
 compile:
-	g++ functions.cpp main_prob6.cpp -o main.exe -std=c++11 -larmadillo
+	c++ -c temp_func.cpp -std=c++11
+
+link:
+	c++ -o main.exe temp_func.o -larmadillo
 
 run:
 	./main.exe
