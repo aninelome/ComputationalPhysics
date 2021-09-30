@@ -30,10 +30,21 @@ In main_prob4.cpp we identify the largest off-diagonal element in a test-matrix.
 In main_prob5.cpp we implement the Jacobi rotation method and find the eigenvalues
 and eigenvectors of A. 
 
+In main_prob6.cpp we estimate the number of required transformations scale with 
+the matrix size N for the code when solving Ax = b.
+
+In main_prob7.cpp we use our Jacobi code for a discretization of x with n steps, 
+and write the eigenvectors corresponding to the three lowest eigenvalues to a file. 
+
+In plotting.py we read the files created in main_prob6.cpp and main_prob7.cpp and plot 
+the eigenvectors. 
+
+In testing.cpp we test that a function from functions.cpp works as intended. 
+
+
 
 How to build and run the main-functions
 ----------------------------------------
 
-Build in linux: g++ functions.cpp functions.hpp main_probN.cpp -o main.exe -larmadillo
-Build in IOS: 
+Build in: g++ functions.cpp functions.hpp main_probN.cpp -o main.exe -larmadillo
 Run: ./main.exe

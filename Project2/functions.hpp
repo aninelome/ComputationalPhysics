@@ -38,9 +38,9 @@ void jacobi_rotate(mat& A, mat& R, int k, int l, double tol);
 
 
 /* Function that uses jacobi_rotate to solve an eigenvalue problem with the Jacobi
-rotation method. The function checks that all the nondiagonal elements of the matrix 
-is less than a tolerance you give as an input. It also stops when the number of
-iterations gets bigger than the variable maxiter which you give as an inputargument.*/
+rotation method. The function checks that all the nondiagonal elements of the matrix
+is less than a tolerance you give as an input. It checks if it converges, and returns True if
+it converges and False if it doesn't.*/
 int jacobi_eigensolver(mat& A, mat& R, double tol, vec& eigenvalues, mat& eigenvectors,
 const int maxiter, int iterations, bool *converged, int k, int l);
 

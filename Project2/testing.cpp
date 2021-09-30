@@ -1,13 +1,5 @@
 #include "functions.hpp"
 
-/*
-void make_tridagonal_test(int N){
-
-    mat A = make_tridiagonal(N);
-    cout<<A<<endl;
-    return;
-}
-*/
 
 void test_max_offdiag(){
   int N = 4;
