@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-infile = open("exact_solution.txt", "r")
+infile = open("prob2_n_1000.txt", "r")
 
 x = []
 U_x = []
