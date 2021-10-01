@@ -4,6 +4,7 @@
 #include <iostream>    // For cout, endl
 #include <vector>      // For vector
 #include <string>      // For string
+#include <armadillo>
 
 using namespace std;
 using namespace arma;
@@ -14,9 +15,13 @@ class Particle
   public:
 
     // Constructor
-    Particle(int charge_in, int mass_in, vec position_in, vec velocity_in);
-    int charge_, mass_;
-    vec position_, velocity_;
+    Particle(int q, double m, vec r, vec v);
+    int q_;
+    double m_;
+    vec r_, v_;
+
+    // Method printing member variables (particle properties)
+    void info();
 
 };
 
