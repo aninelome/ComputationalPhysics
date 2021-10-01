@@ -28,7 +28,7 @@ public:
     PenningTrap() {}
 
     // Constructor that takes a vector of particles as input
-    PenningTrap(vector<Particle> p_collection_in, double B0_in, double V0_in, double d_in);
+    PenningTrap(vector<Particle> particles, double B0, double V0, double d);
 
     // Add a particle to the trap
     void add_particle(Particle p_in);
@@ -40,7 +40,7 @@ public:
     void info();
 
     // External electric field at point r=(x,y,z)
-    vec external_E_field(vec r);
+    vec external_E_field(int i);
 
     // External magnetic field at point r=(x,y,z)
     vec external_B_field(int i);

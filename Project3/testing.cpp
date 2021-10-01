@@ -31,8 +31,13 @@ int main(){
 
   cout << "B: " << test_penningtrap.external_B_field(0) << endl;
 
-  cout << "E: " << test_penningtrap.external_E_field(r1) << endl;
+  cout << "E: " << test_penningtrap.external_E_field(0) << endl;
 
+  cout << "C: " << test_penningtrap.force_particle(0,1) << endl;
+
+  cout << "F_ext: " << test_penningtrap.total_force_external(0) << endl;
+
+  cout << "F_tot_particle: " << test_penningtrap.total_force_particles(0) << endl;
 
 
 
