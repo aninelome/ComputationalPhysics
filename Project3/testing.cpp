@@ -41,7 +41,7 @@ int main(){
 
   cout << "F_tot: " << test_penningtrap.total_force(0) << endl;
 
-
+  test_penningtrap.evolve_forward_Euler(2, 0, 10);
 
 
 

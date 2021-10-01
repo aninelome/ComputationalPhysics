@@ -102,4 +102,29 @@ vec PenningTrap::total_force(int i){
 void PenningTrap::evolve_RK4(double dt){}
 
 // Evolve the system one time step (dt) using Forward Euler
-void PenningTrap::evolve_forward_Euler(double dt){}
+void PenningTrap::evolve_forward_Euler(double dt, int i, double total_time){
+  double n = total_time/dt; 
+  double m = particles_[i].m_;
+  // Define the matrices for the velocity and position for x,y,z-directions
+  vec a = vec(3);
+  mat v, r; 
+  v = mat(3,n).fill(0); //empty matrix with n timesteps in 3D 
+  r = mat(3,n).fill(0); 
+  vec t = vec(n).fill(0); // empty vector for time wiht n timesteps 
+  // initial conditions 
+  r.col(0) = particles_[i].r_;
+  v.col(0) = particles_[i].v_;
+
+  vec F = total_force(i); 
+
+  //looping through the time for r,v and t with FE method
+    for (int i = 0; i < n-1; i++) {
+        for (int j = 0; j < 3; j++) {
+        a(j) = F(j)/m; 
+        v(j,i+1) = v(j,i) + a(j)*dt;
+        r(j,i+1) = r(j,i) + v(j,i)*dt;
+        t(i+1) = t(i) + dt;
+        }
+      }
+    cout << v << endl;
+}

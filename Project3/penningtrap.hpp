@@ -61,7 +61,7 @@ public:
     void evolve_RK4(double dt);
 
     // Evolve the system one time step (dt) using Forward Euler
-    void evolve_forward_Euler(double dt);
+    void evolve_forward_Euler(double dt, int i, double total_time);
 
 
 };
