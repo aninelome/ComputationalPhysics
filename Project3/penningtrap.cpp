@@ -31,7 +31,8 @@ void PenningTrap::info()
     }
 
 // External electric field at point r=(x,y,z)
-vec PenningTrap::external_E_field(vec r){
+vec PenningTrap::external_E_field(int i){
+  vec r = particles_[i].r_;
   vec E = vec(3);
   E(0) = (V0_/(d_*d_))*(r(0));
   E(1) = (V0_/(d_*d_))*(r(1));
@@ -42,8 +43,8 @@ vec PenningTrap::external_E_field(vec r){
 // External magnetic field at point r=(x,y,z)
 vec PenningTrap::external_B_field(int i){
   vec v = particles_[i].v_;
-  vec B = vec(3);
   int q = particles_[i].q_;
+  vec B = vec(3);
   B(0) = B0_*q*v(1);
   B(1) = -B0_*q*v(0) ;
   B(2) = 0;
@@ -52,17 +53,51 @@ vec PenningTrap::external_B_field(int i){
 
 // Force on particle_i from particle_j
 vec PenningTrap::force_particle(int i, int j){
+  vec r_i = particles_[i].r_;
+  vec r_j = particles_[j].r_;
 
+  int q_i = particles_[i].q_;
+  int q_j = particles_[j].q_;
+
+  double m_i = particles_[i].m_;
+
+  double k = 1;
+  //double k = 1.38935333e5;
+
+  vec C = vec(3);
+  C(0) = k*(q_i/m_i)*q_j*(r_i(0)-r_j(0))/pow(sqrt(pow((r_i(0)-r_j(0)),2) + pow((r_i(1)-r_j(1)),2) + pow((r_i(2)-r_j(2)),2)),3);
+  C(1) = k*(q_i/m_i)*q_j*(r_i(1)-r_j(1))/pow(sqrt(pow((r_i(0)-r_j(0)),2) + pow((r_i(1)-r_j(1)),2) + pow((r_i(2)-r_j(2)),2)),3);
+  C(2) = k*(q_i/m_i)*q_j*(r_i(2)-r_j(2))/pow(sqrt(pow((r_i(0)-r_j(0)),2) + pow((r_i(1)-r_j(1)),2) + pow((r_i(2)-r_j(2)),2)),3);
+  return C;
 }
 
 // The total force on particle_i from the external fields
-vec PenningTrap::total_force_external(int i){}
+vec PenningTrap::total_force_external(int i){
+  vec F_ext = vec(3);
+  F_ext = external_E_field(i) + external_B_field(i);
+  return F_ext;
+}
 
 // The total force on particle_i from the other particles
-vec PenningTrap::total_force_particles(int i){}
+vec PenningTrap::total_force_particles(int i){
+  int num = PenningTrap::particle_count();
+  vec F_tot_particle =  {0,0,0};
+  cout << num << endl;
+
+  for (int j=0; j<num; j++){
+    if (j!= i){
+      cout << i << j << endl;
+      F_tot_particle =  F_tot_particle + force_particle(i,j);
+    }
+  }
+  return F_tot_particle;
+}
 
 // The total force on particle_i from both external fields and other particles
-vec PenningTrap::total_force(int i){}
+vec PenningTrap::total_force(int i){
+
+
+}
 
 // Evolve the system one time step (dt) using Runge-Kutta 4th order
 void PenningTrap::evolve_RK4(double dt){}
