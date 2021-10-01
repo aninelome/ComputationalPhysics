@@ -10,24 +10,24 @@ link:
 run:
 	./main.exe
 
-all_particle: compile_particletest link_particletest run_particletest
+all_test: compile_test link_test run_test
 
-compile_particletest:
+compile_test:
 	c++ -c particle.cpp penningtrap.cpp testing.cpp -std=c++11
 
-link_particletest:
+link_test:
 	c++ -o main.exe particle.o penningtrap.o testing.o -larmadillo
 
-run_particletest:
+run_ptest:
 	./main.exe
 
-all_particlemain: compile_particlemian link_particlemian run_particlemian
+all_main: compile_main link_main run_main
 
-compile_particlemian:
+compile_main:
 	c++ -c particle.cpp penningtrap.cpp main.cpp -std=c++11
 
-link_particlemian:
+link_main:
 	c++ -o main.exe particle.o penningtrap.o main.o -larmadillo
 
-run_particlemian:
+run_mian:
 	./main.exe
