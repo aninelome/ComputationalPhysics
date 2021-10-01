@@ -99,32 +99,85 @@ vec PenningTrap::total_force(int i){
 }
 
 // Evolve the system one time step (dt) using Runge-Kutta 4th order
-void PenningTrap::evolve_RK4(double dt){}
-
-// Evolve the system one time step (dt) using Forward Euler
-void PenningTrap::evolve_forward_Euler(double dt, int i, double total_time){
-  double n = total_time/dt; 
+void PenningTrap::evolve_RK4(double dt, int i, double total_time){
+  double n = total_time/dt;
   double m = particles_[i].m_;
-  // Define the matrices for the velocity and position for x,y,z-directions
-  vec a = vec(3);
-  mat v, r; 
-  v = mat(3,n).fill(0); //empty matrix with n timesteps in 3D 
-  r = mat(3,n).fill(0); 
-  vec t = vec(n).fill(0); // empty vector for time wiht n timesteps 
-  // initial conditions 
+
+  vec K1v, K2v, K3v, K4v, K1r, K2r, K3r, K4r, v_old, r_old, a;
+  mat v, r;
+
+  a = vec(3);
+  v = vec(3,n).fill(0); //empty matrix with n timesteps in 3D
+  r = vec(3,n).fill(0);
+  // initial conditions
   r.col(0) = particles_[i].r_;
   v.col(0) = particles_[i].v_;
 
-  vec F = total_force(i); 
+  vec F = total_force(i);
+
+  for (int i = 0; i < n-1; i++){
+    //for (int j = 0; j < 3, j++){
+        r_old = r.col(i);
+        v_old = v.col(i);
+
+        a = F/m;
+        //No uptades for v and r
+        K1v = dt*a;
+        K1r = dt*v.col(i);
+
+        //1. update for v and r
+        r.col(i) = r_old + K1r/2; //going half timestep forward
+        v.col(i) = v_old + K1v/2;
+        K2v = dt*a; //use a(i) when implementing total force
+        K2r = dt*v;
+
+        //2.update for v and r
+        r.col(i) = r_old + K2r/2; //going half timestestep forward
+        v.col(i) = v_old + K2v/2;
+        K3v = dt*a;
+        K3r = dt*v;
+
+        //3.update for v and r
+        r.col(i) = r_old + K3r; //going whole timestep forward
+        v.col(i) = v_old + K3v;
+        K4v = dt*a;
+        K4r = dt*v;
+
+        //4. update for v and r
+        v.col(i+1) = v_old + (1/6.0)*(K1v + 2*K2v + 2*K3v + K4v);
+        r.col(i+1) = r_old + (1/6.0)*(K1r + 2*K2r + 2*K3r + K4r);
+
+        v.col(i+1) = v_old;
+        r.col(i+1) = r_old;
+
+  }
+  cout << v << endl;
+}
+
+// Evolve the system one time step (dt) using Forward Euler
+void PenningTrap::evolve_forward_Euler(double dt, int i, double total_time){
+  double n = total_time/dt;
+  double m = particles_[i].m_;
+  // Define the matrices for the velocity and position for x,y,z-directions
+  vec a = vec(3);
+  mat v, r;
+  v = mat(3,n).fill(0); //empty matrix with n timesteps in 3D
+  r = mat(3,n).fill(0);
+  vec t = vec(n).fill(0); // empty vector for time wiht n timesteps
+  // initial conditions
+  r.col(0) = particles_[i].r_;
+  v.col(0) = particles_[i].v_;
+
+  vec F = total_force(i);
 
   //looping through the time for r,v and t with FE method
     for (int i = 0; i < n-1; i++) {
         for (int j = 0; j < 3; j++) {
-        a(j) = F(j)/m; 
+        a(j) = F(j)/m;
         v(j,i+1) = v(j,i) + a(j)*dt;
         r(j,i+1) = r(j,i) + v(j,i)*dt;
         t(i+1) = t(i) + dt;
         }
       }
-    cout << v << endl;
+    cout << "Euler" << v << endl;
 }

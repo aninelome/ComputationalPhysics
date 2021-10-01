@@ -58,7 +58,7 @@ public:
     vec total_force(int i);
 
     // Evolve the system one time step (dt) using Runge-Kutta 4th order
-    void evolve_RK4(double dt);
+    void evolve_RK4(double dt, int i, double total_time);
 
     // Evolve the system one time step (dt) using Forward Euler
     void evolve_forward_Euler(double dt, int i, double total_time);
