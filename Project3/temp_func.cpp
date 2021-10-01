@@ -9,86 +9,90 @@ using namespace arma;
 
 // col er et tidssteg
 
-
-
-/// denne må føres som en algoritme
-void forward_euler(int n) {
-    int h = 1;
+void forward_euler() {
+    double h = 2;
+    double total_time = 10;
+    int n = total_time/h;
     int m = 1;
-    // Define the matrice as 3*n
+    cout << n << endl;
+    // Define the vectors for x,y,z
     mat v, r;
     v = mat(3,n).fill(0);
     r = mat(3,n).fill(0);
     vec t = vec(n).fill(0);
-
+    cout << n << endl;
     vec F = vec(3);
-    F[0] = 10, F[1] = 10, F[2] = 10;
+    F(0) = 10, F(1) = 10, F(2) = 10;
+    cout << n << endl;
 
     // må sjekke n - 1
     for (int i = 0; i < n-1; i++) {
         for (int j = 0; j < 3; j++) {
         vec a = F/m;                  // m hentes fra klassen
-        v(j,i+1) = v(j,i) + a(i)*h;
-        r(j,i+1) = r(j,i) + v(j,i) * h;
+        v(j,i+1) = v(j,i) + a(j)*h;
+        r(j,i+1) = r(j,i) + v(j,i)*h;
         t(i+1) = t(i) + h;
         }
-    }
-    //cout << v << endl;
+      }
+    cout << v << endl;
 
 }
 
-void RK4(int n){
-  int h = 1.0;
+void RK4(){
+  //int h = 1.0;
+  double h = 2;
+  double total_time = 10;
+  int n = total_time/h;
   int m = 1.0;
   float h2;
   vec K1v, K2v, K3v, K4v, K1r, K2r, K3r, K4r;
-  vec v_old, r_old, a_new1, a_new2;
+  vec v_old, r_old, v, r;
   // Define the matrice as 3*n
 
   vec a = vec(3);
-  mat v, r;
-  v = mat(3,n).fill(0);
-  r = mat(3,n).fill(0);
-  vec t = vec(n).fill(0);
+  v = vec(3).fill(0);
+  r = vec(3).fill(0);
 
   vec F = vec(3);
   F[0] = 10, F[1] = 10, F[2] = 10;
 
-
-
   for (int i = 0; i < n-1; i++) {
-    //for (int j = 0; j < 3; j++) {
-        r_old = r.col(i);
-        v_old = v.col(i);
-        cout << v << endl;
-        h = t(i+1) - t(i);
+        r_old = r;
+        v_old = v;
+
         h2 = h/2.0;
         a = F/m;
+        //No uptades for v and r
         K1v = h*a;
-        K1r = h*v.col(i);
-        r.col(i) = r_old + K1r*h2;
-        v.col(i)= v_old + K1v*h2;
-        //a(i+0.5) = F/m; //total_force(...);
-        K2v = h*a; //a(i)
-        K2r = h*v.col(i);
-        r.col(i) = r_old + K2r*h2;
-        v.col(i) = v_old + K2v*h2;
-        a_new1 = F/m; //total_force(...) sender inn r_new og v_new
-        K3v = h*a_new1 + K2v*h2;
-        K3r = h*v.col(i);
-        r.col(i) = r_old + K3r*h2;
-        v.col(i)= v_old + K3v*h2;
-        a_new2 = F/m; //total_force(...) sender inn r_new og v_new
-        K4v = h*a_new2 + K3v;
-        K4r = h*v.col(i) + K3r;
-        v.col(i) = v_old + (1/6.0)*(K1v + 2*K2v + 2*K3v + K4v);
-        r.col(i) = r_old + (1/6.0)*(K1r + 2*K2r + 2*K3r + K4r);
+        K1r = h*v;
+
+        //1. update for v and r
+        r = r_old + K1r/2; //going half step forward
+        v = v_old + K1v/2;
+        K2v = h*a; //use a(i) when implementing total force
+        K2r = h*v;
+
+        //2.update for v and r
+        r = r_old + K2r/2;
+        v = v_old + K2v/2;
+        K3v = h*a;
+        K3r = h*v;
+
+        //3.update for v and r
+        r = r_old + K3r;
+        v= v_old + K3v;
+        K4v = h*a;
+        K4r = h*v;
+
+        //4. update for v and r
+        v = v_old + (1/6.0)*(K1v + 2*K2v + 2*K3v + K4v);
+        r = r_old + (1/6.0)*(K1r + 2*K2r + 2*K3r + K4r);
+        cout << v << endl;
   }
-  //cout << v << endl;
 }
 
 int main() {
-    forward_euler(3);
-    RK4(3);
+    forward_euler();
+    RK4();
     return 0;
 }
