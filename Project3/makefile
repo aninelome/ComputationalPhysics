@@ -30,4 +30,4 @@ link_particlemian:
 	c++ -o main.exe particle.o penningtrap.o main.o -larmadillo
 
 run_particlemian:
-./main.exe
+	./main.exe
