@@ -39,6 +39,8 @@ int main(){
 
   cout << "F_tot_particle: " << test_penningtrap.total_force_particles(0) << endl;
 
+  cout << "F_tot: " << test_penningtrap.total_force(0) << endl;
+
 
 
 

@@ -82,11 +82,9 @@ vec PenningTrap::total_force_external(int i){
 vec PenningTrap::total_force_particles(int i){
   int num = PenningTrap::particle_count();
   vec F_tot_particle =  {0,0,0};
-  cout << num << endl;
 
   for (int j=0; j<num; j++){
     if (j!= i){
-      cout << i << j << endl;
       F_tot_particle =  F_tot_particle + force_particle(i,j);
     }
   }
@@ -95,8 +93,9 @@ vec PenningTrap::total_force_particles(int i){
 
 // The total force on particle_i from both external fields and other particles
 vec PenningTrap::total_force(int i){
-
-
+  vec F_tot = vec(3);
+  F_tot = total_force_external(i) + total_force_particles(i);
+  return F_tot;
 }
 
 // Evolve the system one time step (dt) using Runge-Kutta 4th order
