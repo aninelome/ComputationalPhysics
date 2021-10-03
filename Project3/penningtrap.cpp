@@ -116,7 +116,6 @@ void PenningTrap::evolve_RK4(double dt, int i, double total_time){
   vec F = total_force(i);
 
   for (int i = 0; i < n-1; i++){
-    //for (int j = 0; j < 3, j++){
         r_old = r.col(i);
         v_old = v.col(i);
 
