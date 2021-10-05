@@ -115,6 +115,7 @@ void PenningTrap::evolve_RK4(double dt, int i, double total_time){
 
   vec F = total_force(i);
 
+
   for (int i = 0; i < n-1; i++){
         r_old = r.col(i);
         v_old = v.col(i);
@@ -181,5 +182,8 @@ void PenningTrap::evolve_forward_Euler(double dt, int i, double total_time){
         t(i+1) = t(i) + dt;
         }
       }
-    cout << "Euler" << v << endl;
+      cout <<"Euler r"<< endl;
+      cout << r << endl;
+      cout <<"Euler v"<< endl;
+      cout << v << endl;
 }
