@@ -18,7 +18,7 @@ compile_test:
 link_test:
 	c++ -o main.exe particle.o penningtrap.o testing.o -larmadillo
 
-run_ptest:
+run_test:
 	./main.exe
 
 all_main: compile_main link_main run_main
