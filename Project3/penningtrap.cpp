@@ -101,6 +101,7 @@ vec PenningTrap::total_force(int i){
 void PenningTrap::simulation(double dt, double total_time){
   int n = (int) (total_time/dt);
   int n_par = particles_.size();
+
   // Define the matrices for the velocity and position for x,y,z-directions
   t = vec(n).fill(0); // empty vector for time wiht n timesteps
   v = cube(3,n_par,n).fill(0); //empty matrix with n timesteps in 3D
@@ -112,6 +113,8 @@ void PenningTrap::simulation(double dt, double total_time){
       evolve_forward_Euler(dt, i, j);
     }
   }
+  vec time = linspace(0, total_time, n);
+  time.save("time.bin");
   r.save("position.bin");
   v.save("velocity.bin");
 }

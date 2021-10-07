@@ -1,13 +1,14 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import pyarma
 
 fontsize = 10
 ticksize = 10
 
 """
 Function reading from file
-"""
+
 def read_data(filename):
     with open(filename, "r") as infile:
         keys = infile.readline().split()
@@ -18,22 +19,38 @@ def read_data(filename):
             for i in range(len(keys)):
                 d[keys[i]].append(float(vals[i]))
     return d
+"""
+
 
 def plot_a_against_b(dict, a, b, label):
     a = dict[a]
     b = dict[b]
     plt.plot(a, b, label = label)
-    plt.xlabel(f"{a}", size=12)
-    plt.ylabel(f"{b}", size=12)
+    #plt.xlabel(f"{a}", size=12)
+    #plt.ylabel(f"{b}", size=12)
     plt.xticks(size=ticksize)
     plt.yticks(size=ticksize)
 
 
-
-
 def main():
-    RK4 = read_data("single_particle_movement_RK4.txt")
-    plot_z_against_t(RK4, z, t, f"Sigle particle movement, {z} against {t}")
+    r = pa.cube()
+    v = pa.cube()
+    t = pa.vec()
+
+    r.load("position.bin")
+    v.load("velocity.bin")
+    t.load("time.bin")
+
+    r = np.array(r)
+    v = np.array(v)
+    t = np.array(t)
+
+    # Sigle particle motion:
+    x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
+    v_x1, v_y1, v_z1 = v[:, 0, 0], v[:, 1, 0], v[:, 2, 0]
+
+
+    plot_z_against_t(z1, t, "Sigle particle movement, z1 against t")
     plt.show()
 
 
