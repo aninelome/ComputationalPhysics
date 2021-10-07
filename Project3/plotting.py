@@ -44,24 +44,37 @@ def main():
     v = np.array(v)
     t = np.array(t)
 
+
     # Sigle particle motion:
     x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
-    print(r.size)
-    print(x1.size)
-    print(y1.size)
-    print(t)
-
-    print(t.size)
-
     v_x1, v_y1, v_z1 = v[:, 0, 0], v[:, 1, 0], v[:, 2, 0]
+
+    # Two particles
+    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+    print(x)
+    print(v_x)
+
+
+
+
 
 
     plot_a_against_b(t, z1, "Sigle particle movement, z1 against t")
     plt.show()
 
     plot_a_against_b(x1, y1, "Sigle particle movement, z1 against t")
-
     plt.show()
+
+    plot_a_against_b(x[:,0], v_x[:,0], "Sigle particle movement, z1 against t")
+    plot_a_against_b(x[:,1], v_x[:,1], "Sigle particle movement, z1 against t")
+    plt.show()
+
+    #plot_a_against_b(y, v_y, "Sigle particle movement, z1 against t")
+    #plt.show()
+
+    #plot_a_against_b(z, v_z, "Sigle particle movement, z1 against t")
+    #plt.show()
 
 
 

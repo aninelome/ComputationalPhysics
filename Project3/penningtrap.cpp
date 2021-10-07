@@ -101,7 +101,7 @@ vec PenningTrap::total_force(int i){
 void PenningTrap::simulation(double dt, double total_time){
   int n = (int) (total_time/dt);
   int n_par = particles_.size();
-
+  
   // Define the matrices for the velocity and position for x,y,z-directions
   t = vec(n).fill(0); // empty vector for time wiht n timesteps
   v = cube(3,n_par,n).fill(0); //empty matrix with n timesteps in 3D
@@ -172,22 +172,6 @@ void PenningTrap::evolve_RK4(double dt, int i, int j){
   particles_[i].r_ = r.slice(j+1).col(i);
   particles_[i].v_ = v.slice(j+1).col(i);
 
-
-  //ofstream file1;
-  //file1.open("single_particle_movement_RK4.txt", ios::out); //opens file1 in out/write mode
-  //file1 << setw(25) << "x" << setw(25) << "y" << setw(25) << "z" << setw(25) << "v_x" << setw(25) << "v_y" << setw(25) << "v_z"<< endl;
-
-  //for (int j = 0; j < n-1; j++){
-  //  file1 << setw(25) << r(j, particles_[i].size, 0);
-  //  file1 << setw(25) << r(j, particles_[i].size, 1);
-  //  file1 << setw(25) << r(j, particles_[i].size, 2);
-  //  file1 << setw(25) << v(j, particles_[i].size, 0);
-  //  file1 << setw(25) << v(j, particles_[i].size, 1);
-  //  file1 << setw(25) << v(j, particles_[i].size, 2);
-  //  file1 << endl;
-  //}
-
-  //file1.close();
   return;
 
 }
@@ -202,9 +186,8 @@ void PenningTrap::evolve_forward_Euler(double dt, int i, int j){
   vec F = total_force(i);
 
   a = F/m;
-  //cout << a << endl;
-  //cout << v.slice(j).col(i) << endl;
-  v.slice(j+1).col(i) = particles_[i].v_ + a*dt;//v.slice(j).col(i) + a*dt;
+
+  v.slice(j+1).col(i) = particles_[i].v_ + a*dt;
   r.slice(j+1).col(i) = r.slice(j).col(i) + v.slice(j).col(i)*dt;
   t(j+1) = t(j) + dt;
 
