@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-import pyarma
+import pyarma as pa
 
 fontsize = 10
 ticksize = 10
@@ -22,20 +22,19 @@ def read_data(filename):
 """
 
 
-def plot_a_against_b(dict, a, b, label):
-    a = dict[a]
-    b = dict[b]
+def plot_a_against_b(a, b, label):
     plt.plot(a, b, label = label)
     #plt.xlabel(f"{a}", size=12)
     #plt.ylabel(f"{b}", size=12)
     plt.xticks(size=ticksize)
     plt.yticks(size=ticksize)
+    plt.axis("equal")
 
 
 def main():
     r = pa.cube()
     v = pa.cube()
-    t = pa.vec()
+    t = pa.mat()
 
     r.load("position.bin")
     v.load("velocity.bin")
@@ -47,10 +46,21 @@ def main():
 
     # Sigle particle motion:
     x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
+    print(r.size)
+    print(x1.size)
+    print(y1.size)
+    print(t)
+
+    print(t.size)
+
     v_x1, v_y1, v_z1 = v[:, 0, 0], v[:, 1, 0], v[:, 2, 0]
 
 
-    plot_z_against_t(z1, t, "Sigle particle movement, z1 against t")
+    plot_a_against_b(t, z1, "Sigle particle movement, z1 against t")
+    plt.show()
+
+    plot_a_against_b(x1, y1, "Sigle particle movement, z1 against t")
+
     plt.show()
 
 

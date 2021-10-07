@@ -110,7 +110,7 @@ void PenningTrap::simulation(double dt, double total_time){
   for (int j=0; j<n-1; j++){
     for (int i=0; i< particles_.size(); i++){
       evolve_RK4(dt, i, j);
-      evolve_forward_Euler(dt, i, j);
+      //evolve_forward_Euler(dt, i, j);
     }
   }
   vec time = linspace(0, total_time, n);
@@ -138,26 +138,32 @@ void PenningTrap::evolve_RK4(double dt, int i, int j){
 
   a = F/m;
   //No uptades for v and r
-  K1v = dt*a;   K1r = dt*v.slice(j).col(i);
+  K1v = dt*a;
+  K1r = dt*particles_[i].v_;
   //1. update for v and r
-  r.slice(j).col(i) = r_old + K1r/2; //going half timestep forward
-  v.slice(j).col(i) = v_old + K1v/2;
+  particles_[i].r_ = r_old + K1r/2;
+  particles_[i].v_ = v_old + K1v/2;
+
   a = total_force(i)/m;
   K2v = dt*a; //use a(i) when implementing total force
-  K2r = dt*v.slice(j).col(i);
+  K2r = dt*particles_[i].v_;
+
 
   //2.update for v and r
-  r.slice(j).col(i) = r_old + K2r/2; //going half timestestep forward
-  v.slice(j).col(i) = v_old + K2v/2;
+  particles_[i].r_ = r_old + K2r/2;
+  particles_[i].v_ = v_old + K2v/2;
+
   a = total_force(i)/m;
   K3v = dt*a;
-  K3r = dt*v.slice(j).col(i);
+  K3r = dt*particles_[i].v_;
   //3.update for v and r
-  r.slice(j).col(i) = r_old + K3r; //going whole timestep forward
-  v.slice(j).col(i) = v_old + K3v;
+  particles_[i].r_ = r_old + K3r;
+  particles_[i].v_ = v_old + K3v;
+
   a = total_force(i)/m;
   K4v = dt*a;
-  K4r = dt*v.slice(j).col(i);
+  K4r = dt*particles_[i].v_;
+
 
   //4. update for v and r
   v.slice(j+1).col(i) = v_old + (1/6.0)*(K1v + 2*K2v + 2*K3v + K4v);
@@ -201,6 +207,6 @@ void PenningTrap::evolve_forward_Euler(double dt, int i, int j){
   v.slice(j+1).col(i) = particles_[i].v_ + a*dt;//v.slice(j).col(i) + a*dt;
   r.slice(j+1).col(i) = r.slice(j).col(i) + v.slice(j).col(i)*dt;
   t(j+1) = t(j) + dt;
-  cout << "Euler" << v << endl;
+
 
 }
