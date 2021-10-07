@@ -58,11 +58,15 @@ public:
     vec total_force(int i);
 
     // Evolve the system one time step (dt) using Runge-Kutta 4th order
-    void evolve_RK4(double dt, int i, double total_time);
+    void evolve_RK4(double dt, int i, int j);
 
     // Evolve the system one time step (dt) using Forward Euler
-    void evolve_forward_Euler(double dt, int i, double total_time);
+    void evolve_forward_Euler(double dt, int i, int j);
 
+    //Simulating RK4 and FE for all the particles
+    void simulation(double dt, double total_time);
+    cube v,r;
+    vec t;
 
 };
 #endif

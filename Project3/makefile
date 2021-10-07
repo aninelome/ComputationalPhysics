@@ -29,5 +29,5 @@ compile_main:
 link_main:
 	c++ -o main.exe particle.o penningtrap.o main.o -larmadillo
 
-run_mian:
+run_main:
 	./main.exe

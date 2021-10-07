@@ -16,7 +16,7 @@ int main(){
 
   double dt = 1;
   int i = 0;
-  double total_time = 10;
+  double total_time = 100;
   double n = total_time/dt;
 
   mat r = mat(3,n);
