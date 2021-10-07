@@ -78,7 +78,7 @@ void RK4(){
         K4r = h*v;
 
         //4. update for v and r
-        v = v_old + (1/6.0)*(K1v + 2*K2v + 2*K3v + K4v);
+        v = v_old + (1/6.0)*(K1v + 2*K2v + 2*K3v + K4v); //last u
         r = r_old + (1/6.0)*(K1r + 2*K2r + 2*K3r + K4r);
         cout << v << endl;
   }
