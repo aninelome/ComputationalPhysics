@@ -125,11 +125,7 @@ void PenningTrap::evolve_RK4(double dt, int i, int j){
   vec K1v, K2v, K3v, K4v, K1r, K2r, K3r, K4r, v_old, r_old, a;
 
   a = vec(3);
-<<<<<<< HEAD
-
-=======
   //r.slice(j).col(i)
->>>>>>> 151dbbe926a22dff42f3e8f711f4292fc48a74b9
   // initial conditions
   r.slice(j).col(i) = particles_[i].r_;
   v.slice(j).col(i) = particles_[i].v_;
