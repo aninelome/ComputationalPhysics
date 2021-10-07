@@ -4,6 +4,7 @@
 
 
 // Constructor
+//double B0=96.5, double V0=9.65e8, double d=1e4
 PenningTrap::PenningTrap(vector<Particle> particles, double B0, double V0, double d){
 
   particles_ = particles;
@@ -61,8 +62,7 @@ vec PenningTrap::force_particle(int i, int j){
 
   double m_i = particles_[i].m_;
 
-  double k = 1;
-  //double k = 1.38935333e5;
+  double k = 1.38935333e5;
 
   vec C = vec(3);
   C(0) = k*(q_i/m_i)*q_j*(r_i(0)-r_j(0))/pow(sqrt(pow((r_i(0)-r_j(0)),2) + pow((r_i(1)-r_j(1)),2) + pow((r_i(2)-r_j(2)),2)),3);
@@ -151,10 +151,22 @@ void PenningTrap::evolve_RK4(double dt, int i, double total_time){
         r.col(i+1) = r_old;
 
   }
-  cout <<"RK4 r"<< endl;
-  cout << r << endl;
-  cout <<"RK4 v"<< endl;
-  cout << v << endl;
+  ofstream file1;
+  file1.open("single_particle_movement_RK4.txt", ios::out); //opens file1 in out/write mode
+  file1 << setw(25) << "x" << setw(25) << "y" << setw(25) << "z" << setw(25) << "v_x" << setw(25) << "v_y" << setw(25) << "v_z"<< endl;
+
+  for (int j = 0; j < n-1; j++){
+    file1 << setw(25) << r(0,j);
+    file1 << setw(25) << r(1,j);
+    file1 << setw(25) << r(2,j);
+    file1 << setw(25) << v(0,j);
+    file1 << setw(25) << v(1,j);
+    file1 << setw(25) << v(2,j);
+    file1 << endl;
+  }
+
+  file1.close();
+  return;
 }
 
 // Evolve the system one time step (dt) using Forward Euler
@@ -181,9 +193,21 @@ void PenningTrap::evolve_forward_Euler(double dt, int i, double total_time){
         r(j,i+1) = r(j,i) + v(j,i)*dt;
         t(i+1) = t(i) + dt;
         }
-      }
-      cout <<"Euler r"<< endl;
-      cout << r << endl;
-      cout <<"Euler v"<< endl;
-      cout << v << endl;
+  }
+  ofstream file1;
+  file1.open("single_particle_movement_euler.txt", ios::out); //opens file1 in out/write mode
+  file1 << setw(25) << "x" << setw(25) << "y" << setw(25) << "z" << setw(25) << "v_x" << setw(25) << "v_y" << setw(25) << "v_z"<< endl;
+
+  for (int j = 0; j < n-1; j++){
+    file1 << setw(25) << r(0,j);
+    file1 << setw(25) << r(1,j);
+    file1 << setw(25) << r(2,j);
+    file1 << setw(25) << v(0,j);
+    file1 << setw(25) << v(1,j);
+    file1 << setw(25) << v(2,j);
+    file1 << endl;
+  }
+
+  file1.close();
+  return;
 }
