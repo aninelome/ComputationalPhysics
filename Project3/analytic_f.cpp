@@ -27,11 +27,13 @@ int main() {
   int q = 1;
   double m = 1;
   double d = 10e4;
-  double x0 = ?;
-  double z0 = ?;
-  vec r = {x0, 0, z0};
-  vec v = {0, v0, 0};
+  //double x0 = ;
+  //double z0 = ;
+  //double v0 = ;
+  vec r = {1,0,2};
+  vec v = {0,4,0};
 
-  analytic_f(t, B0, V0, q, m, d, r, v)
+  
+  cout << analytic_f(t, B0, V0, q, m, d, r, v) << endl;
   return 0;
 }

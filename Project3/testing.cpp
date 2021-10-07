@@ -8,10 +8,10 @@ using namespace arma;
 using namespace std;
 
 int main(){
-  vec r1 = {0,1,2};
+  vec r1 = {1,0,2};
   vec r2 = {0,2,2};
 
-  vec v1 = {3,4,1};
+  vec v1 = {0,4,0};
   vec v2 = {1,4,1};
 
 
@@ -41,8 +41,9 @@ int main(){
 
   cout << "F_tot: " << test_penningtrap.total_force(0) << endl;
 
-  test_penningtrap.evolve_forward_Euler(2, 0, 10);
-  test_penningtrap.evolve_RK4(2,0,10);
+  //test_penningtrap.evolve_forward_Euler(2, 0, 10);
+  //test_penningtrap.evolve_RK4(2,0,10);
+  test_penningtrap.simulation(2,10);
 
 
   return 0;

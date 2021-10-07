@@ -2,10 +2,10 @@
 all: compile link run
 
 compile:
-	c++ -c temp_func.cpp -std=c++11
+	c++ -c main.cpp -std=c++11
 
 link:
-	c++ -o main.exe temp_func.o -larmadillo
+	c++ -o main.exe main.o -larmadillo
 
 run:
 	./main.exe
@@ -18,7 +18,7 @@ compile_test:
 link_test:
 	c++ -o main.exe particle.o penningtrap.o testing.o -larmadillo
 
-run_ptest:
+run_test:
 	./main.exe
 
 all_main: compile_main link_main run_main
@@ -29,5 +29,5 @@ compile_main:
 link_main:
 	c++ -o main.exe particle.o penningtrap.o main.o -larmadillo
 
-run_mian:
+run_main:
 	./main.exe
