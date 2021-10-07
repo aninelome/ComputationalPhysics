@@ -101,79 +101,96 @@ vec PenningTrap::total_force(int i){
 void PenningTrap::simulation(double dt, double total_time){
   int n = (int) (total_time/dt);
   int n_par = particles_.size();
+
   // Define the matrices for the velocity and position for x,y,z-directions
   t = vec(n).fill(0); // empty vector for time wiht n timesteps
-  v = cube(n,n_par,3).fill(0); //empty matrix with n timesteps in 3D
-  r = cube(n,n_par,3).fill(0);
+  v = cube(3,n_par,n).fill(0); //empty matrix with n timesteps in 3D
+  r = cube(3,n_par,n).fill(0);
   // Evolve the system one time step (dt) using Forward Euler and RK4
   for (int j=0; j<n-1; j++){
     for (int i=0; i< particles_.size(); i++){
       evolve_RK4(dt, i, j);
-      evolve_forward_Euler(dt, i, j);
+      //evolve_forward_Euler(dt, i, j);
     }
   }
+  vec time = linspace(0, total_time, n);
+  time.save("time.bin");
+  r.save("position.bin");
+  v.save("velocity.bin");
+  //t_tot.save("t_tot.bin");
 }
-
 // Evolve the system one time step (dt) using Runge-Kutta 4th order
 void PenningTrap::evolve_RK4(double dt, int i, int j){
   double m = particles_[i].m_;
   vec K1v, K2v, K3v, K4v, K1r, K2r, K3r, K4r, v_old, r_old, a;
 
   a = vec(3);
+<<<<<<< HEAD
 
+=======
+  //r.slice(j).col(i)
+>>>>>>> 151dbbe926a22dff42f3e8f711f4292fc48a74b9
   // initial conditions
-  r.tube(j,i) = particles_[i].r_;
-  v.tube(j,i) = particles_[i].v_;
+  r.slice(j).col(i) = particles_[i].r_;
+  v.slice(j).col(i) = particles_[i].v_;
 
   vec F = total_force(i);
-  r_old = r.tube(j,i);
-  v_old = v.tube(j,i);
+  r_old = r.slice(j).col(i);
+  v_old = v.slice(j).col(i);
+
 
   a = F/m;
   //No uptades for v and r
-  K1v = dt*a;   K1r = dt*v.tube(j,i);
+  K1v = dt*a;
+  K1r = dt*particles_[i].v_;
   //1. update for v and r
-  r.tube(j,i) = r_old + K1r/2; //going half timestep forward
-  v.tube(j,i) = v_old + K1v/2;
+  particles_[i].r_ = r_old + K1r/2;
+  particles_[i].v_ = v_old + K1v/2;
+
   a = total_force(i)/m;
   K2v = dt*a; //use a(i) when implementing total force
-  K2r = dt*v.tube(j,i);
+  K2r = dt*particles_[i].v_;
+
 
   //2.update for v and r
-  r.tube(j,i) = r_old + K2r/2; //going half timestestep forward
-  v.tube(j,i) = v_old + K2v/2;
+  particles_[i].r_ = r_old + K2r/2;
+  particles_[i].v_ = v_old + K2v/2;
+
   a = total_force(i)/m;
   K3v = dt*a;
-  K3r = dt*v.tube(j,i);
+  K3r = dt*particles_[i].v_;
   //3.update for v and r
-  r.tube(j,i) = r_old + K3r; //going whole timestep forward
-  v.tube(j,i) = v_old + K3v;
+  particles_[i].r_ = r_old + K3r;
+  particles_[i].v_ = v_old + K3v;
+
   a = total_force(i)/m;
   K4v = dt*a;
-  K4r = dt*v.tube(j,i);
+  K4r = dt*particles_[i].v_;
+
 
   //4. update for v and r
-  v.tube(j+1,i) = v_old + (1/6.0)*(K1v + 2*K2v + 2*K3v + K4v);
-  r.tube(j+1,i) = r_old + (1/6.0)*(K1r + 2*K2r + 2*K3r + K4r);
+  v.slice(j+1).col(i) = v_old + (1/6.0)*(K1v + 2*K2v + 2*K3v + K4v);
+  r.slice(j+1).col(i) = r_old + (1/6.0)*(K1r + 2*K2r + 2*K3r + K4r);
 
-  particles_[i].r_ = r.tube(j+1,i);
-  particles_[i].v_ = v.tube(j+1,i);
+  particles_[i].r_ = r.slice(j+1).col(i);
+  particles_[i].v_ = v.slice(j+1).col(i);
 
-  ofstream file1;
-  file1.open("single_particle_movement_RK4.txt", ios::out); //opens file1 in out/write mode
-  file1 << setw(25) << "x" << setw(25) << "y" << setw(25) << "z" << setw(25) << "v_x" << setw(25) << "v_y" << setw(25) << "v_z"<< endl;
 
-  for (int j = 0; j < n-1; j++){
-    file1 << setw(25) << r(0,j);
-    file1 << setw(25) << r(1,j);
-    file1 << setw(25) << r(2,j);
-    file1 << setw(25) << v(0,j);
-    file1 << setw(25) << v(1,j);
-    file1 << setw(25) << v(2,j);
-    file1 << endl;
-  }
+  //ofstream file1;
+  //file1.open("single_particle_movement_RK4.txt", ios::out); //opens file1 in out/write mode
+  //file1 << setw(25) << "x" << setw(25) << "y" << setw(25) << "z" << setw(25) << "v_x" << setw(25) << "v_y" << setw(25) << "v_z"<< endl;
 
-  file1.close();
+  //for (int j = 0; j < n-1; j++){
+  //  file1 << setw(25) << r(j, particles_[i].size, 0);
+  //  file1 << setw(25) << r(j, particles_[i].size, 1);
+  //  file1 << setw(25) << r(j, particles_[i].size, 2);
+  //  file1 << setw(25) << v(j, particles_[i].size, 0);
+  //  file1 << setw(25) << v(j, particles_[i].size, 1);
+  //  file1 << setw(25) << v(j, particles_[i].size, 2);
+  //  file1 << endl;
+  //}
+
+  //file1.close();
   return;
 
 }
@@ -182,16 +199,17 @@ void PenningTrap::evolve_forward_Euler(double dt, int i, int j){
   double m = particles_[i].m_;
   vec a = vec(3);
   // initial conditions
-  r.tube(j,i) = particles_[i].r_;
-  v.tube(j,i) = particles_[i].v_;
+  r.slice(j).col(i) = particles_[i].r_;
+  v.slice(j).col(i) = particles_[i].v_;
 
   vec F = total_force(i);
 
   a = F/m;
   //cout << a << endl;
-  //cout << v.tube(j,i) << endl;
-  v.tube(j+1,i) = particles_[i].v_ + a*dt;//v.tube(j,i) + a*dt;
-  r.tube(j+1,i) = r.tube(j,i) + v.tube(j,i)*dt;
+  //cout << v.slice(j).col(i) << endl;
+  v.slice(j+1).col(i) = particles_[i].v_ + a*dt;//v.slice(j).col(i) + a*dt;
+  r.slice(j+1).col(i) = r.slice(j).col(i) + v.slice(j).col(i)*dt;
   t(j+1) = t(j) + dt;
-  cout << "Euler" << v << endl;
+
+
 }
