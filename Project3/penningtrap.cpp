@@ -114,8 +114,8 @@ void PenningTrap::simulation(double dt, double total_time){
   }
   r.save("position.bin");
   v.save("velocity.bin");
+  //t_tot.save("t_tot.bin");
 }
-
 // Evolve the system one time step (dt) using Runge-Kutta 4th order
 void PenningTrap::evolve_RK4(double dt, int i, int j){
   double m = particles_[i].m_;
