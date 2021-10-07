@@ -14,7 +14,7 @@ int main(){
   int l; //element indices of the largest off diagonal matrix elements
   double maxA6 = max_offdiag_symmetric(A6, &k, &l);
   vec eigenvalues(N); //declear vector for eigenvalues
-  mat eigenvectors(N,N);//declear matrix for eigenvectors 
+  mat eigenvectors(N,N);//declear matrix for eigenvectors
   int maxiter, iterations;
   maxiter = 1000; //Maximum of iterations
   bool converged; //Declare the variable "converged" which is set to either True or False
@@ -22,8 +22,8 @@ int main(){
   jacobi_eigensolver(A6, R6, tol, eigenvalues, eigenvectors, maxiter, 0, &converged, k,l);
   if (converged){    //If Jacobi solver has converged we print the eigenvalues and eigenvectors
     cout << "jacobi solver has converged" << endl;
-    eigenvalues.print("Eignevlaues = ");
-    eigenvectors.print("Eigenvectors = ");
+    eigenvalues.print("Eignevlaues: ");
+    eigenvectors.print("\n Eigenvectors:");
   }
   else { //If jacobi solver didn't converge, we don't print the eigenvalues or eigenvectors
     cout << "Jacobi solver has not converged!!!!" << endl; //Print this error message instead
