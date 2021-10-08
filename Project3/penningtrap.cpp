@@ -5,11 +5,14 @@
 
 // Constructor
 //double B0=96.5, double V0=9.65e8, double d=1e4
-PenningTrap::PenningTrap(vector<Particle> particles, double B0, double V_d_ratio){
+PenningTrap::PenningTrap(vector<Particle> particles, double B0, double V_d_ratio, double d, double f, double omega_v){
 
   particles_ = particles;
   B0_ = B0;
   V_d_ratio_ = V_d_ratio;
+  d_ = d;
+  f_ = f;
+  omega_v_ = omega_v
 }
 
 // Add a particle to the trap
@@ -34,10 +37,18 @@ void PenningTrap::info()
 vec PenningTrap::external_E_field(int i){
   vec r = particles_[i].r_;
   vec E = vec(3);
-  E(0) = r(0);
-  E(1) = r(1);
-  E(2) = -2*r(2);
-  E  = E*V_d_ratio_;
+  if (norm(r) <= d_){
+    E(0) = r(0);
+    E(1) = r(1);
+    E(2) = -2*r(2);
+    E  = E*V_d_ratio_ *(1+ f*cos(omega_v *t )); // t må fikses
+  }
+  else{
+    E(0) = 0;
+    E(1) = 0;
+    E(2) = 0;
+  }
+ 
   return E;
 }
 
@@ -45,9 +56,18 @@ vec PenningTrap::external_E_field(int i){
 vec PenningTrap::external_B_field(int i){
   vec v = particles_[i].v_;
   vec B = vec(3);
-  B(0) = B0_*v(1);
+   if (norm(r) <= d_){
+    B(0) = B0_*v(1);
   B(1) = -B0_*v(0) ;
   B(2) = 0;
+   }
+
+  else{
+    B(0) = 0;
+    B(1) = 0;
+    B(2) = 0;
+  }
+  
   return B;
 }
 
