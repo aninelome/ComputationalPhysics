@@ -17,8 +17,7 @@ class PenningTrap
 private:
     vector<Particle> particles_;
     double B0_; // Magnetic field
-    double V0_; // Applied potential
-    double d_;  // Characteristic dimension
+    double V_d_ratio_; // Potential to geometric size ratio.
 
 public:
 
@@ -28,7 +27,7 @@ public:
     PenningTrap() {}
 
     // Constructor that takes a vector of particles as input
-    PenningTrap(vector<Particle> particles, double B0, double V0, double d);
+    PenningTrap(vector<Particle> particles, double B0, double V_d_ratio);
 
     // Add a particle to the trap
     void add_particle(Particle p_in);
