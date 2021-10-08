@@ -144,7 +144,6 @@ void PenningTrap::evolve_RK4(double dt, int i, int j){
   r.slice(j).col(i) = particles_[i].r_;
   v.slice(j).col(i) = particles_[i].v_;
 
-
   vec F = total_force(i);
   r_old = r.slice(j).col(i);
   v_old = v.slice(j).col(i);
