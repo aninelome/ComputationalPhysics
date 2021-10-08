@@ -21,16 +21,6 @@ def read_data(filename):
     return d
 """
 
-
-def plot_a_against_b(a, b, label):
-    plt.plot(a, b, label = label)
-    #plt.xlabel(f"{a}", size=12)
-    #plt.ylabel(f"{b}", size=12)
-    plt.xticks(size=ticksize)
-    plt.yticks(size=ticksize)
-    plt.axis("equal")
-
-
 def main():
     r = pa.cube()
     v = pa.cube()
@@ -44,24 +34,33 @@ def main():
     v = np.array(v)
     t = np.array(t)
 
-    # Sigle particle motion:
+
+    # Single particle motion:
     x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
-    print(r.size)
-    print(x1.size)
-    print(y1.size)
-    print(t)
-
-    print(t.size)
-
     v_x1, v_y1, v_z1 = v[:, 0, 0], v[:, 1, 0], v[:, 2, 0]
 
+    # Two particles
+    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+    #print(x1)
+    #print(v_x.shape)
+    #print(x)
+    #plot_a_against_b(t, z1, "Single particle movement, z1 against t")
+    #plt.show()
 
-    plot_a_against_b(t, z1, "Sigle particle movement, z1 against t")
+    #plot_a_against_b(x1, y1, "Single particle movement, z1 against t")
+    #plt.show()
+
+    plt.plot(x[:,0], y[:,0], color = "r")
+    plt.plot(x[:,1], y[:,1], color = "g")
+    #plt.legend()
     plt.show()
 
-    plot_a_against_b(x1, y1, "Sigle particle movement, z1 against t")
+    #plot_a_against_b(y, v_y, "Single particle movement, z1 against t")
+    #plt.show()
 
-    plt.show()
+    #plot_a_against_b(z, v_z, "Single particle movement, z1 against t")
+    #plt.show()
 
 
 
