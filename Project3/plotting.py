@@ -21,14 +21,15 @@ def analytic_f(x0=1, y0=0, z0=1, v0=0.1, total_time=100, dt=0.01):
     x = A_p*np.cos(omega_p*t) - A_m*np.cos(omega_m*t)
     y = -(A_p*np.sin(omega_p*t) + A_m*np.sin(omega_m*t))
     z = z0*np.cos(omega_z*t)
-    return x, y, z
+    return x, y, z, t
 
 
 
 def main():
-    #interaction = True
-    interaction = False
+    interaction = True
+    #interaction = False
 
+    dt = "0.001000"
 
     r = pa.cube()
     v = pa.cube()
@@ -36,12 +37,12 @@ def main():
 
     if interaction:
         interaction_label = "with interaction"
-        r.load("position_with_interaction.bin")
-        v.load("velocity_with_interaction.bin")
+        r.load(f"position_with_interaction_{dt}.bin")
+        v.load(f"velocity_with_interaction_{dt}.bin")
     else:
         interaction_label = "without interaction"
-        r.load("position_without_interaction.bin")
-        v.load("velocity_without_interaction.bin")
+        r.load(f"position_without_interaction_{dt}.bin")
+        v.load(f"velocity_without_interaction_{dt}.bin")
 
     t.load("time.bin")
 
@@ -50,7 +51,7 @@ def main():
     t = np.array(t)
 
     # Analytic
-    x_analytic, y_analytic, z_analytic = analytic_f()
+    x_analytic, y_analytic, z_analytic, _ = analytic_f()
     #plt.plot(x_analytic, y_analytic)
     #plt.legend()
     #plt.show()
@@ -77,7 +78,7 @@ def main():
 
 
     #2: Phase space plots with and without interactions
-    ## x against v_x
+    # x against v_x
     #plt.plot(x[:,0], v_x[:,0],"g", label=f"x against v_x, particle1, {interaction_label}") # Particle 1
     #plt.plot(x[:,1], v_x[:,1], "b", label=f"x against v_x, particle2, {interaction_label}") # Particle 2
     #plt.xticks(size=ticksize)
@@ -113,21 +114,6 @@ def main():
     #ax.legend()
     #plt.show()
 
-    #4: Graph showing the size of the relative error for five different values for dt
-    r_analytic = [x_analytic, y_analytic, z_analytic]
-    relative_error = np.abs(r_analytic - r)/r_analytic
-    #plt.plot()
-    #plt.xticks(size=ticksize)
-    #plt.yticks(size=ticksize)
-    #plt.legend()
-    #plt.show()
-
-    #5: Computation estimating the error convergence rate for forward Euler and RK4
-    #delta_max = np.max(np.abs(?))
-    #sum = 0
-    #for k in range(2,6):
-    #    sum += (np.log10(delta_max[k]/delta_max[k-1]))/(np.log10(dt[k]/dt[k-1])
-    #    r_err = (1/4)*sum
 
 if __name__ == '__main__':
     main()

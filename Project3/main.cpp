@@ -36,12 +36,21 @@ int main(){
 
   penningtrap.add_particle(p2);
 
-  penningtrap.simulation(dt, total_time); // With interaction
-
-  penningtrap.simulation(dt, total_time, false); // Without interaction
-
+  //penningtrap.simulation(dt, total_time); // With interaction
+  //penningtrap.simulation(dt, total_time, false); // Without interaction
 
 
+  arma::vec dt_values = vec(5);
+  dt_values(0) = 0.5;
+  dt_values(1) = 0.1;
+  dt_values(2) = 0.01;
+  dt_values(3) = 0.001;
+  dt_values(4) = 0.0001;
+
+  for (int i = 0; i < dt_values.size(); i++){
+    double dt = dt_values(i);
+    penningtrap.simulation(dt, total_time, false);
+  }
 
   return 0;
 }
