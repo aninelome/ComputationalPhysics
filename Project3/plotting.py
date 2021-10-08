@@ -43,7 +43,7 @@ def main():
     #plt.legend()
     #plt.show()
 
-    # Sigle particle motion:
+    # Single particle motion:
     x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
     v_x1, v_y1, v_z1 = v[:, 0, 0], v[:, 1, 0], v[:, 2, 0]
     #plt.plot(t, z1, label="Single particle movement, z1 against t")
