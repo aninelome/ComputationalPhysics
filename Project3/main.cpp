@@ -11,15 +11,15 @@ int main(){
   vec r1 = {1,0,1};
   vec v1 = {0,1,0};
 
-  vec r2 = {1,0,1};
-  vec v2 = {0,1,0};
+  vec r2 = {2,3,4};
+  vec v2 = {0,2,0};
 
 
   double B0, V0, d;
 
-  double dt = 0.0001;
+  double dt = 0.001;
   int i = 0;
-  double total_time = 100;
+  double total_time = 10;
   double n = total_time/dt;
 
   mat r = mat(3,n);
