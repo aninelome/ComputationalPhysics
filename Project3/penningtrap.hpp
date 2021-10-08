@@ -18,6 +18,7 @@ private:
     vector<Particle> particles_;
     double B0_; // Magnetic field
     double V_d_ratio_; // Potential to geometric size ratio.
+    bool interaction;
 
 public:
 
@@ -63,7 +64,7 @@ public:
     void evolve_forward_Euler(double dt, int i, int j);
 
     //Simulating RK4 and FE for all the particles
-    void simulation(double dt, double total_time);
+    void simulation(double dt, double total_time, bool interaction=true);
     cube v,r;
     vec t;
 

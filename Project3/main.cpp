@@ -8,10 +8,11 @@ using namespace arma;
 using namespace std;
 
 int main(){
-  vec r1 = {2,2,2};
+
+  vec r1 = {2,0,2};
   vec v1 = {0,1,0};
 
-  vec r2 = {2,3,4};
+  vec r2 = {2,0,4};
   vec v2 = {0,2,0};
 
   Particle p1 = Particle(1, 40.078, r1, v1);
@@ -21,7 +22,7 @@ int main(){
 
   double dt = 0.001;
   int i = 0;
-  double total_time = 10;
+  double total_time = 100;
   double n = total_time/dt;
 
   mat r = mat(3,n);
@@ -35,7 +36,10 @@ int main(){
 
   penningtrap.add_particle(p2);
 
-  penningtrap.simulation(dt, total_time);
+  penningtrap.simulation(dt, total_time); // With interaction
+
+  penningtrap.simulation(dt, total_time, false); // Without interaction
+
 
 
 

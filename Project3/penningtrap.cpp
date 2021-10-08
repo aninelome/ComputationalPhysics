@@ -96,14 +96,18 @@ vec PenningTrap::total_force_particles(int i){
 // The total force on particle_i from both external fields and other particles
 vec PenningTrap::total_force(int i){
   vec F_tot = vec(3);
-  F_tot = total_force_external(i) + total_force_particles(i);
+  F_tot = total_force_external(i);
+  if (interaction){
+    F_tot += total_force_particles(i);
+  }
   //cout << total_force_external(i) << endl;
   return F_tot;
 }
 
-void PenningTrap::simulation(double dt, double total_time){
+void PenningTrap::simulation(double dt, double total_time, bool interaction_in){
   int n = (int) (total_time/dt);
   int n_par = particles_.size();
+  interaction = interaction_in;
 
   // Define the matrices for the velocity and position for x,y,z-directions
   t = vec(n).fill(0); // empty vector for time wiht n timesteps
@@ -115,9 +119,9 @@ void PenningTrap::simulation(double dt, double total_time){
       cout << "timestep = " << j << " of " << n << endl;
     }
     for (int i=0; i< particles_.size(); i++){
-      //evolve_RK4(dt, i, j);
+      evolve_RK4(dt, i, j);
 
-      evolve_forward_Euler(dt, i, j);
+      //evolve_forward_Euler(dt, i, j);
     }
     for (int i=0; i< particles_.size(); i++){
       particles_[i].r_ = r.slice(j+1).col(i);
@@ -130,8 +134,15 @@ void PenningTrap::simulation(double dt, double total_time){
   //t_tot.save("t_tot.bin");
   vec time = linspace(0, total_time, n);
   time.save("time.bin");
-  r.save("position.bin");
-  v.save("velocity.bin");
+  if (interaction){
+    r.save("position_with_interaction.bin");
+    v.save("velocity_with_interaction.bin");
+  }
+  else{
+    r.save("position_without_interaction.bin");
+    v.save("velocity_without_interaction.bin");
+  }
+
 }
 // Evolve the system one time step (dt) using Runge-Kutta 4th order
 void PenningTrap::evolve_RK4(double dt, int i, int j){
