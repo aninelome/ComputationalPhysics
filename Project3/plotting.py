@@ -39,9 +39,11 @@ def main():
 
     # Analytic
     x, y = analytic_f()
-    #plt.plot(x, y)
-    #plt.legend()
-    #plt.show()
+    plt.plot(x, y, label="analytical")
+    plt.plot(x[0], y[0], 'ro')
+    plt.plot(r[:, 0, 0], r[:, 1, 0], label="numerical")
+    plt.legend()
+    plt.show()
 
     # Single particle motion:
     x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
