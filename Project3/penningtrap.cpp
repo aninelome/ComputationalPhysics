@@ -187,7 +187,7 @@ void PenningTrap::evolve_RK4(double dt, int i, int j){
   particles_[i].v_ = v_old + K2v/2;
 
   a = total_force(i)/m;
-  K3v = dt*a;
+  K3v = dt*a
   K3r = dt*particles_[i].v_;
   //3.update for v and r
   particles_[i].r_ = r_old + K3r;
