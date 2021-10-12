@@ -41,8 +41,11 @@ public:
     // Prints number of particles in p_collection
     void info();
 
+    // Counts how many particles are still inside the trap region 
+    int particle_count_trap(); 
+
     // External electric field at point r=(x,y,z)
-    vec external_E_field(int i);
+    vec external_E_field(int i, double t);
 
     // External magnetic field at point r=(x,y,z)
     vec external_B_field(int i);
@@ -51,19 +54,19 @@ public:
     vec force_particle(int i, int j);
 
     // The total force on particle_i from the external fields
-    vec total_force_external(int i);
+    vec total_force_external(int i, double t);
 
     // The total force on particle_i from the other particles
     vec total_force_particles(int i);
 
     // The total force on particle_i from both external fields and other particles
-    vec total_force(int i);
+    vec total_force(int i, double t);
 
     // Evolve the system one time step (dt) using Runge-Kutta 4th order
-    void evolve_RK4(double dt, int i, int j);
+    void evolve_RK4(double dt, int i, int j, double t);
 
     // Evolve the system one time step (dt) using Forward Euler
-    void evolve_forward_Euler(double dt, int i, int j);
+    void evolve_forward_Euler(double dt, int i, int j, double t);
 
     //Simulating RK4 and FE for all the particles
     void simulation(double dt, double total_time);
