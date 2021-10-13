@@ -63,10 +63,13 @@ public:
     // Evolve the system one time step (dt) using Forward Euler
     void evolve_forward_Euler(double dt, int i, int j);
 
-    //Simulating RK4 and FE for all the particles
-    void simulation(double dt, double total_time, bool interaction=true);
+    //Simulating the movement of all the particles for given method RK4 or Forward Euler
+    void simulation(double dt, double total_time, bool interaction=true, string method="RK4", string s="_");
     cube v,r;
     vec t;
+
+    // Runs the simulation with either with a single dt-value or for several
+    void run_sim(double dt, double total_time, bool interaction=true, string method="RK4", int n=0);
 
 };
 #endif

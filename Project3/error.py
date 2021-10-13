@@ -8,43 +8,50 @@ import numpy as np
 fontsize = 10
 ticksize = 10
 
-#interaction = True
-interaction = False
+
+#method = "RK4"
+method = "ForwardEuler"
+
 
 
 # Graph showing the size of the relative error for five different values for dt
-dt = ["0.500000", "0.100000", "0.010000", "0.001000", "0.000100"]
+dt = ["1", "2", "3", "4", "5"]
 for value in dt:
     r = pa.cube()
     v = pa.cube()
     t = pa.mat()
 
-    if interaction:
-        interaction_label = "with interaction"
-        r.load(f"position_with_interaction_{value}.bin")
-        v.load(f"velocity_with_interaction_{value}.bin")
-    else:
-        interaction_label = "without interaction"
-        r.load(f"position_without_interaction_{value}.bin")
-        v.load(f"velocity_without_interaction_{value}.bin")
 
-    t.load("time.bin")
+    r.load(f"position_without_interaction_dt:10e-{value}.bin")
+    v.load(f"velocity_without_interaction_dt:10e-{value}.bin")
+
+    t.load(f"time_dt:10e-{value}.bin")
 
     r = np.array(r)
     v = np.array(v)
     t = np.array(t)
 
     r = r[:, :, 0]
+    print(r[:5,:])
+    print(t[:5])
 
-    x_analytic, y_analytic, z_analytic, time = analytic_f(dt=float(value))
+
+    x_analytic, y_analytic, z_analytic, time = analytic_f(dt=1/(pow(10,float(value)-1)))
     r_analytic = np.transpose([x_analytic, y_analytic, z_analytic])
-    relative_error = np.sqrt((r_analytic[:,0] - r[:,0])**2 + (r_analytic[:,1] - r[:,1])**2 + (r_analytic[:,2] - r[:,2])**2)/np.sqrt(r_analytic[:,0]**2 + r_analytic[:,1]**2 + r_analytic[:,2]**2)
+    relative_error = np.sqrt((r[:,0] - r_analytic[:,0])**2 + (r[:,1] - r_analytic[:,1])**2 + (r[:,2] - r_analytic[:,2])**2)/np.sqrt(r_analytic[:,0]**2 + r_analytic[:,1]**2 + r_analytic[:,2]**2)
 
 
-    plt.plot(time, relative_error, label=f"dt = {value}")
+    plt.plot(time, relative_error, label=f"dt = 10e-{value}")
 
 plt.xticks(size=ticksize)
 plt.yticks(size=ticksize)
+if method == "RK4":
+    plt.title(f"Relative error with different timesteps dt, with method: {method}", fontsize=12)
+elif method == "ForwardEuler":
+    plt.title(f"Relative error with different timesteps dt, with method: {method}", fontsize=12)
+else:
+    print("No method given")
+
 plt.legend()
 plt.show()
 
