@@ -29,7 +29,7 @@ def main():
     interaction = True
     #interaction = False
 
-    dt = "0.001000"
+
 
     r = pa.cube()
     v = pa.cube()
@@ -37,14 +37,14 @@ def main():
 
     if interaction:
         interaction_label = "with interaction"
-        r.load(f"position_with_interaction_{dt}.bin")
-        v.load(f"velocity_with_interaction_{dt}.bin")
+        r.load(f"position_with_interaction__.bin")
+        v.load(f"velocity_with_interaction__.bin")
     else:
         interaction_label = "without interaction"
-        r.load(f"position_without_interaction_{dt}.bin")
-        v.load(f"velocity_without_interaction_{dt}.bin")
+        r.load(f"position_without_interaction__.bin")
+        v.load(f"velocity_without_interaction__.bin")
 
-    t.load("time.bin")
+    t.load("time__.bin")
 
     r = np.array(r)
     v = np.array(v)

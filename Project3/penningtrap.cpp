@@ -104,7 +104,7 @@ vec PenningTrap::total_force(int i){
   return F_tot;
 }
 
-void PenningTrap::simulation(double dt, double total_time, bool interaction_in){
+void PenningTrap::simulation(double dt, double total_time, bool interaction_in, string method, string s){
     int n = (int) (total_time/dt);
     int n_par = particles_.size();
     interaction = interaction_in;
@@ -116,27 +116,33 @@ void PenningTrap::simulation(double dt, double total_time, bool interaction_in){
     // Evolve the system one time step (dt) using Forward Euler and RK4
     for (int j=0; j<n-1; j++){
       for (int i=0; i< particles_.size(); i++){
-        evolve_RK4(dt, i, j);
-        //evolve_forward_Euler(dt, i, j);
+        if (method == "RK4"){
+          evolve_RK4(dt, i, j);
+        }
+        else if (method == "ForwardEuler"){
+          evolve_forward_Euler(dt, i, j);
+        }
+        else {
+          cout << "No matching method for" + method << endl;
+        }
+
       }
       for (int i=0; i< particles_.size(); i++){
         particles_[i].r_ = r.slice(j+1).col(i);
         particles_[i].v_ = v.slice(j+1).col(i);
-
-        //evolve_forward_Euler(dt, i, j);
       }
 
     }
     //t_tot.save("t_tot.bin");
     vec time = linspace(0, total_time, n);
-    time.save("time.bin");
+    time.save("time_"+s+".bin");
     if (interaction){
-      r.save("position_with_interaction_"+ to_string(dt) +".bin");
-      v.save("velocity_with_interaction_"+ to_string(dt) +".bin");
+      r.save("position_with_interaction_"+s+".bin");
+      v.save("velocity_with_interaction_"+s+".bin");
     }
     else{
-      r.save("position_without_interaction_"+ to_string(dt) +".bin");
-      v.save("velocity_without_interaction_"+ to_string(dt) +".bin");
+      r.save("position_without_interaction_"+s+".bin");
+      v.save("velocity_without_interaction_"+s+".bin");
     }
 }
 // Evolve the system one time step (dt) using Runge-Kutta 4th order
@@ -218,4 +224,19 @@ void PenningTrap::evolve_forward_Euler(double dt, int i, int j){
   particles_[i].v_ = v_old;
 
 
+}
+
+void PenningTrap::run_sim(double dt, double total_time, bool interaction, string method, int n){
+  if (n==0){
+    simulation(dt, total_time, interaction, method);
+  }
+  else{
+    arma::vec dt_values = vec(n);
+    for (int i = 0; i < dt_values.size(); i++){
+      dt_values(i) = 1 / (pow(10, i));
+      double dt_ = dt_values(i);
+      string s = "dt:10e-" + to_string(int(i+1));
+      simulation(dt_, total_time, interaction, method, s);
+  }
+}
 }

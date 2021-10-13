@@ -36,21 +36,24 @@ int main(){
 
   penningtrap.add_particle(p2);
 
-  //penningtrap.simulation(dt, total_time); // With interaction
-  //penningtrap.simulation(dt, total_time, false); // Without interaction
+  // Run simulation with interactions, with RK4:
+  //penningtrap.run_sim(dt, total_time, true, "RK4", 0);
 
+  // Run simulation without interactions, with RK4:
+  //penningtrap.run_sim(dt, total_time, false, "RK4", 0);
 
-  arma::vec dt_values = vec(5);
-  dt_values(0) = 0.5;
-  dt_values(1) = 0.1;
-  dt_values(2) = 0.01;
-  dt_values(3) = 0.001;
-  dt_values(4) = 0.0001;
+  // Run simulation with interactions, with Forward Euler:
+  //penningtrap.run_sim(dt, total_time, true, "ForwardEuler", 0);
 
-  for (int i = 0; i < dt_values.size(); i++){
-    double dt = dt_values(i);
-    penningtrap.simulation(dt, total_time, false);
-  }
+  // Run simulation without interactions, with Forward Euler:
+  //penningtrap.run_sim(dt, total_time, false, "ForwardEuler", 0);
+
+  // Run sumulation without interactions, for 5 different dt-values, with RK4:
+  //penningtrap.run_sim(dt, total_time, false, "RK4", 5);
+
+  // Run sumulation without interactions, for 5 different dt-values, with Forward Euler:
+  penningtrap.run_sim(dt, total_time, false, "ForwardEuler", 5);
+
 
   return 0;
 }
