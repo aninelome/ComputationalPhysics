@@ -1,6 +1,7 @@
 **/.DS_Store
 **.txt
 **.bin
+**.icloud
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,c++
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,c++
