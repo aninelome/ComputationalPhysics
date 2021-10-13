@@ -19,6 +19,9 @@ private:
     double B0_; // Magnetic field
     double V_d_ratio_; // Potential to geometric size ratio.
     bool interaction;
+    double d_;
+    double f_;
+    double omega_v_;
 
 public:
 
@@ -28,7 +31,7 @@ public:
     PenningTrap() {}
 
     // Constructor that takes a vector of particles as input
-    PenningTrap(vector<Particle> particles, double B0, double V_d_ratio);
+    PenningTrap(vector<Particle> particles, double B0, double V_d_ratio, double d, double f, double omega_v);
 
     // Add a particle to the trap
     void add_particle(Particle p_in);
@@ -39,8 +42,11 @@ public:
     // Prints number of particles in p_collection
     void info();
 
+    // Counts how many particles are still inside the trap region
+    int particle_count_trap();
+
     // External electric field at point r=(x,y,z)
-    vec external_E_field(int i);
+    vec external_E_field(int i, double t);
 
     // External magnetic field at point r=(x,y,z)
     vec external_B_field(int i);
@@ -49,19 +55,19 @@ public:
     vec force_particle(int i, int j);
 
     // The total force on particle_i from the external fields
-    vec total_force_external(int i);
+    vec total_force_external(int i, double t);
 
     // The total force on particle_i from the other particles
     vec total_force_particles(int i);
 
     // The total force on particle_i from both external fields and other particles
-    vec total_force(int i);
+    vec total_force(int i, double t);
 
     // Evolve the system one time step (dt) using Runge-Kutta 4th order
-    void evolve_RK4(double dt, int i, int j);
+    void evolve_RK4(double dt, int i, int j, double t);
 
     // Evolve the system one time step (dt) using Forward Euler
-    void evolve_forward_Euler(double dt, int i, int j);
+    void evolve_forward_Euler(double dt, int i, int j, double t);
 
     //Simulating the movement of all the particles for given method RK4 or Forward Euler
     void simulation(double dt, double total_time, bool interaction=true, string method="RK4", string s="_");
