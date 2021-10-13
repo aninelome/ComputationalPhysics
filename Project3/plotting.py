@@ -9,11 +9,16 @@ ticksize = 10
 
 
 
-def analytic_f(x0=1, y0=0, z0=1, v0=0.1, total_time=100, dt=0.01):
+def analytic_f(x0=2, y0=0, z0=2, v0=0.1, total_time=100, dt=0.01):
+    q = 1
+    m = 40.078
+    B0 = 96.5
+    V0 = 9.65e8
+    d = 1e4
     n = int(total_time/dt)
     t = np.linspace(0, total_time, n)
-    omega_0 = 2  #abs(q)*B0/m;
-    omega_z = 1   #sqrt((2*abs(q)*V0)/(m*d*d));
+    omega_0 = q*B0/m;
+    omega_z = np.sqrt((2*q*V0)/(m*d*d));
     omega_m = (omega_0-np.sqrt(omega_0*omega_0-2*omega_z*omega_z)/2)
     omega_p = (omega_0+np.sqrt(omega_0*omega_0-2*omega_z*omega_z)/2)
     A_p = (v0+omega_m*x0/(omega_m - omega_p))
@@ -26,23 +31,23 @@ def analytic_f(x0=1, y0=0, z0=1, v0=0.1, total_time=100, dt=0.01):
 
 
 def main():
-    interaction = True
-    #interaction = False
-
-
 
     r = pa.cube()
     v = pa.cube()
     t = pa.mat()
 
-    if interaction:
-        interaction_label = "with interaction"
-        r.load(f"position_with_interaction__.bin")
-        v.load(f"velocity_with_interaction__.bin")
-    else:
-        interaction_label = "without interaction"
-        r.load(f"position_without_interaction__.bin")
-        v.load(f"velocity_without_interaction__.bin")
+    r_without = pa.cube()
+    v_without = pa.cube()
+
+
+
+
+    r.load(f"position_with_interaction__.bin")
+    v.load(f"velocity_with_interaction__.bin")
+
+
+    r_without.load(f"position_without_interaction__.bin")
+    v_without.load(f"velocity_without_interaction__.bin")
 
     t.load("time__.bin")
 
@@ -50,15 +55,24 @@ def main():
     v = np.array(v)
     t = np.array(t)
 
+    r_without = np.array(r_without)
+    v_without = np.array(v_without)
+
+    r_list = [r, r_without]
+    v_list = [v, v_without]
+
     # Analytic
     x_analytic, y_analytic, z_analytic, _ = analytic_f()
-    #plt.plot(x_analytic, y_analytic)
-    #plt.legend()
-    #plt.show()
+    plt.plot(x_analytic, y_analytic)
+    plt.legend()
+    plt.xticks(size=ticksize)
+    plt.yticks(size=ticksize)
+    plt.title("Analytic solution")
+    plt.show()
 
     # Single particle motion:
-    x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
-    v_x1, v_y1, v_z1 = v[:, 0, 0], v[:, 1, 0], v[:, 2, 0]
+    #x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
+    #v_x1, v_y1, v_z1 = v[:, 0, 0], v[:, 1, 0], v[:, 2, 0]
     #plt.plot(t, z1, label="Single particle movement, z1 against t")
     #plt.xticks(size=ticksize)
     #plt.yticks(size=ticksize)
@@ -68,13 +82,32 @@ def main():
 
     # Two particles:
     #1: Motion in the xy-plane with and without particle interactions
-    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #plt.plot(x, y, label=f"Two particles, x1 against y1, {interaction_label}")
-    #plt.xticks(size=ticksize)
-    #plt.yticks(size=ticksize)
-    #plt.legend()
-    #plt.show()
+    #count = 0
+    #for r, v in zip(r_list, v_list):
+    #    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+    #    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+    #    if count == 0:
+    #        for i in range(2):
+    #            plt.plot(x[:,i], y[:,i], label=f"Particle {i}")
+    #        plt.title("Two particles with interaction")
+    #        plt.xlabel("x")
+    #        plt.ylabel("y")
+    #        plt.xticks(size=ticksize)
+    #        plt.yticks(size=ticksize)
+    #        plt.legend()
+    #        plt.show()
+
+    #    if count == 1:
+    #        for i in range(2):
+    #            plt.plot(x[:,i], y[:,i], label=f"Particle {i}")
+    #        plt.title("Two particles without interaction")
+    #        plt.xlabel("x")
+    #        plt.ylabel("y")
+    #        plt.xticks(size=ticksize)
+    #        plt.yticks(size=ticksize)
+    #        plt.legend()
+    #        plt.show()
+    #    count += 1
 
 
     #2: Phase space plots with and without interactions

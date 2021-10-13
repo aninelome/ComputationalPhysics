@@ -10,10 +10,10 @@ using namespace std;
 int main(){
 
   vec r1 = {2,0,2};
-  vec v1 = {0,1,0};
+  vec v1 = {0,0.1,0};
 
   vec r2 = {2,0,4};
-  vec v2 = {0,2,0};
+  vec v2 = {0,0.2,0};
 
   Particle p1 = Particle(1, 40.078, r1, v1);
   Particle p2 = Particle(1, 40.078, r2, v2);
@@ -49,10 +49,10 @@ int main(){
   //penningtrap.run_sim(dt, total_time, false, "ForwardEuler", 0);
 
   // Run sumulation without interactions, for 5 different dt-values, with RK4:
-  //penningtrap.run_sim(dt, total_time, false, "RK4", 5);
+  penningtrap.run_sim(dt, total_time, false, "RK4", 5);
 
   // Run sumulation without interactions, for 5 different dt-values, with Forward Euler:
-  penningtrap.run_sim(dt, total_time, false, "ForwardEuler", 5);
+  //penningtrap.run_sim(dt, total_time, false, "ForwardEuler", 5);
 
 
   return 0;
