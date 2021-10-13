@@ -9,34 +9,40 @@ using namespace std;
 
 int main(){
 
-  vec r1 = {2,0,2};
-  vec v1 = {0,0.1,0};
+  //vec r1 = {2,0,2};
+  //vec v1 = {0,0.1,0};
 
-  vec r2 = {2,0,4};
-  vec v2 = {0,0.2,0};
+  //vec r2 = {2,0,4};
+  //vec v2 = {0,0.2,0};
+  double B0 = 96.5;
+  double V_d_ratio = 0.965;
+  double d = 0.05e-4;
+  double f = 1.0;
+  double omega_v = 1.0;
 
-  Particle p1 = Particle(1, 40.078, r1, v1);
-  Particle p2 = Particle(1, 40.078, r2, v2);
-
-
-  double dt = 0.01;
+  double dt = 0.001;
   int i = 0;
   double total_time = 100;
   double n = total_time/dt;
 
-  mat r = mat(3,n);
-  mat v = mat(3,n);
-
-
   vector<Particle> particle_collection;
-  particle_collection.push_back(p1);
+  arma_rng::set_seed(12345);
 
-  PenningTrap penningtrap = PenningTrap(particle_collection, 96.5, 0.965, 0.05e4, 1.0, 1.0); // Obs: kan ha feil v_ratio
+  for (int j=0; j<5; j++){
+    vec r = vec(3).randn() * 0.1 * d;  // random initial position
+    vec v = vec(3).randn() * 0.01 * d;  // random initial velocity
+    cout << r << endl;
+    Particle p = Particle(1, 40.078, r, v);
 
-  penningtrap.add_particle(p2);
+    particle_collection.push_back(p);
+  }
+
+  PenningTrap penningtrap = PenningTrap(particle_collection, B0, V_d_ratio, d, f, omega_v); // Obs: kan ha feil v_ratio
+
+
 
   // Run simulation with interactions, with RK4:
-  //penningtrap.run_sim(dt, total_time, true, "RK4", 0);
+  penningtrap.run_sim(dt, total_time, true, "RK4", 0);
 
   // Run simulation without interactions, with RK4:
   //penningtrap.run_sim(dt, total_time, false, "RK4", 0);
@@ -48,7 +54,7 @@ int main(){
   //penningtrap.run_sim(dt, total_time, false, "ForwardEuler", 0);
 
   // Run sumulation without interactions, for 5 different dt-values, with RK4:
-  penningtrap.run_sim(dt, total_time, false, "RK4", 5);
+  //penningtrap.run_sim(dt, total_time, false, "RK4", 5);
 
   // Run sumulation without interactions, for 5 different dt-values, with Forward Euler:
   //penningtrap.run_sim(dt, total_time, false, "ForwardEuler", 5);

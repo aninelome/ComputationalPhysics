@@ -61,14 +61,23 @@ def main():
     r_list = [r, r_without]
     v_list = [v, v_without]
 
-    # Analytic
-    x_analytic, y_analytic, z_analytic, _ = analytic_f()
-    plt.plot(x_analytic, y_analytic)
+    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+    for i in range(len(r[0, 0, :])):
+        plt.plot(x[:,i], y[:,i], label=f"particle {i}")
+
     plt.legend()
-    plt.xticks(size=ticksize)
-    plt.yticks(size=ticksize)
-    plt.title("Analytic solution")
     plt.show()
+
+
+    # Analytic
+    #x_analytic, y_analytic, z_analytic, _ = analytic_f()
+    #plt.plot(x_analytic, y_analytic)
+    #plt.legend()
+    #plt.xticks(size=ticksize)
+    #plt.yticks(size=ticksize)
+    #plt.title("Analytic solution")
+    #plt.show()
 
     # Single particle motion:
     #x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]

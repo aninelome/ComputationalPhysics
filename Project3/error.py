@@ -16,6 +16,7 @@ method = "ForwardEuler"
 
 # Graph showing the size of the relative error for five different values for dt
 dt = ["1", "2", "3", "4", "5"]
+delta_max = np.zeros(5)
 for value in dt:
     r = pa.cube()
     v = pa.cube()
@@ -32,13 +33,16 @@ for value in dt:
     t = np.array(t)
 
     r = r[:, :, 0]
-    print(r[:5,:])
-    print(t[:5])
+    #print(r[:5,:])
+    #print(t[:5])
 
 
     x_analytic, y_analytic, z_analytic, time = analytic_f(dt=1/(pow(10,float(value)-1)))
     r_analytic = np.transpose([x_analytic, y_analytic, z_analytic])
     relative_error = np.sqrt((r[:,0] - r_analytic[:,0])**2 + (r[:,1] - r_analytic[:,1])**2 + (r[:,2] - r_analytic[:,2])**2)/np.sqrt(r_analytic[:,0]**2 + r_analytic[:,1]**2 + r_analytic[:,2]**2)
+
+    delta_max[int(value)-1] = np.max(r_analytic - r)
+
 
 
     plt.plot(time, relative_error, label=f"dt = 10e-{value}")
@@ -55,9 +59,11 @@ else:
 plt.legend()
 plt.show()
 
-# Computation estimating the error convergence rate for forward Euler and RK4
-#delta_max = np.max(np.abs(?))
-#sum = 0
-#for k in range(2,6):
-#    sum += (np.log10(delta_max[k]/delta_max[k-1]))/(np.log10(dt[k]/dt[k-1])
-#    r_err = (1/4)*sum
+#Computation estimating the error convergence rate for forward Euler and RK4
+print(delta_max)
+sum = 0
+for k in range(1,5):
+    sum += (np.log10(delta_max[k]/delta_max[k-1]))/(np.log10(int(dt[k])/int(dt[k-1])))
+r_err = (1/4)*sum
+
+print(r_err)

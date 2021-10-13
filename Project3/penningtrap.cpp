@@ -46,11 +46,13 @@ int PenningTrap::particle_count_trap()
 vec PenningTrap::external_E_field(int i, double t){
   vec r = particles_[i].r_;
   vec E = vec(3);
+
   if (norm(r) <= d_){
     E(0) = r(0);
     E(1) = r(1);
     E(2) = -2*r(2);
-    //E  = E*V_d_ratio_ *(1+ f_*cos(omega_v_ *t )); // t må fikses
+    E  = E*V_d_ratio_ *(1+ f_*cos(omega_v_ *t )); // t må fikses
+    cout << "hei" << endl;
   }
   else{
     E(0) = 0;
@@ -69,8 +71,10 @@ vec PenningTrap::external_B_field(int i){
   vec B = vec(3);
    if (norm(r) <= d_){
     B(0) = B0_*v(1);
-  B(1) = -B0_*v(0) ;
-  B(2) = 0;
+    B(1) = -B0_*v(0) ;
+    B(2) = 0;
+    cout << "hei2" << endl;
+
    }
 
   else{
@@ -127,7 +131,7 @@ vec PenningTrap::total_force_particles(int i){
 // The total force on particle_i from both external fields and other particles
 vec PenningTrap::total_force(int i, double t){
   vec F_tot = vec(3);
-  F_tot = total_force_external(i, t)
+  F_tot = total_force_external(i, t);
   if (interaction){
     F_tot += total_force_particles(i);
   }
@@ -143,14 +147,15 @@ void PenningTrap::simulation(double dt, double total_time, bool interaction_in, 
     t = vec(n).fill(0); // empty vector for time wiht n timesteps
     v = cube(3,n_par,n).fill(0); //empty matrix with n timesteps in 3D
     r = cube(3,n_par,n).fill(0);
+    vec time = linspace(0, total_time, n);
     // Evolve the system one time step (dt) using Forward Euler and RK4
     for (int j=0; j<n-1; j++){
       for (int i=0; i< particles_.size(); i++){
         if (method == "RK4"){
-          evolve_RK4(dt, i, j);
+          evolve_RK4(dt, i, j, time(j));
         }
         else if (method == "ForwardEuler"){
-          evolve_forward_Euler(dt, i, j);
+          evolve_forward_Euler(dt, i, j, time(j));
         }
         else {
           cout << "No matching method for" + method << endl;
@@ -163,8 +168,7 @@ void PenningTrap::simulation(double dt, double total_time, bool interaction_in, 
       }
 
     }
-    //t_tot.save("t_tot.bin");
-    vec time = linspace(0, total_time, n);
+
     time.save("time_"+s+".bin");
     if (interaction){
       r.save("position_with_interaction_"+s+".bin");
