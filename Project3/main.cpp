@@ -20,7 +20,7 @@ int main(){
   double total_time = 500;
   double n = total_time/dt;
 
-  vector<Particle> particle_collection;
+  PenningTrap penningtrap = PenningTrap(particle_collection, 96.5, 0.965, 0.05e4, 1.0, 1.0); // Obs: kan ha feil v_ratio
 
   int k = 100; // Number of particles in the Penning Trap
 
