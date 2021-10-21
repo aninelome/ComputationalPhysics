@@ -33,6 +33,7 @@ for value in dt:
     t = np.array(t)
 
     r = r[:, :, 0]
+    print(r.shape)
     #print(r[:5,:])
     #print(t[:5])
 
@@ -40,10 +41,9 @@ for value in dt:
     x_analytic, y_analytic, z_analytic, time = analytic_f(dt=1/(pow(10,float(value)-1)))
     r_analytic = np.transpose([x_analytic, y_analytic, z_analytic])
     relative_error = np.sqrt((r[:,0] - r_analytic[:,0])**2 + (r[:,1] - r_analytic[:,1])**2 + (r[:,2] - r_analytic[:,2])**2)/np.sqrt(r_analytic[:,0]**2 + r_analytic[:,1]**2 + r_analytic[:,2]**2)
+    print(r_analytic.shape)
 
     delta_max[int(value)-1] = np.max(r_analytic - r)
-
-
 
     plt.plot(time, relative_error, label=f"dt = 10e-{value}")
 

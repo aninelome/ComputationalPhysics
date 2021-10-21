@@ -51,7 +51,7 @@ vec PenningTrap::external_E_field(int i, double t){
     E(0) = r(0);
     E(1) = r(1);
     E(2) = -2*r(2);
-    E  = E*V_d_ratio_ *(1+ f_*cos(omega_v_ *t )); // t må fikses
+    E  = E*V_d_ratio_;// *(1+ f_*cos(omega_v_ *t )); // t må fikses
   }
   else{
     E(0) = 0;
@@ -179,15 +179,16 @@ void PenningTrap::simulation(double dt, double total_time, bool interaction_in, 
 // Evolve the system one time step (dt) using Runge-Kutta 4th order
 void PenningTrap::evolve_RK4(double dt, int i, int j, double t){
   double m = particles_[i].m_;
-  vec K1v, K2v, K3v, K4v, K1r, K2r, K3r, K4r, v_old, r_old, a;
+  vec K1v, K2v, K3v, K4v, K1r, K2r, K3r, K4r, v_old, r_old;
 
-  a = vec(3);
-  //r.slice(j).col(i)
+  vec a = vec(3);
   // initial conditions
+
   r.slice(j).col(i) = particles_[i].r_;
   v.slice(j).col(i) = particles_[i].v_;
 
   vec F = total_force(i, t);
+
   r_old = r.slice(j).col(i);
   v_old = v.slice(j).col(i);
 
@@ -200,7 +201,7 @@ void PenningTrap::evolve_RK4(double dt, int i, int j, double t){
   particles_[i].r_ = r_old + K1r/2;
   particles_[i].v_ = v_old + K1v/2;
 
-  a = total_force(i,t)/m;
+  a = total_force(i,t+(0.5*dt))/m;
   K2v = dt*a;
   K2r = dt*particles_[i].v_;
 
@@ -209,14 +210,14 @@ void PenningTrap::evolve_RK4(double dt, int i, int j, double t){
   particles_[i].r_ = r_old + K2r/2;
   particles_[i].v_ = v_old + K2v/2;
 
-  a = total_force(i,t)/m;
+  a = total_force(i,t+(0.5*dt))/m;
   K3v = dt*a;
   K3r = dt*particles_[i].v_;
   //3.update for v and r
   particles_[i].r_ = r_old + K3r;
   particles_[i].v_ = v_old + K3v;
 
-  a = total_force(i,t)/m;
+  a = total_force(i,t+dt)/m;
   K4v = dt*a;
   K4r = dt*particles_[i].v_;
 
