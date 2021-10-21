@@ -8,7 +8,7 @@ fontsize = 10
 ticksize = 10
 
 
-
+# Function computing the position analytically
 def analytic_f(x0=2, y0=0, z0=2, v0=0.1, total_time=100, dt=0.01):
     q = 1
     m = 40.078
@@ -31,7 +31,8 @@ def analytic_f(x0=2, y0=0, z0=2, v0=0.1, total_time=100, dt=0.01):
 
 
 def main():
-
+    # Get the position, velocity and time vectors from penningtrap.cpp,
+    # both in the case with interactions and without
     r = pa.cube()
     v = pa.cube()
     t = pa.mat()
@@ -39,12 +40,8 @@ def main():
     r_without = pa.cube()
     v_without = pa.cube()
 
-
-
-
     r.load(f"position_with_interaction__.bin")
     v.load(f"velocity_with_interaction__.bin")
-
 
     r_without.load(f"position_without_interaction__.bin")
     v_without.load(f"velocity_without_interaction__.bin")
@@ -61,13 +58,13 @@ def main():
     r_list = [r, r_without]
     v_list = [v, v_without]
 
-    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    for i in range(len(r[0, 0, :])):
-        plt.plot(x[:,i], y[:,i], label=f"particle {i}")
+    #x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+    #v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+    #for i in range(len(r[0, 0, :])):
+    #    plt.plot(x[:,i], y[:,i], label=f"particle {i}")
 
-    plt.legend()
-    plt.show()
+    #plt.legend()
+    #plt.show()
 
 
     # Analytic
@@ -78,6 +75,8 @@ def main():
     #plt.yticks(size=ticksize)
     #plt.title("Analytic solution")
     #plt.show()
+
+
 
     # Single particle motion:
     #x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
@@ -91,32 +90,32 @@ def main():
 
     # Two particles:
     #1: Motion in the xy-plane with and without particle interactions
-    #count = 0
-    #for r, v in zip(r_list, v_list):
-    #    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    #    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #    if count == 0:
-    #        for i in range(2):
-    #            plt.plot(x[:,i], y[:,i], label=f"Particle {i}")
-    #        plt.title("Two particles with interaction")
-    #        plt.xlabel("x")
-    #        plt.ylabel("y")
-    #        plt.xticks(size=ticksize)
-    #        plt.yticks(size=ticksize)
-    #        plt.legend()
-    #        plt.show()
+    count = 0
+    for r, v in zip(r_list, v_list):
+        x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+        v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+        if count == 0:
+            for i in range(2):
+                plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles with interaction")
+            plt.xlabel("x")
+            plt.ylabel("y")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
 
-    #    if count == 1:
-    #        for i in range(2):
-    #            plt.plot(x[:,i], y[:,i], label=f"Particle {i}")
-    #        plt.title("Two particles without interaction")
-    #        plt.xlabel("x")
-    #        plt.ylabel("y")
-    #        plt.xticks(size=ticksize)
-    #        plt.yticks(size=ticksize)
-    #        plt.legend()
-    #        plt.show()
-    #    count += 1
+        if count == 1:
+            for i in range(2):
+                plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles without interaction")
+            plt.xlabel("x")
+            plt.ylabel("y")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
+        count += 1
 
 
     #2: Phase space plots with and without interactions

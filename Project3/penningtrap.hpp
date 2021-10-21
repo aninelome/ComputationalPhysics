@@ -18,8 +18,8 @@ private:
     vector<Particle> particles_;
     double B0_; // Magnetic field
     double V_d_ratio_; // Potential to geometric size ratio.
-    bool interaction;
-    double d_;
+    bool interaction; // Set to "true" if we run simulation with interactions, and "false" if we run it without
+    double d_; // characteristic distance
     double f_;
     double omega_v_;
 
