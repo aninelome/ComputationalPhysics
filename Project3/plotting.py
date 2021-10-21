@@ -90,32 +90,32 @@ def main():
 
     # Two particles:
     #1: Motion in the xy-plane with and without particle interactions
-    count = 0
-    for r, v in zip(r_list, v_list):
-        x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-        v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-        if count == 0:
-            for i in range(2):
-                plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles with interaction")
-            plt.xlabel("x")
-            plt.ylabel("y")
-            plt.xticks(size=ticksize)
-            plt.yticks(size=ticksize)
-            plt.legend()
-            plt.show()
+    #count = 0
+    #for r, v in zip(r_list, v_list):
+    #    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+    #    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+    #    if count == 0:
+    #        for i in range(2):
+    #            plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
+    #        plt.title("Two particles with interaction")
+    #        plt.xlabel("x")
+    #        plt.ylabel("y")
+    #        plt.xticks(size=ticksize)
+    #        plt.yticks(size=ticksize)
+    #        plt.legend()
+    #        plt.show()
 
-        if count == 1:
-            for i in range(2):
-                plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles without interaction")
-            plt.xlabel("x")
-            plt.ylabel("y")
-            plt.xticks(size=ticksize)
-            plt.yticks(size=ticksize)
-            plt.legend()
-            plt.show()
-        count += 1
+    #    if count == 1:
+    #        for i in range(2):
+    #            plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
+    #        plt.title("Two particles without interaction")
+    #        plt.xlabel("x")
+    #        plt.ylabel("y")
+    #        plt.xticks(size=ticksize)
+    #        plt.yticks(size=ticksize)
+    #        plt.legend()
+    #        plt.show()
+    #    count += 1
 
 
     #2: Phase space plots with and without interactions
@@ -154,6 +154,39 @@ def main():
     #ax.set_title(f'Two particles {interaction_label}')
     #ax.legend()
     #plt.show()
+
+    # Want to plot a graph that shows the fraction of particles that are still trapped after
+    # 500 microseconds as a function of the applied angular frequency omega_v
+    # Read number of remaining particles from file:
+    """
+    Function reading from file
+    """
+    def read_data(filename):
+        with open(filename, "r") as infile:
+            keys = infile.readline().split()
+            d = {key: [] for key in keys}
+            lines = infile.readlines()
+            for line in lines:
+                vals = line.split()
+                for i in range(len(keys)):
+                    d[keys[i]].append(float(vals[i]))
+        return d
+
+    # dictionary containing omega_v values and number of remaining perticles in the trap when amplitude = 0.1
+    f_list = [0.1, 0.4, 0.7]
+    for f in f_list:
+        d = read_data(f"remaining_particles_f:{f}.txt")
+        plt.plot(d[omega_v], d[N], label=f"f={f}")
+
+    plt.title("Remaining particles in trap for different amplitudes f"))
+    plt.xticks(size=ticksize)
+    plt.yticks(size=ticksize)
+    plt.xlabel(f"$\ omega_v [MHz]$")
+    plt.ylabel("N")
+    plt.legend()
+    plt.show()
+
+
 
 
 if __name__ == '__main__':

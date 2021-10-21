@@ -19,13 +19,11 @@ private:
     double B0_; // Magnetic field
     double V_d_ratio_; // Potential to geometric size ratio.
     bool interaction; // Set to "true" if we run simulation with interactions, and "false" if we run it without
-    double d_; // characteristic distance
-    double f_;
-    double omega_v_;
+    double d_; // Characteristic distance
+    double f_; // Amplitude
+    double omega_v_; // Angular frequency
 
 public:
-
-
 
     // Constructor that creates an empty penning trap
     PenningTrap() {}

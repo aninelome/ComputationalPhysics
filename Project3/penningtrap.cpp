@@ -36,9 +36,9 @@ void PenningTrap::info()
 // Counts how many particles are still inside the trap region
 int PenningTrap::particle_count_trap()
 {
-  static int n = particle_count();
-  n = n - 1;
-  return n;
+  static int N = particle_count();
+  N = N - 1;
+  return N;
 }
 
 
@@ -52,7 +52,6 @@ vec PenningTrap::external_E_field(int i, double t){
     E(1) = r(1);
     E(2) = -2*r(2);
     E  = E*V_d_ratio_ *(1+ f_*cos(omega_v_ *t )); // t må fikses
-    cout << "hei" << endl;
   }
   else{
     E(0) = 0;
@@ -73,8 +72,6 @@ vec PenningTrap::external_B_field(int i){
     B(0) = B0_*v(1);
     B(1) = -B0_*v(0) ;
     B(2) = 0;
-    cout << "hei2" << endl;
-
    }
 
   else{
