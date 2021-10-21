@@ -1,7 +1,7 @@
 #include "particle.hpp"
 #include "penningtrap.hpp"
 #include <ctime>
-
+#include <iomanip>
 #include <armadillo>
 #include <vector>
 
@@ -15,7 +15,7 @@ int main(){
   double f = 1.0;
   double omega_v = 1.0;
 
-  double dt = 0.001;
+  double dt = 0.01;
   int i = 0;
   double total_time = 500;
   double n = total_time/dt;
@@ -32,11 +32,11 @@ int main(){
   }
 
   if (k==2){ // Treats the case when we only want to look at two particles
-    vec r1 = {0.5*d,0,0.2*d};
+    vec r1 = {0.02*d,0,0.02*d};
     vec v1 = {0,0.1,0};
     Particle p1 = Particle(1, 40.078, r1, v1);
     particle_collection.push_back(p1);
-    vec r2 = {0.1*d,0,0.4*d};
+    vec r2 = {0.01*d,0,0.03*d};
     vec v2 = {0,0.2,0};
     Particle p2 = Particle(1, 40.078, r2, v2);
     particle_collection.push_back(p2);
@@ -45,7 +45,7 @@ int main(){
     arma_rng::set_seed(12345);
     for (int j=0; j<k; j++){
       vec r = vec(3).randn() * 0.1 * d;  // random initial position
-      vec v = vec(3).randn() * 0.01 * d;  // random initial velocity
+      vec v = vec(3).randn() * 0.1 * d;  // random initial velocity
       cout << r << endl;
       Particle p = Particle(1, 40.078, r, v);
       particle_collection.push_back(p);
@@ -53,7 +53,7 @@ int main(){
 }
 
   // Make penningtrap object with desired number of particles
-  //PenningTrap penningtrap = PenningTrap(particle_collection, B0, V_d_ratio, d, f, omega_v); // Obs: kan ha feil v_ratio
+  PenningTrap penningtrap = PenningTrap(particle_collection, B0, V_d_ratio, d, f, omega_v); // Obs: kan ha feil v_ratio
 
 
   // Run simulation with interactions, with RK4:
@@ -75,7 +75,7 @@ int main(){
   // Run sumulation without interactions, for 5 different dt-values, with Forward Euler:
   //penningtrap.run_sim(dt, total_time, false, "ForwardEuler", 5);
 
-  // Run simulation for different amplitudes and angular frequencies
+  //Run simulation for different amplitudes and angular frequencies
   double delta_omega = 0.02;
   int n_omega = int((2.5 - 0.2)/delta_omega);
   //vec omega_v_list = linspace(0.2, 2.5, n_omega); // list with omega_v values
@@ -88,12 +88,14 @@ int main(){
   clock_t start, end;
   start = clock();
   for (int i = 0; i < f_list.size(); i++){
+    cout << "f = "+to_string(f_list(i)) << endl; 
     double f = f_list(i);
     ofstream file;
     file.open("remaining_particles_f:" +to_string(f) +".txt", ios::out);
     file << setw(25) << "omega_v" << setw(25) << "N" << endl;
     for (int j = 0; j < omega_v_list.size(); j++){
       double omega_v = omega_v_list(j);
+      // KAN MAN OVERSRKIVE STATIC N HER????
       PenningTrap penningtrap = PenningTrap(particle_collection, B0, V_d_ratio, d, f, omega_v); // Obs: kan ha feil v_ratio
       penningtrap.run_sim(dt, total_time, false, "RK4", 0);
       // Write to file the number of particles remaining in the trap after
