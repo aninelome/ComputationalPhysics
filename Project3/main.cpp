@@ -19,9 +19,9 @@ void run_sim(double dt, double total_time, bool interaction, string method, int 
     arma::vec dt_values = vec(n);
     for (int i = 0; i < dt_values.size(); i++){
       PenningTrap penningtrap = PenningTrap(particle_collection, B0, V_d_ratio, d, f, omega_v);
-      dt_values(i) = 1 / (pow(10, i));
+      dt_values(i) = 1 / (pow(2, i+8)); // Here we set the dt-values, need to change it when we change from RK4 to F.E
       double dt_ = dt_values(i);
-      string s = "dt:10e-" + to_string(int(i+1));
+      string s = "dt:2**-" + to_string(int(i+8));
       penningtrap.simulation(dt_, total_time, interaction, method, s);
     }
   }
@@ -38,7 +38,7 @@ int main(){
 
   double dt = 0.01;
   int i = 0;
-  double total_time = 100;
+  double total_time = 100; // Change to 500 for Problem 10
   double n = total_time/dt;
 
   vector<Particle> particle_collection;
@@ -46,19 +46,19 @@ int main(){
   int k = 2; // Number of particles in the Penning Trap
 
   if (k == 1){ // Treats the case when we only want to look at one particle
-    vec r1 = {1.0,0,1.0};
-    vec v1 = {0,1.,0};
+    vec r1 = {1.0,0,1.0}; // Initial position
+    vec v1 = {0,1.,0};   // Initial velocity
     Particle p1 = Particle(1, 40.078, r1, v1);
     particle_collection.push_back(p1);
   }
 
   if (k==2){ // Treats the case when we only want to look at two particles
-    vec r1 = {1.,0,1.};
-    vec v1 = {0,1.,0};
+    vec r1 = {1.,0,1.};   // Initial position
+    vec v1 = {0,1.,0};   // Initial velocity
     Particle p1 = Particle(1, 40.078, r1, v1);
     particle_collection.push_back(p1);
-    vec r2 = {2,0,3};
-    vec v2 = {0,1.,0};
+    vec r2 = {2,0,3};    // Initial position
+    vec v2 = {0,1.,0};   // Initial velocity
     Particle p2 = Particle(1, 40.078, r2, v2);
     particle_collection.push_back(p2);
   }
@@ -71,10 +71,8 @@ int main(){
       particle_collection.push_back(p);
     }
 }
-
-  // Make penningtrap object with desired number of particles
-  //PenningTrap penningtrap = PenningTrap(particle_collection, B0, V_d_ratio, d, f, omega_v); // Obs: kan ha feil v_ratio
-
+  // IN THE FOLLOWING CODE WE NEED TO UNCOMMENT DIFFERENT PARTS BASED ON
+  // WHICH SIMULATION WE WANT
 
   // Run simulation with interactions, with RK4:
   //run_sim(dt, total_time, true, "RK4", 0, B0, V_d_ratio, d, f, omega_v, particle_collection);
@@ -83,27 +81,23 @@ int main(){
   //run_sim(dt, total_time, false, "RK4", 0, B0, V_d_ratio, d, f, omega_v, particle_collection);
 
   // Run simulation with interactions, with Forward Euler:
-  //run_sim(dt, total_time, true, "ForwardEuler", 0);
+  //run_sim(dt, total_time, true, "ForwardEuler", 0, B0, V_d_ratio, d, f, omega_v, particle_collection);
 
   // Run simulation without interactions, with Forward Euler:
-  //run_sim(dt, total_time, false, "ForwardEuler", 0);
+  //run_sim(dt, total_time, false, "ForwardEuler", 0, B0, V_d_ratio, d, f, omega_v, particle_collection);
 
 
   // Run sumulation without interactions, for 5 different dt-values, with RK4:
-  //run_sim(dt, total_time, false, "RK4", 5);
-
   //run_sim(dt, total_time, false, "RK4", 5, B0, V_d_ratio, d, f, omega_v, particle_collection);
 
 
   // Run sumulation without interactions, for 5 different dt-values, with Forward Euler:
-  run_sim(dt, total_time, false, "ForwardEuler", 5, B0, V_d_ratio, d, f, omega_v, particle_collection);
+  //run_sim(dt, total_time, false, "ForwardEuler", 5, B0, V_d_ratio, d, f, omega_v, particle_collection);
 
   // Run simulation for different amplitudes and angular frequencies
   //double delta_omega = 0.02;
   //int n_omega = int((2.5 - 0.2)/delta_omega);
   ////vec omega_v_list = linspace(0.2, 2.5, n_omega); // list with omega_v values
-  ////vec omega_v_list = linspace(0.2, 2.5, 5);
-  //vec omega_v_list = linspace(0.2, 0.3, 6);
 
   //vec f_list = vec(3); // list with differtn amplitudes
   //f_list(0) = 0.1;
@@ -134,6 +128,13 @@ int main(){
   //cout << time << endl;
 
 
+  ////Here we tested which dt-values is reasonable to use for estimating error
+  ////by simulating for diffent dt-values and
+  ////plotting (in plotting.py) in the xy-plane:
+  //double dt_test=1 / (pow(2,6));
+  //PenningTrap penningtrap = PenningTrap(particle_collection, B0, V_d_ratio, d, f, omega_v); // Obs: kan ha feil v_ratio
+  //penningtrap.simulation(dt_test, total_time, false, "RK4");
+  ////penningtrap.simulation(dt_test, total_time, false, "ForwardEuler");
 
   return 0;
 }

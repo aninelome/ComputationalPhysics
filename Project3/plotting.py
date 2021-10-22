@@ -9,7 +9,7 @@ ticksize = 10
 
 
 # Function computing the position analytically
-def analytic_f(x0=2, y0=0, z0=2, v0=0.1, total_time=100, dt=0.01):
+def analytic_f(x0=1, y0=0, z0=1, v0=1, total_time=100, dt=0.01):
     q = 1
     m = 40.078
     B0 = 96.5
@@ -19,11 +19,11 @@ def analytic_f(x0=2, y0=0, z0=2, v0=0.1, total_time=100, dt=0.01):
     t = np.linspace(0, total_time, n)
     omega_0 = q*B0/m
     omega_z = np.sqrt((2*q*V0)/(m*d*d))
-    omega_m = (omega_0-np.sqrt(omega_0*omega_0-2*omega_z*omega_z)/2)
-    omega_p = (omega_0+np.sqrt(omega_0*omega_0-2*omega_z*omega_z)/2)
-    A_p = (v0+omega_m*x0/(omega_m - omega_p))
-    A_m = -(x0*omega_p+v0/(omega_m - omega_p))
-    x = A_p*np.cos(omega_p*t) - A_m*np.cos(omega_m*t)
+    omega_m = (omega_0-np.sqrt(omega_0*omega_0-2*omega_z*omega_z))/2
+    omega_p = (omega_0+np.sqrt(omega_0*omega_0-2*omega_z*omega_z))/2
+    A_p = (v0+omega_m*x0)/(omega_m - omega_p)
+    A_m = -(x0*omega_p+v0)/(omega_m - omega_p)
+    x = A_p*np.cos(omega_p*t) + A_m*np.cos(omega_m*t)
     y = -(A_p*np.sin(omega_p*t) + A_m*np.sin(omega_m*t))
     z = z0*np.cos(omega_z*t)
     return x, y, z, t
@@ -98,7 +98,7 @@ def main():
 
     # Two particles:
 
-    #1: Motion in the xy-plane with and without particle interactions
+    #Motion in the xy-plane with and without particle interactions
     count = 0
     for r, v in zip(r_list, v_list):
         x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
@@ -127,7 +127,7 @@ def main():
         count += 1
 
 
-    #2: Phase space plots with and without interaction
+    #Phase space plots with and without interaction
     #x against v_x
     count = 0
     for r, v in zip(r_list, v_list):
@@ -214,7 +214,7 @@ def main():
 
 
 
-    #3: 3D plot of the trajectory of two particles with and without interactions
+    #3D plot of the trajectory of two particles with and without interactions
     count = 0
     for r, v in zip(r_list, v_list):
         x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
@@ -245,38 +245,67 @@ def main():
         count += 1
 
 
-     # Want to plot a graph that shows the fraction of particles that are still trapped after
-     # 500 microseconds as a function of the applied angular frequency omega_v
-     # Read number of remaining particles from file:
+    # Want to plot a graph that shows the fraction of particles that are still trapped after
+    # 500 microseconds as a function of the applied angular frequency omega_v
+    # Read number of remaining particles from file:
 
-    # """
-    # Function reading from file
-    # """
-    #def read_data(filename):
-    #    with open(filename, "r") as infile:
-    #        keys = infile.readline().split()
-    #        d = {key: [] for key in keys}
-    #        lines = infile.readlines()
-    #        for line in lines:
-    #            vals = line.split()
-    #            for i in range(len(keys)):
-    #                d[keys[i]].append(float(vals[i]))
-    #    return d
+    """
+    Function reading from file
+    """
+    def read_data(filename):
+        with open(filename, "r") as infile:
+            keys = infile.readline().split()
+            d = {key: [] for key in keys}
+            lines = infile.readlines()
+            for line in lines:
+                vals = line.split()
+                for i in range(len(keys)):
+                    d[keys[i]].append(float(vals[i]))
+        return d
 
-    ##dictionary containing omega_v values and number of remaining perticles in the trap when amplitude = 0.1
-    #f_list = ["0.100000", "0.400000", "0.700000"]
-    #for f in f_list:
-    #    d = read_data(f"remaining_particles_f:{f}.txt")
-    #    print(d)
-    #    plt.plot(d["omega_v"], d["N"], label=f"f={f}")
+    #dictionary containing omega_v values and number of remaining perticles in the trap when amplitude = 0.1
+    f_list = ["0.100000", "0.400000", "0.700000"]
+    for f in f_list:
+        d = read_data(f"remaining_particles_f:{f}.txt")
+        print(d)
+        plt.plot(d["omega_v"], d["N"], label=f"f={f}")
 
-    #plt.title("Remaining particles in trap for different amplitudes f")
-    #plt.xticks(size=ticksize)
-    #plt.yticks(size=ticksize)
-    #plt.xlabel(f"$\ omega_v [MHz]$")
-    #plt.ylabel("N")
-    #plt.legend()
-    #plt.show()
+    plt.title("Remaining particles in trap for different amplitudes f")
+    plt.xticks(size=ticksize)
+    plt.yticks(size=ticksize)
+    plt.xlabel(f"$\ omega_v [MHz]$")
+    plt.ylabel("N")
+    plt.legend()
+    plt.show()
+
+    #Testing: We tested which dt-values is reasonable to use for estimating error
+    #by simulating for diffent dt-values and plotting in the xy-plane:
+    count = 0
+    for r, v in zip(r_list, v_list):
+        x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+        v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+        if count == 0:
+            for i in range(len(r[0,0,:])):
+               plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles with interaction")
+            plt.xlabel(f"$x\ [\mu m]$")
+            plt.ylabel(f"$y\ [\mu m]$")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
+
+        if count == 1:
+            for i in range(len(r[0,0,:])):
+               plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles without interaction")
+            plt.xlabel(f"$x\ [\mu m]$")
+            plt.ylabel(f"$y\ [\mu m]$")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
+        count += 1
 
 
 

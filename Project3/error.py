@@ -7,69 +7,82 @@ import math
 
 
 fontsize = 10
-ticksize = 10
+ticksize = 12
 
-
+# In this program we need to do some changes when we switch from RK4 to ForwardEuler
+# First, choose method here by commenting out the one we do not want:
 #method = "RK4"
 method = "ForwardEuler"
 
 
 # Graph showing the size of the relative error for five different values for dt
-dt = ["1", "2", "3", "4", "5"]
+#dt_list = ["2", "3", "4", "5", "6"]    #Use this list for RK4
+dt_list = ["8", "9", "10", "11", "12"]  #Use this list for Forward Euler
 delta_max = np.zeros(5)
-for value in dt:
+for value in dt_list:
+    dt = 1/(pow(2,float(value)))
     r = pa.cube()
     v = pa.cube()
     t = pa.mat()
 
 
-    r.load(f"position_without_interaction_dt:10e-{value}.bin")
-    v.load(f"velocity_without_interaction_dt:10e-{value}.bin")
+    r.load(f"position_without_interaction_dt:2**-{value}.bin")
+    v.load(f"velocity_without_interaction_dt:2**-{value}.bin")
 
-    t.load(f"time_dt:10e-{value}.bin")
+    t.load(f"time_dt:2**-{value}.bin")
 
     r = np.array(r)
-    print("r shape = ", r.shape)
     v = np.array(v)
     t = np.array(t)
 
     r = r[:, :, 0]
-    #print(r.shape)
-    print(r[:5,:])
-    #print(t[:5])
 
-
-    x_analytic, y_analytic, z_analytic, time = analytic_f(dt=1/(pow(10,float(value)-1)))
+    x_analytic, y_analytic, z_analytic, time = analytic_f(dt=dt)
     r_analytic = np.transpose([x_analytic, y_analytic, z_analytic])
-    #print("r analytic shape = ", r_analytic.shape)
 
-    relative_error = np.sqrt((r[:,0] - r_analytic[:,0])**2 + (r[:,1] - r_analytic[:,1])**2 + (r[:,2] - r_analytic[:,2])**2)/np.sqrt(r_analytic[:,0]**2 + r_analytic[:,1]**2 + r_analytic[:,2]**2)
-    #print(r_analytic.shape)
     relative_error = np.linalg.norm(r - r_analytic, axis=1)/np.linalg.norm(r_analytic,axis=1)
 
-    delta_max[int(value)-1] = np.max(np.abs(r_analytic - r))
-    #delta_max[int(value)-1] = np.linalg.norm(r - r_analytic, axis=(0,1))/math.prod(r.shape)
+    # NB: Here we need to subtract the first number in dt_list, so it depends on the method we use (RK4/FE):
+    delta_max[int(value)-8] = np.max(np.abs(r_analytic - r))
 
-    plt.plot(time, relative_error, label=f"dt = 10e-{value}")
+    plt.plot(time, relative_error, label=f"h = {dt}")
 
-plt.xticks(size=ticksize)
-plt.yticks(size=ticksize)
+
 if method == "RK4":
-    plt.title(f"Relative error with different timesteps dt, with method: {method}", fontsize=12)
+    plt.title(f"Relative error with different timesteps h, with method: {method}", fontsize=12)
 elif method == "ForwardEuler":
-    plt.title(f"Relative error with different timesteps dt, with method: {method}", fontsize=12)
+    plt.title(f"Relative error with different timesteps h, with method: {method}", fontsize=12)
 else:
     print("No method given")
 
-plt.legend()
+plt.xticks(size=ticksize)
+plt.yticks(size=ticksize)
+plt.xlabel(f"$t\ [\mu s]$", fontsize=12)
+plt.ylabel("Relative error", fontsize=12)
+plt.legend(prop={'size': 12})
 plt.show()
 
 #Computation estimating the error convergence rate for forward Euler and RK4
-print(delta_max)
+dt_list = np.array([float(val) for val in dt_list])
+dt_val_list = np.array(1/(pow(2,dt_list)))
+
 sum = 0
 for k in range(1,5):
-    #sum += (np.log10(delta_max[k]/delta_max[k-1]))/(np.log10(float(dt[k])/float(dt[k-1])))
-    sum += (np.log10(delta_max[k]/delta_max[k-1]))/((float(dt[k])/float(dt[k-1])))
+    sum += (np.log10(delta_max[k]/delta_max[k-1]))/(np.log10(float(dt_val_list[k])/float(dt_val_list[k-1])))
 r_err = (1/4)*sum
 
-print(r_err)
+plt.plot(np.log10(dt_val_list), np.log10(delta_max))
+plt.plot(np.log10(dt_val_list), np.log10(delta_max), "ro")
+plt.title(f"{method}")
+plt.xticks(size=ticksize)
+plt.yticks(size=ticksize)
+plt.xlabel(f"$log(h)$", fontsize=12)
+plt.ylabel("$log(\Delta_{max})$", fontsize=12)
+plt.show()
+
+# Write to file the values we get for dt, delta_max and convergence rate
+outfile = open(f"error_{method}.txt", "w")
+outfile.write(f"{method}: dt_val_list: {dt_val_list}\n")
+outfile.write(f"{method}: delta_max: {delta_max}\n")
+outfile.write(f"{method}: convergence rate: {r_err}\n")
+outfile.close()

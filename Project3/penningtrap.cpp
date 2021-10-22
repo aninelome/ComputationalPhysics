@@ -4,7 +4,6 @@
 
 
 // Constructor
-//double B0=96.5, double V0=9.65e8, double d=1e4
 PenningTrap::PenningTrap(vector<Particle> particles, double B0, double V_d_ratio, double d, double f, double omega_v){
 
   particles_ = particles;
@@ -53,7 +52,8 @@ void PenningTrap::remaining_particles(){
       E(0) = r(0);
       E(1) = r(1);
       E(2) = -2*r(2);
-      E  = E*V_d_ratio_; // *(1+ f_*cos(omega_v_ *t ));
+      //When we want a time-dependent field, we multiply V_d_ratio_ with the factor (1+ f_*cos(omega_v_ *t))
+      E  = E*V_d_ratio_; //*(1+ f_*cos(omega_v_ *t ));
     }
     else{
       E(0) = 0;
@@ -95,7 +95,6 @@ void PenningTrap::remaining_particles(){
     dr_norm = pow(dr_norm, 3);
 
     vec C = k*(q_i/m_i)*q_j*dr/dr_norm;
-    //cout << pow(sqrt(pow((r_i(0)-r_j(0)),2) + pow((r_i(1)-r_j(1)),2) + pow((r_i(2)-r_j(2)),2)),3) << endl;
     return C;
   }
 
@@ -104,7 +103,7 @@ void PenningTrap::remaining_particles(){
     vec F_ext = vec(3);
     int q = particles_[i].q_;
     F_ext = q*(external_E_field(i, t) + external_B_field(i));
-    //cout << external_E_field(i) << endl;
+
     return F_ext;
   }
 
@@ -239,12 +238,10 @@ void PenningTrap::remaining_particles(){
     vec F = total_force(i, t);
 
     a = F/m;
-    //cout <<  a << endl;
+
     v.slice(j+1).col(i) = particles_[i].v_ + a*dt;
     r.slice(j+1).col(i) = particles_[i].r_ + v.slice(j).col(i)*dt;
-    //t(j+1) = t(j) + dt;
-    //particles_[i].r_ = r.slice(j+1).col(i);
-    //particles_[i].v_ = v.slice(j+1).col(i);
+
     particles_[i].r_ = r_old;
     particles_[i].v_ = v_old;
 
