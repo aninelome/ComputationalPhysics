@@ -1,7 +1,7 @@
 #include "particle.hpp"
 #include "penningtrap.hpp"
 #include <ctime>
-
+#include <iomanip>
 #include <armadillo>
 #include <vector>
 
@@ -22,7 +22,7 @@ int main(){
   double total_time = 100;
   double n = total_time/dt;
 
-  vector<Particle> particle_collection;
+  PenningTrap penningtrap = PenningTrap(particle_collection, 96.5, 0.965, 0.05e4, 1.0, 1.0); // Obs: kan ha feil v_ratio
 
   int k = 2; // Number of particles in the Penning Trap
 
@@ -48,6 +48,7 @@ int main(){
     for (int j=0; j<k; j++){
       vec r = vec(3).randn() * 0.1 * d;  // random initial position
       vec v = vec(3).randn() * 0.1 * d;  // random initial velocity
+      cout << r << endl;
       Particle p = Particle(1, 40.078, r, v);
       particle_collection.push_back(p);
     }

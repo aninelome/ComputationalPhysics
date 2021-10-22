@@ -9,8 +9,8 @@ fontsize = 10
 ticksize = 10
 
 
-#method = "RK4"
-method = "ForwardEuler"
+method = "RK4"
+#method = "ForwardEuler"
 
 
 

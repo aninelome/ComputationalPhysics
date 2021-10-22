@@ -51,7 +51,7 @@ vec PenningTrap::external_E_field(int i, double t){
     E(0) = r(0);
     E(1) = r(1);
     E(2) = -2*r(2);
-    E  = E*V_d_ratio_;// *(1+ f_*cos(omega_v_ *t )); // t må fikses
+    E  = E*V_d_ratio_ ;//*(1+ f_*cos(omega_v_ *t ));
   }
   else{
     E(0) = 0;
