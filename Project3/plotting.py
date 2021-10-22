@@ -32,458 +32,251 @@ def analytic_f(x0=2, y0=0, z0=2, v0=0.1, total_time=100, dt=0.01):
 
 
 def main():
-    ## Get the position, velocity and time vectors from penningtrap.cpp,
-    ## both in the case with interactions and without
-    #r = pa.cube()
-    #v = pa.cube()
-    #t = pa.mat()
+    # Get the position, velocity and time vectors from penningtrap.cpp,
+    # both in the case with interactions and without
+    r = pa.cube()
+    v = pa.cube()
+    t = pa.mat()
 
-    #r_without = pa.cube()
-    #v_without = pa.cube()
+    r_without = pa.cube()
+    v_without = pa.cube()
 
-    #r.load(f"position_with_interaction__.bin")
-    #v.load(f"velocity_with_interaction__.bin")
+    r.load(f"position_with_interaction__.bin")
+    v.load(f"velocity_with_interaction__.bin")
 
-    #r_without.load(f"position_without_interaction__.bin")
-    #v_without.load(f"velocity_without_interaction__.bin")
+    r_without.load(f"position_without_interaction__.bin")
+    v_without.load(f"velocity_without_interaction__.bin")
 
-    #t.load("time__.bin")
+    t.load("time__.bin")
 
-    #r = np.array(r)
-    #v = np.array(v)
-    #t = np.array(t)
+    r = np.array(r)
+    v = np.array(v)
+    t = np.array(t)
 
-    #r_without = np.array(r_without)
-    #v_without = np.array(v_without)
+    r_without = np.array(r_without)
+    v_without = np.array(v_without)
 
-    #r_list = [r, r_without]
-    #v_list = [v, v_without]
-
-<<<<<<< HEAD
-
-
-    ##Analytic
-    #x_analytic, y_analytic, z_analytic, t_ = analytic_f()
-    #plt.plot(x_analytic, y_analytic)
-    #plt.legend()
-    #plt.xticks(size=ticksize)
-    #plt.yticks(size=ticksize)
-    #plt.xlabel("x")
-    #plt.ylabel("y")
-    #plt.title("Analytic solution")
-    #plt.show()
-
-    #plt.plot(t_, z_analytic)
-    #plt.legend()
-    #plt.xticks(size=ticksize)
-    #plt.yticks(size=ticksize)
-    #plt.xlabel("t")
-    #plt.ylabel("z")
-    #plt.title("Analytic solution")
-    #plt.show()
-
-
-
-    ## Single particle motion:
-    #x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
-    #v_x1, v_y1, v_z1 = v[:, 0, 0], v[:, 1, 0], v[:, 2, 0]
-    #plt.plot(x1, y1)
-    #plt.show()
-    #plt.plot(t, z1, label="Single particle movement, z1 against t")
-    #plt.xticks(size=ticksize)
-    #plt.yticks(size=ticksize)
-    #plt.legend()
-    #plt.show()
-
-
-    ## Two particles:
-
-    ##1: Motion in the xy-plane with and without particle interactions
-    #count = 0
-    #for r, v in zip(r_list, v_list):
-    #    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    #    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #    if count == 0:
-    #        for i in range(2):
-    #           plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
-    #        plt.title("Two particles with interaction")
-    #        plt.xlabel("x")
-    #        plt.ylabel("y")
-    #        plt.xticks(size=ticksize)
-    #        plt.yticks(size=ticksize)
-    #        plt.legend()
-    #        plt.show()
-
-    #    if count == 1:
-    #        for i in range(2):
-    #           plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
-    #        plt.title("Two particles without interaction")
-    #        plt.xlabel("x")
-    #        plt.ylabel("y")
-    #        plt.xticks(size=ticksize)
-    #        plt.yticks(size=ticksize)
-    #        plt.legend()
-    #        plt.show()
-    #    count += 1
-
-
-    ##2: Phase space plots with and without interaction
-    ##x against v_x
-    #count = 0
-    #for r, v in zip(r_list, v_list):
-    #    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    #    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #    if count == 0:
-    #        for i in range(2):
-    #           plt.plot(x[:,i], v_x[:,i], label=f"Particle {i+1}")
-    #        plt.title("Two particles with interaction")
-    #        plt.xlabel("x")
-    #        plt.ylabel("v_x")
-    #        plt.xticks(size=ticksize)
-    #        plt.yticks(size=ticksize)
-    #        plt.legend()
-    #        plt.show()
-
-    #    if count == 1:
-    #        for i in range(2):
-    #           plt.plot(x[:,i], v_x[:,i], label=f"Particle {i+1}")
-    #        plt.title("Two particles without interaction")
-    #        plt.xlabel("x")
-    #        plt.ylabel("v_x")
-    #        plt.xticks(size=ticksize)
-    #        plt.yticks(size=ticksize)
-    #        plt.legend()
-    #        plt.show()
-    #    count += 1
-
-    ##y against v_y
-    #count = 0
-    #for r, v in zip(r_list, v_list):
-    #    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    #    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #    if count == 0:
-    #        for i in range(2):
-    #           plt.plot(y[:,i], v_y[:,i], label=f"Particle {i+1}")
-    #        plt.title("Two particles with interaction")
-    #        plt.xlabel("y")
-    #        plt.ylabel("v_y")
-    #        plt.xticks(size=ticksize)
-    #        plt.yticks(size=ticksize)
-    #        plt.legend()
-    #        plt.show()
-
-    #    if count == 1:
-    #        for i in range(2):
-    #           plt.plot(y[:,i], v_y[:,i], label=f"Particle {i+1}")
-    #        plt.title("Two particles without interaction")
-    #        plt.xlabel("y")
-    #        plt.ylabel("v_y")
-    #        plt.xticks(size=ticksize)
-    #        plt.yticks(size=ticksize)
-    #        plt.legend()
-    #        plt.show()
-    #    count += 1
-
-    ##z against v_z
-    #count = 0
-    #for r, v in zip(r_list, v_list):
-    #    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    #    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #    if count == 0:
-    #        for i in range(2):
-    #           plt.plot(z[:,i], v_z[:,i], label=f"Particle {i+1}")
-    #        plt.title("Two particles with interaction")
-    #        plt.xlabel("z")
-    #        plt.ylabel("v_z")
-    #        plt.xticks(size=ticksize)
-    #        plt.yticks(size=ticksize)
-    #        plt.legend()
-    #        plt.show()
-
-    #    if count == 1:
-    #        for i in range(2):
-    #           plt.plot(z[:,i], v_z[:,i], label=f"Particle {i+1}")
-    #        plt.title("Two particles without interaction")
-    #        plt.xlabel("z")
-    #        plt.ylabel("v_z")
-    #        plt.xticks(size=ticksize)
-    #        plt.yticks(size=ticksize)
-    #        plt.legend()
-    #        plt.show()
-    #    count += 1
-
-
-
-    ##3: 3D plot of the trajectory of two particles with and without interactions
-    #count = 0
-    #for r, v in zip(r_list, v_list):
-    #    x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    #    v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #    if count == 0:
-    #        fig = plt.figure()
-    #        ax = plt.axes(projection='3d')
-    #        ax.plot3D(x[:,0], y[:,0], z[:,0], "g", label="Particle 1")
-    #        ax.plot3D(x[:,1], y[:,1], z[:,1], "b", label="Particle 2")
-    #        ax.set_xlabel('x')
-    #        ax.set_ylabel('y')
-    #        ax.set_zlabel('z')
-    #        ax.set_title(f'Two particles with interactions')
-    #        ax.legend()
-    #        plt.show()
-
-    #    if count == 1:
-    #        fig = plt.figure()
-    #        ax = plt.axes(projection='3d')
-    #        ax.plot3D(x[:,0], y[:,0], z[:,0], "g", label="Particle 1")
-    #        ax.plot3D(x[:,1], y[:,1], z[:,1], "b", label="Particle 2")
-    #        ax.set_xlabel('x')
-    #        ax.set_ylabel('y')
-    #        ax.set_zlabel('z')
-    #        ax.set_title(f'Two particles without interactions')
-    #        ax.legend()
-    #        plt.show()
-    #    count += 1
-
-
-
-    # Want to plot a graph that shows the fraction of particles that are still trapped after
-    # 500 microseconds as a function of the applied angular frequency omega_v
-    # Read number of remaining particles from file:
-
-    """
-    Function reading from file
-    """
-=======
     r_list = [r, r_without]
     v_list = [v, v_without]
-    # Analytic
-    x, y = analytic_f()
-    plt.plot(x, y, label="analytical")
-    plt.plot(x[0], y[0], 'ro')
-    plt.plot(r[:, 0, 0], r[:, 1, 0], label="numerical")
+
+
+
+    #Analytic
+    x_analytic, y_analytic, z_analytic, t_ = analytic_f()
+    plt.plot(x_analytic, y_analytic)
     plt.legend()
+    plt.xlabel(f"$x\ [\mu m]$")
+    plt.ylabel(f"$y\ [\mu m]$")
+    plt.xticks(size=ticksize)
+    plt.yticks(size=ticksize)
+    plt.title("Analytic solution")
+    plt.show()
+
+    plt.plot(t_, z_analytic)
+    plt.legend()
+    plt.xlabel(f"$t\ [\mu s]$")
+    plt.ylabel(f"$z\ [\mu m]$")
+    plt.xticks(size=ticksize)
+    plt.yticks(size=ticksize)
+    plt.title("Analytic solution")
     plt.show()
 
 
 
-    # #Analytic
-    # x_analytic, y_analytic, z_analytic, t_ = analytic_f()
-    # plt.plot(x_analytic, y_analytic)
-    # plt.plot(t_, z_analytic)
-    # plt.legend()
-    # plt.xticks(size=ticksize)
-    # plt.yticks(size=ticksize)
-    # plt.title("Analytic solution")
-    # plt.show()
+    # Single particle motion:
+    x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
+    v_x1, v_y1, v_z1 = v[:, 0, 0], v[:, 1, 0], v[:, 2, 0]
+    plt.plot(t, z1)
+    plt.title("Single particle movement")
+    plt.xticks(size=ticksize)
+    plt.yticks(size=ticksize)
+    plt.xlabel(f"$t\ [\mu s]$")
+    plt.ylabel(f"$z\ [\mu m]$")
+    plt.legend()
+    plt.show()
+
+
+    # Two particles:
+
+    #1: Motion in the xy-plane with and without particle interactions
+    count = 0
+    for r, v in zip(r_list, v_list):
+        x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+        v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+        if count == 0:
+            for i in range(2):
+               plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles with interaction")
+            plt.xlabel(f"$x\ [\mu m]$")
+            plt.ylabel(f"$y\ [\mu m]$")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
+
+        if count == 1:
+            for i in range(2):
+               plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles without interaction")
+            plt.xlabel(f"$x\ [\mu m]$")
+            plt.ylabel(f"$y\ [\mu m]$")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
+        count += 1
+
+
+    #2: Phase space plots with and without interaction
+    #x against v_x
+    count = 0
+    for r, v in zip(r_list, v_list):
+        x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+        v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+        if count == 0:
+            for i in range(2):
+               plt.plot(x[:,i], v_x[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles with interaction")
+            plt.xlabel(f"$x\ [\mu m]$")
+            plt.ylabel("$v_x\ [m/s]$")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
+
+        if count == 1:
+            for i in range(2):
+               plt.plot(x[:,i], v_x[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles without interaction")
+            plt.xlabel(f"$x\ [\mu m]$")
+            plt.ylabel("$v_x\ [m/s]$")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
+        count += 1
+
+    #y against v_y
+    count = 0
+    for r, v in zip(r_list, v_list):
+        x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+        v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+        if count == 0:
+            for i in range(2):
+               plt.plot(y[:,i], v_y[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles with interaction")
+            plt.xlabel(f"$y\ [\mu m]$")
+            plt.ylabel("$v_y\ [m/s]$")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
+
+        if count == 1:
+            for i in range(2):
+               plt.plot(y[:,i], v_y[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles without interaction")
+            plt.xlabel(f"$y\ [\mu m]$")
+            plt.ylabel("$v_y\ [m/s]$")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
+        count += 1
+
+    #z against v_z
+    count = 0
+    for r, v in zip(r_list, v_list):
+        x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+        v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+        if count == 0:
+            for i in range(2):
+               plt.plot(z[:,i], v_z[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles with interaction")
+            plt.xlabel(f"$z\ [\mu m]$")
+            plt.ylabel("$v_z\ [m/s]$")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
+
+        if count == 1:
+            for i in range(2):
+               plt.plot(z[:,i], v_z[:,i], label=f"Particle {i+1}")
+            plt.title("Two particles without interaction")
+            plt.xlabel(f"$z\ [\mu m]$")
+            plt.ylabel("$v_z\ [m/s]$")
+            plt.xticks(size=ticksize)
+            plt.yticks(size=ticksize)
+            plt.legend()
+            plt.show()
+        count += 1
 
 
 
-    # # Single particle motion:
-    # x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
-    # v_x1, v_y1, v_z1 = v[:, 0, 0], v[:, 1, 0], v[:, 2, 0]
-    # plt.plot(t, z1, label="Single particle movement, z1 against t")
-    # plt.xticks(size=ticksize)
-    # plt.yticks(size=ticksize)
-    # plt.legend()
-    # plt.show()
+    #3: 3D plot of the trajectory of two particles with and without interactions
+    count = 0
+    for r, v in zip(r_list, v_list):
+        x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
+        v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
+        if count == 0:
+            fig = plt.figure()
+            ax = plt.axes(projection='3d')
+            ax.plot3D(x[:,0], y[:,0], z[:,0], "g", label="Particle 1")
+            ax.plot3D(x[:,1], y[:,1], z[:,1], "b", label="Particle 2")
+            ax.set_xlabel(f"$x\ [\mu m]$")
+            ax.set_ylabel(f"$y\ [\mu m]$")
+            ax.set_zlabel(f"$z\ [\mu m]$")
+            ax.set_title(f'Two particles with interactions')
+            ax.legend()
+            plt.show()
+
+        if count == 1:
+            fig = plt.figure()
+            ax = plt.axes(projection='3d')
+            ax.plot3D(x[:,0], y[:,0], z[:,0], "g", label="Particle 1")
+            ax.plot3D(x[:,1], y[:,1], z[:,1], "b", label="Particle 2")
+            ax.set_xlabel(f"$x\ [\mu m]$")
+            ax.set_ylabel(f"$y\ [\mu m]$")
+            ax.set_zlabel(f"$z\ [\mu m]$")
+            ax.set_title(f'Two particles without interactions')
+            ax.legend()
+            plt.show()
+        count += 1
 
 
-    # # Two particles:
-
-    # #1: Motion in the xy-plane with and without particle interactions
-    # count = 0
-    # for r, v in zip(r_list, v_list):
-    #     x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    #     v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #     if count == 0:
-    #         for i in range(2):
-    #            plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
-    #         plt.title("Two particles with interaction")
-    #         plt.xlabel("x")
-    #         plt.ylabel("y")
-    #         plt.xticks(size=ticksize)
-    #         plt.yticks(size=ticksize)
-    #         plt.legend()
-    #         plt.show()
-
-    #     if count == 1:
-    #         for i in range(2):
-    #            plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
-    #         plt.title("Two particles without interaction")
-    #         plt.xlabel("x")
-    #         plt.ylabel("y")
-    #         plt.xticks(size=ticksize)
-    #         plt.yticks(size=ticksize)
-    #         plt.legend()
-    #         plt.show()
-    #     count += 1
-
-
-    # #2: Phase space plots with and without interaction
-    # #x against v_x
-    # count = 0
-    # for r, v in zip(r_list, v_list):
-    #     x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    #     v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #     if count == 0:
-    #         for i in range(2):
-    #            plt.plot(x[:,i], v_x[:,i], label=f"Particle {i+1}")
-    #         plt.title("Two particles with interaction")
-    #         plt.xlabel("x")
-    #         plt.ylabel("v_x")
-    #         plt.xticks(size=ticksize)
-    #         plt.yticks(size=ticksize)
-    #         plt.legend()
-    #         plt.show()
-
-    #     if count == 1:
-    #         for i in range(2):
-    #            plt.plot(x[:,i], v_x[:,i], label=f"Particle {i+1}")
-    #         plt.title("Two particles without interaction")
-    #         plt.xlabel("x")
-    #         plt.ylabel("v_x")
-    #         plt.xticks(size=ticksize)
-    #         plt.yticks(size=ticksize)
-    #         plt.legend()
-    #         plt.show()
-    #     count += 1
-
-    # #y against v_y
-    # count = 0
-    # for r, v in zip(r_list, v_list):
-    #     x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    #     v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #     if count == 0:
-    #         for i in range(2):
-    #            plt.plot(y[:,i], v_y[:,i], label=f"Particle {i+1}")
-    #         plt.title("Two particles with interaction")
-    #         plt.xlabel("y")
-    #         plt.ylabel("v_y")
-    #         plt.xticks(size=ticksize)
-    #         plt.yticks(size=ticksize)
-    #         plt.legend()
-    #         plt.show()
-
-    #     if count == 1:
-    #         for i in range(2):
-    #            plt.plot(y[:,i], v_y[:,i], label=f"Particle {i+1}")
-    #         plt.title("Two particles without interaction")
-    #         plt.xlabel("y")
-    #         plt.ylabel("v_y")
-    #         plt.xticks(size=ticksize)
-    #         plt.yticks(size=ticksize)
-    #         plt.legend()
-    #         plt.show()
-    #     count += 1
-
-    # #z against v_z
-    # count = 0
-    # for r, v in zip(r_list, v_list):
-    #     x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    #     v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #     if count == 0:
-    #         for i in range(2):
-    #            plt.plot(z[:,i], v_z[:,i], label=f"Particle {i+1}")
-    #         plt.title("Two particles with interaction")
-    #         plt.xlabel("z")
-    #         plt.ylabel("v_z")
-    #         plt.xticks(size=ticksize)
-    #         plt.yticks(size=ticksize)
-    #         plt.legend()
-    #         plt.show()
-
-    #     if count == 1:
-    #         for i in range(2):
-    #            plt.plot(z[:,i], v_z[:,i], label=f"Particle {i+1}")
-    #         plt.title("Two particles without interaction")
-    #         plt.xlabel("z")
-    #         plt.ylabel("v_z")
-    #         plt.xticks(size=ticksize)
-    #         plt.yticks(size=ticksize)
-    #         plt.legend()
-    #         plt.show()
-    #     count += 1
-
-
-
-    # #3: 3D plot of the trajectory of two particles with and without interactions
-    # count = 0
-    # for r, v in zip(r_list, v_list):
-    #     x, y, z = r[:, 0, :], r[:, 1, :], r[:, 2, :]
-    #     v_x, v_y, v_z = v[:, 0, :], v[:, 1, :], v[:, 2, :]
-    #     if count == 0:
-    #         fig = plt.figure()
-    #         ax = plt.axes(projection='3d')
-    #         ax.plot3D(x[:,0], y[:,0], z[:,0], "g", label="Particle 1")
-    #         ax.plot3D(x[:,1], y[:,1], z[:,1], "b", label="Particle 2")
-    #         ax.set_xlabel('x')
-    #         ax.set_ylabel('y')
-    #         ax.set_zlabel('z')
-    #         ax.set_title(f'Two particles with interactions')
-    #         ax.legend()
-    #         plt.show()
-
-    #     if count == 1:
-    #         fig = plt.figure()
-    #         ax = plt.axes(projection='3d')
-    #         ax.plot3D(x[:,0], y[:,0], z[:,0], "g", label="Particle 1")
-    #         ax.plot3D(x[:,1], y[:,1], z[:,1], "b", label="Particle 2")
-    #         ax.set_xlabel('x')
-    #         ax.set_ylabel('y')
-    #         ax.set_zlabel('z')
-    #         ax.set_title(f'Two particles without interactions')
-    #         ax.legend()
-    #         plt.show()
-    #     count += 1
-
-
-
-
-    # #3: 3D plot of the trajectory of two particles with and without interactions
-    # fig = plt.figure()
-    # ax = plt.axes(projection='3d')
-    # ax.plot3D(x[:,0], y[:,0], z[:,0], "g", label=f"particle1, {interaction_label}")
-    # ax.plot3D(x[:,1], y[:,1], z[:,1], "b", label=f"particle2, {interaction_label}")
-    # ax.set_xlabel('x')
-    # ax.set_ylabel('y')
-    # ax.set_zlabel('z')
-    # ax.set_title(f'Two particles {interaction_label}')
-    # ax.legend()
-    # plt.show()
-
-    # # Want to plot a graph that shows the fraction of particles that are still trapped after
-    # # 500 microseconds as a function of the applied angular frequency omega_v
-    # # Read number of remaining particles from file:
+     # Want to plot a graph that shows the fraction of particles that are still trapped after
+     # 500 microseconds as a function of the applied angular frequency omega_v
+     # Read number of remaining particles from file:
 
     # """
     # Function reading from file
     # """
->>>>>>> 8c70942684b6a756f4f54d4dc4f4f70e91282c71
-    def read_data(filename):
-        with open(filename, "r") as infile:
-            keys = infile.readline().split()
-            d = {key: [] for key in keys}
-            lines = infile.readlines()
-            for line in lines:
-                vals = line.split()
-                for i in range(len(keys)):
-                    d[keys[i]].append(float(vals[i]))
-        return d
+    #def read_data(filename):
+    #    with open(filename, "r") as infile:
+    #        keys = infile.readline().split()
+    #        d = {key: [] for key in keys}
+    #        lines = infile.readlines()
+    #        for line in lines:
+    #            vals = line.split()
+    #            for i in range(len(keys)):
+    #                d[keys[i]].append(float(vals[i]))
+    #    return d
 
-    #dictionary containing omega_v values and number of remaining perticles in the trap when amplitude = 0.1
-    f_list = ["0.100000", "0.400000", "0.700000"]
-    for f in f_list:
-        d = read_data(f"remaining_particles_f:{f}.txt")
-        print(d)
-        plt.plot(d["omega_v"], d["N"], label=f"f={f}")
+    ##dictionary containing omega_v values and number of remaining perticles in the trap when amplitude = 0.1
+    #f_list = ["0.100000", "0.400000", "0.700000"]
+    #for f in f_list:
+    #    d = read_data(f"remaining_particles_f:{f}.txt")
+    #    print(d)
+    #    plt.plot(d["omega_v"], d["N"], label=f"f={f}")
 
-    plt.title("Remaining particles in trap for different amplitudes f")
-    plt.xticks(size=ticksize)
-    plt.yticks(size=ticksize)
-    plt.xlabel(f"$\ omega_v [MHz]$")
-    plt.ylabel("N")
-    plt.legend()
-    plt.show()
+    #plt.title("Remaining particles in trap for different amplitudes f")
+    #plt.xticks(size=ticksize)
+    #plt.yticks(size=ticksize)
+    #plt.xlabel(f"$\ omega_v [MHz]$")
+    #plt.ylabel("N")
+    #plt.legend()
+    #plt.show()
 
 
 

@@ -23,7 +23,9 @@ private:
     double f_; // Amplitude
     double omega_v_; // Angular frequency
 
+
 public:
+    int N_par; // Number of particles in the trap
 
     // Constructor that creates an empty penning trap
     PenningTrap() {}
@@ -40,8 +42,8 @@ public:
     // Prints number of particles in p_collection
     void info();
 
-    // Counts how many particles are still inside the trap region
-    int particle_count_trap();
+    //
+    void remaining_particles();
 
     // External electric field at point r=(x,y,z)
     vec external_E_field(int i, double t);
@@ -71,9 +73,6 @@ public:
     void simulation(double dt, double total_time, bool interaction=true, string method="RK4", string s="_");
     cube v,r;
     vec t;
-
-    // Runs the simulation with either with a single dt-value or for several
-    void run_sim(double dt, double total_time, bool interaction=true, string method="RK4", int n=0);
 
 };
 #endif

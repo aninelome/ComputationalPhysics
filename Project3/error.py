@@ -2,6 +2,7 @@ from plotting import analytic_f
 import matplotlib.pyplot as plt
 import pyarma as pa
 import numpy as np
+import math
 
 
 
@@ -9,9 +10,8 @@ fontsize = 10
 ticksize = 10
 
 
-method = "RK4"
-#method = "ForwardEuler"
-
+#method = "RK4"
+method = "ForwardEuler"
 
 
 # Graph showing the size of the relative error for five different values for dt
@@ -29,21 +29,26 @@ for value in dt:
     t.load(f"time_dt:10e-{value}.bin")
 
     r = np.array(r)
+    print("r shape = ", r.shape)
     v = np.array(v)
     t = np.array(t)
 
     r = r[:, :, 0]
-    print(r.shape)
-    #print(r[:5,:])
+    #print(r.shape)
+    print(r[:5,:])
     #print(t[:5])
 
 
     x_analytic, y_analytic, z_analytic, time = analytic_f(dt=1/(pow(10,float(value)-1)))
     r_analytic = np.transpose([x_analytic, y_analytic, z_analytic])
-    relative_error = np.sqrt((r[:,0] - r_analytic[:,0])**2 + (r[:,1] - r_analytic[:,1])**2 + (r[:,2] - r_analytic[:,2])**2)/np.sqrt(r_analytic[:,0]**2 + r_analytic[:,1]**2 + r_analytic[:,2]**2)
-    print(r_analytic.shape)
+    #print("r analytic shape = ", r_analytic.shape)
 
-    delta_max[int(value)-1] = np.max(r_analytic - r)
+    relative_error = np.sqrt((r[:,0] - r_analytic[:,0])**2 + (r[:,1] - r_analytic[:,1])**2 + (r[:,2] - r_analytic[:,2])**2)/np.sqrt(r_analytic[:,0]**2 + r_analytic[:,1]**2 + r_analytic[:,2]**2)
+    #print(r_analytic.shape)
+    relative_error = np.linalg.norm(r - r_analytic, axis=1)/np.linalg.norm(r_analytic,axis=1)
+
+    delta_max[int(value)-1] = np.max(np.abs(r_analytic - r))
+    #delta_max[int(value)-1] = np.linalg.norm(r - r_analytic, axis=(0,1))/math.prod(r.shape)
 
     plt.plot(time, relative_error, label=f"dt = 10e-{value}")
 
@@ -63,7 +68,8 @@ plt.show()
 print(delta_max)
 sum = 0
 for k in range(1,5):
-    sum += (np.log10(delta_max[k]/delta_max[k-1]))/(np.log10(int(dt[k])/int(dt[k-1])))
+    #sum += (np.log10(delta_max[k]/delta_max[k-1]))/(np.log10(float(dt[k])/float(dt[k-1])))
+    sum += (np.log10(delta_max[k]/delta_max[k-1]))/((float(dt[k])/float(dt[k-1])))
 r_err = (1/4)*sum
 
 print(r_err)
