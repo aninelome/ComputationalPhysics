@@ -26,6 +26,8 @@ In plotting.py we read the files created in main.cpp and plot the motion of one 
 
 In error.py we find the error between our numerical simulation and the analytical solution, and plot this. 
 
+testing.cpp contains early tests that were made to ensure that the code worked while it was being written, and may not compile correctly anymore. 
+
 
 
 How to build and run the main-functions
