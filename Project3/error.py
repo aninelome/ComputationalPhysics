@@ -6,8 +6,9 @@ import math
 
 
 
-fontsize = 10
-ticksize = 12
+fontsize = 13
+ticksize = 13
+legendsize = 13
 
 # In this program we need to do some changes when we switch from RK4 to ForwardEuler
 # First, choose method here by commenting out the one we do not want:
@@ -49,23 +50,24 @@ for value in dt_list:
 
 
 if method == "RK4":
-    plt.title(f"Relative error with different timesteps h, with method: {method}", fontsize=12)
+    plt.title(f"Relative error with different h, {method}", fontsize=fontsize)
 elif method == "ForwardEuler":
-    plt.title(f"Relative error with different timesteps h, with method: {method}", fontsize=12)
+    plt.title(f"Relative error with different h, {method}", fontsize=fontsize)
 else:
     print("No method given")
 
 plt.xticks(size=ticksize)
 plt.yticks(size=ticksize)
-plt.xlabel(f"$t\ [\mu s]$", fontsize=12)
-plt.ylabel("Relative error", fontsize=12)
-plt.legend(prop={'size': 12})
+plt.xlabel(f"$t\ [\mu s]$", fontsize=fontsize)
+plt.ylabel("Relative error", fontsize=fontsize)
+plt.legend(prop={'size': legendsize})
 plt.show()
 
-#Computation estimating the error convergence rate for forward Euler and RK4
+
 dt_list = np.array([float(val) for val in dt_list])
 dt_val_list = np.array(1/(pow(2,dt_list)))
 
+#Computation estimating the error convergence rate for forward Euler and RK4
 sum = 0
 for k in range(1,5):
     sum += (np.log10(delta_max[k]/delta_max[k-1]))/(np.log10(float(dt_val_list[k])/float(dt_val_list[k-1])))
@@ -73,11 +75,11 @@ r_err = (1/4)*sum
 
 plt.plot(np.log10(dt_val_list), np.log10(delta_max))
 plt.plot(np.log10(dt_val_list), np.log10(delta_max), "ro")
-plt.title(f"{method}")
+plt.title(f"{method}", fontsize=fontsize)
 plt.xticks(size=ticksize)
 plt.yticks(size=ticksize)
-plt.xlabel(f"$log(h)$", fontsize=12)
-plt.ylabel("$log(\Delta_{max})$", fontsize=12)
+plt.xlabel(f"$log(h)$", fontsize=fontsize)
+plt.ylabel("$log(\Delta_{max})$", fontsize=fontsize)
 plt.show()
 
 # Write to file the values we get for dt, delta_max and convergence rate

@@ -53,7 +53,7 @@ void PenningTrap::remaining_particles(){
       E(1) = r(1);
       E(2) = -2*r(2);
       //When we want a time-dependent field, we multiply V_d_ratio_ with the factor (1+ f_*cos(omega_v_ *t))
-      E  = E*V_d_ratio_; //*(1+ f_*cos(omega_v_ *t ));
+      E  = E*V_d_ratio_*(1+ f_*cos(omega_v_ *t ));
     }
     else{
       E(0) = 0;
