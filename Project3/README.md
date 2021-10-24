@@ -1,4 +1,4 @@
-Implementation of the Jacobi rotation method
+The Penning Trap
 --------------------------------------------
 
 In this project we make two classes, one for creating a particle and one for creating the Penning trap. We evaluate the movement of one or more particles inside the Penning trap, using both the Euler-method and the RK4-method in order to find the movement of the particle(s) when they are affected by an electric field and a magnetic field (and the force from the other particle(s)). 
