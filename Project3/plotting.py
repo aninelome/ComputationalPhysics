@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import pyarma as pa
 from mpl_toolkits import mplot3d
 
-fontsize = 10
-ticksize = 10
+fontsize = 13
+ticksize = 13
 
 
 # Function computing the position analytically
@@ -64,35 +64,35 @@ def main():
     #Analytic
     x_analytic, y_analytic, z_analytic, t_ = analytic_f()
     plt.plot(x_analytic, y_analytic)
-    plt.legend()
-    plt.xlabel(f"$x\ [\mu m]$")
-    plt.ylabel(f"$y\ [\mu m]$")
+    plt.legend(prop={'size': 13})
+    plt.xlabel(f"$x\ [\mu m]$",fontsize=fontsize)
+    plt.ylabel(f"$y\ [\mu m]$",fontsize=fontsize)
     plt.xticks(size=ticksize)
     plt.yticks(size=ticksize)
-    plt.title("Analytic solution")
+    plt.title("Analytic solution",fontsize=fontsize)
     plt.show()
 
     plt.plot(t_, z_analytic)
-    plt.legend()
-    plt.xlabel(f"$t\ [\mu s]$")
-    plt.ylabel(f"$z\ [\mu m]$")
+    plt.legend(prop={'size': 13})
+    plt.xlabel(f"$t\ [\mu s]$",fontsize=fontsize)
+    plt.ylabel(f"$z\ [\mu m]$",fontsize=fontsize)
     plt.xticks(size=ticksize)
     plt.yticks(size=ticksize)
-    plt.title("Analytic solution")
+    plt.title("Analytic solution",fontsize=fontsize)
     plt.show()
 
 
 
     # Single particle motion:
-    x1, y1, z1 = r[:, 0, 0], r[:, 1, 0], r[:, 2, 0]
+    x1, y1, z1 = r_without[:, 0, 0], r_without[:, 1, 0], r_without[:, 2, 0]
     v_x1, v_y1, v_z1 = v[:, 0, 0], v[:, 1, 0], v[:, 2, 0]
     plt.plot(t, z1)
-    plt.title("Single particle movement")
+    plt.title("Single particle movement",fontsize=fontsize)
     plt.xticks(size=ticksize)
     plt.yticks(size=ticksize)
-    plt.xlabel(f"$t\ [\mu s]$")
-    plt.ylabel(f"$z\ [\mu m]$")
-    plt.legend()
+    plt.xlabel(f"$t\ [\mu s]$",fontsize=fontsize)
+    plt.ylabel(f"$z\ [\mu m]$",fontsize=fontsize)
+    plt.legend(prop={'size': 13})
     plt.show()
 
 
@@ -106,23 +106,23 @@ def main():
         if count == 0:
             for i in range(2):
                plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles with interaction")
-            plt.xlabel(f"$x\ [\mu m]$")
-            plt.ylabel(f"$y\ [\mu m]$")
+            plt.title("Two particles with interaction",fontsize=fontsize)
+            plt.xlabel(f"$x\ [\mu m]$",fontsize=fontsize)
+            plt.ylabel(f"$y\ [\mu m]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend()
+            plt.legend(prop={'size': 13})
             plt.show()
 
         if count == 1:
             for i in range(2):
                plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles without interaction")
-            plt.xlabel(f"$x\ [\mu m]$")
-            plt.ylabel(f"$y\ [\mu m]$")
+            plt.title("Two particles without interaction",fontsize=fontsize)
+            plt.xlabel(f"$x\ [\mu m]$",fontsize=fontsize)
+            plt.ylabel(f"$y\ [\mu m]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend()
+            plt.legend(prop={'size': 13})
             plt.show()
         count += 1
 
@@ -136,23 +136,23 @@ def main():
         if count == 0:
             for i in range(2):
                plt.plot(x[:,i], v_x[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles with interaction")
-            plt.xlabel(f"$x\ [\mu m]$")
-            plt.ylabel("$v_x\ [m/s]$")
+            plt.title("Two particles with interaction",fontsize=fontsize)
+            plt.xlabel(f"$x\ [\mu m]$",fontsize=fontsize)
+            plt.ylabel("$v_x\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend()
+            plt.legend(prop={'size': 13})
             plt.show()
 
         if count == 1:
             for i in range(2):
                plt.plot(x[:,i], v_x[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles without interaction")
-            plt.xlabel(f"$x\ [\mu m]$")
-            plt.ylabel("$v_x\ [m/s]$")
+            plt.title("Two particles without interaction",fontsize=fontsize)
+            plt.xlabel(f"$x\ [\mu m]$",fontsize=fontsize)
+            plt.ylabel("$v_x\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend()
+            plt.legend(prop={'size': 13})
             plt.show()
         count += 1
 
@@ -164,23 +164,23 @@ def main():
         if count == 0:
             for i in range(2):
                plt.plot(y[:,i], v_y[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles with interaction")
-            plt.xlabel(f"$y\ [\mu m]$")
-            plt.ylabel("$v_y\ [m/s]$")
+            plt.title("Two particles with interaction",fontsize=fontsize)
+            plt.xlabel(f"$y\ [\mu m]$",fontsize=fontsize)
+            plt.ylabel("$v_y\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend()
+            plt.legend(prop={'size': 13})
             plt.show()
 
         if count == 1:
             for i in range(2):
                plt.plot(y[:,i], v_y[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles without interaction")
-            plt.xlabel(f"$y\ [\mu m]$")
-            plt.ylabel("$v_y\ [m/s]$")
+            plt.title("Two particles without interaction",fontsize=fontsize)
+            plt.xlabel(f"$y\ [\mu m]$",fontsize=fontsize)
+            plt.ylabel("$v_y\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend()
+            plt.legend(prop={'size': 13})
             plt.show()
         count += 1
 
@@ -192,23 +192,23 @@ def main():
         if count == 0:
             for i in range(2):
                plt.plot(z[:,i], v_z[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles with interaction")
-            plt.xlabel(f"$z\ [\mu m]$")
-            plt.ylabel("$v_z\ [m/s]$")
+            plt.title("Two particles with interaction",fontsize=fontsize)
+            plt.xlabel(f"$z\ [\mu m]$",fontsize=fontsize)
+            plt.ylabel("$v_z\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend()
+            plt.legend(prop={'size': 13})
             plt.show()
 
         if count == 1:
             for i in range(2):
                plt.plot(z[:,i], v_z[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles without interaction")
-            plt.xlabel(f"$z\ [\mu m]$")
-            plt.ylabel("$v_z\ [m/s]$")
+            plt.title("Two particles without interaction",fontsize=fontsize)
+            plt.xlabel(f"$z\ [\mu m]$",fontsize=fontsize)
+            plt.ylabel("$v_z\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend()
+            plt.legend(prop={'size': 13})
             plt.show()
         count += 1
 
@@ -224,11 +224,11 @@ def main():
             ax = plt.axes(projection='3d')
             ax.plot3D(x[:,0], y[:,0], z[:,0], "g", label="Particle 1")
             ax.plot3D(x[:,1], y[:,1], z[:,1], "b", label="Particle 2")
-            ax.set_xlabel(f"$x\ [\mu m]$")
-            ax.set_ylabel(f"$y\ [\mu m]$")
-            ax.set_zlabel(f"$z\ [\mu m]$")
-            ax.set_title(f'Two particles with interactions')
-            ax.legend()
+            ax.set_xlabel(f"$x\ [\mu m]$",fontsize=fontsize)
+            ax.set_ylabel(f"$y\ [\mu m]$",fontsize=fontsize)
+            ax.set_zlabel(f"$z\ [\mu m]$",fontsize=fontsize)
+            ax.set_title(f'Two particles with interactions',fontsize=fontsize)
+            ax.legend(prop={'size': 13})
             plt.show()
 
         if count == 1:
@@ -236,11 +236,11 @@ def main():
             ax = plt.axes(projection='3d')
             ax.plot3D(x[:,0], y[:,0], z[:,0], "g", label="Particle 1")
             ax.plot3D(x[:,1], y[:,1], z[:,1], "b", label="Particle 2")
-            ax.set_xlabel(f"$x\ [\mu m]$")
-            ax.set_ylabel(f"$y\ [\mu m]$")
-            ax.set_zlabel(f"$z\ [\mu m]$")
-            ax.set_title(f'Two particles without interactions')
-            ax.legend()
+            ax.set_xlabel(f"$x\ [\mu m]$",fontsize=fontsize)
+            ax.set_ylabel(f"$y\ [\mu m]$",fontsize=fontsize)
+            ax.set_zlabel(f"$z\ [\mu m]$",fontsize=fontsize)
+            ax.set_title(f'Two particles without interactions',fontsize=fontsize)
+            ax.legend(prop={'size': 13})
             plt.show()
         count += 1
 
@@ -270,12 +270,12 @@ def main():
         print(d)
         plt.plot(d["omega_v"], d["N"], label=f"f={f}")
 
-    plt.title("Remaining particles in trap for different amplitudes f")
+    plt.title("Remaining particles in trap for different amplitudes f",fontsize=fontsize)
     plt.xticks(size=ticksize)
     plt.yticks(size=ticksize)
-    plt.xlabel(f"$\ omega_v [MHz]$")
-    plt.ylabel("N")
-    plt.legend()
+    plt.xlabel(f"$\ omega_v [MHz]$",fontsize=fontsize)
+    plt.ylabel("N",fontsize=fontsize)
+    plt.legend(prop={'size': 13})
     plt.show()
 
     #Testing: We tested which dt-values is reasonable to use for estimating error
@@ -287,23 +287,23 @@ def main():
         if count == 0:
             for i in range(len(r[0,0,:])):
                plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles with interaction")
-            plt.xlabel(f"$x\ [\mu m]$")
-            plt.ylabel(f"$y\ [\mu m]$")
+            plt.title("Two particles with interaction",fontsize=fontsize)
+            plt.xlabel(f"$x\ [\mu m]$",fontsize=fontsize)
+            plt.ylabel(f"$y\ [\mu m]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend()
+            plt.legend(prop={'size': 13})
             plt.show()
 
         if count == 1:
             for i in range(len(r[0,0,:])):
                plt.plot(x[:,i], y[:,i], label=f"Particle {i+1}")
-            plt.title("Two particles without interaction")
-            plt.xlabel(f"$x\ [\mu m]$")
-            plt.ylabel(f"$y\ [\mu m]$")
+            plt.title("Two particles without interaction",fontsize=fontsize)
+            plt.xlabel(f"$x\ [\mu m]$",fontsize=fontsize)
+            plt.ylabel(f"$y\ [\mu m]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend()
+            plt.legend(prop={'size': 13})
             plt.show()
         count += 1
 
