@@ -33,9 +33,9 @@ testing.cpp contains early tests that were made to ensure that the code worked w
 How to build and run the main-functions
 ----------------------------------------
 Windows: 
-Build in: g++ particle.cpp penningtrap.cpp main.cpp -o main.exe -larmadillo -Ofast
+Build in: g++ src/particle.cpp src/penningtrap.cpp main.cpp -I include -o main.exe -larmadillo -Ofast
 Run: ./main.exe
 
 Mac: 
-Build in: c++ particle.cpp penningtrap.cpp main.cpp -o main.exe -larmadillo -Ofast -std=c++11
+Build in: g++ src/particle.cpp src/penningtrap.cpp main.cpp -I include -o main.exe -larmadillo -Ofast -std=c++11
 Run: ./main.exe
