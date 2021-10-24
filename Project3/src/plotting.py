@@ -6,6 +6,7 @@ from mpl_toolkits import mplot3d
 
 fontsize = 13
 ticksize = 13
+legendsize = 13
 
 
 # Function computing the position analytically
@@ -73,7 +74,7 @@ def main():
     plt.show()
 
     plt.plot(t_, z_analytic)
-    plt.legend(prop={'size': 13})
+    plt.legend(prop={'size': legendsize})
     plt.xlabel(f"$t\ [\mu s]$",fontsize=fontsize)
     plt.ylabel(f"$z\ [\mu m]$",fontsize=fontsize)
     plt.xticks(size=ticksize)
@@ -92,7 +93,7 @@ def main():
     plt.yticks(size=ticksize)
     plt.xlabel(f"$t\ [\mu s]$",fontsize=fontsize)
     plt.ylabel(f"$z\ [\mu m]$",fontsize=fontsize)
-    plt.legend(prop={'size': 13})
+    plt.legend(prop={'size': legendsize})
     plt.show()
 
 
@@ -111,7 +112,7 @@ def main():
             plt.ylabel(f"$y\ [\mu m]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend(prop={'size': 13})
+            plt.legend(prop={'size': legendsize})
             plt.show()
 
         if count == 1:
@@ -122,7 +123,7 @@ def main():
             plt.ylabel(f"$y\ [\mu m]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend(prop={'size': 13})
+            plt.legend(prop={'size': legendsize})
             plt.show()
         count += 1
 
@@ -141,7 +142,7 @@ def main():
             plt.ylabel("$v_x\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend(prop={'size': 13})
+            plt.legend(prop={'size': legendsize})
             plt.show()
 
         if count == 1:
@@ -152,7 +153,7 @@ def main():
             plt.ylabel("$v_x\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend(prop={'size': 13})
+            plt.legend(prop={'size': legendsize})
             plt.show()
         count += 1
 
@@ -169,7 +170,7 @@ def main():
             plt.ylabel("$v_y\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend(prop={'size': 13})
+            plt.legend(prop={'size': legendsize})
             plt.show()
 
         if count == 1:
@@ -180,7 +181,7 @@ def main():
             plt.ylabel("$v_y\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend(prop={'size': 13})
+            plt.legend(prop={'size': legendsize})
             plt.show()
         count += 1
 
@@ -197,7 +198,7 @@ def main():
             plt.ylabel("$v_z\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend(prop={'size': 13})
+            plt.legend(prop={'size': legendsize})
             plt.show()
 
         if count == 1:
@@ -208,7 +209,7 @@ def main():
             plt.ylabel("$v_z\ [m/s]$",fontsize=fontsize)
             plt.xticks(size=ticksize)
             plt.yticks(size=ticksize)
-            plt.legend(prop={'size': 13})
+            plt.legend(prop={'size': legendsize})
             plt.show()
         count += 1
 
@@ -228,7 +229,7 @@ def main():
             ax.set_ylabel(f"$y\ [\mu m]$",fontsize=fontsize)
             ax.set_zlabel(f"$z\ [\mu m]$",fontsize=fontsize)
             ax.set_title(f'Two particles with interactions',fontsize=fontsize)
-            ax.legend(prop={'size': 13})
+            ax.legend(prop={'size': legendsize})
             plt.show()
 
         if count == 1:
@@ -240,18 +241,15 @@ def main():
             ax.set_ylabel(f"$y\ [\mu m]$",fontsize=fontsize)
             ax.set_zlabel(f"$z\ [\mu m]$",fontsize=fontsize)
             ax.set_title(f'Two particles without interactions',fontsize=fontsize)
-            ax.legend(prop={'size': 13})
+            ax.legend(prop={'size': legendsize})
             plt.show()
         count += 1
 
 
     # Want to plot a graph that shows the fraction of particles that are still trapped after
     # 500 microseconds as a function of the applied angular frequency omega_v
-    # Read number of remaining particles from file:
 
-    """
-    Function reading from file
-    """
+    # Function reading from file:
     def read_data(filename):
         with open(filename, "r") as infile:
             keys = infile.readline().split()
@@ -263,20 +261,49 @@ def main():
                     d[keys[i]].append(float(vals[i]))
         return d
 
-    #dictionary containing omega_v values and number of remaining perticles in the trap when amplitude = 0.1
+
+    # Different amplitudes f
     f_list = ["0.100000", "0.400000", "0.700000"]
+
+    # Plotting with omega_v-values from 0.2 to 2.5
     for f in f_list:
-        d = read_data(f"remaining_particles_f:{f}.txt")
-        print(d)
+        d = read_data(f"remaining_particles_f:{f}_0_from_omega:0.200000.txt") # dictionary containing omega_v values and number of remaining perticles in the trap
         plt.plot(d["omega_v"], d["N"], label=f"f={f}")
 
-    plt.title("Remaining particles in trap for different amplitudes f",fontsize=fontsize)
+    plt.title("Remaining particles without interactions",fontsize=fontsize)
     plt.xticks(size=ticksize)
     plt.yticks(size=ticksize)
     plt.xlabel(f"$\ omega_v [MHz]$",fontsize=fontsize)
     plt.ylabel("N",fontsize=fontsize)
-    plt.legend(prop={'size': 13})
+    plt.legend(prop={'size': legendsize})
     plt.show()
+
+    # Plotting with omega_v-values from 0.3 to 0.7 without interactions
+    for f in f_list:
+        d = read_data(f"remaining_particles_f:{f}_0_from_omega:0.300000.txt") # dictionary containing omega_v values and number of remaining perticles in the trap
+        plt.plot(d["omega_v"], d["N"], label=f"f={f}")
+
+    plt.title("Remaining particles without interactions",fontsize=fontsize)
+    plt.xticks(size=ticksize)
+    plt.yticks(size=ticksize)
+    plt.xlabel(f"$\ omega_v [MHz]$",fontsize=fontsize)
+    plt.ylabel("N",fontsize=fontsize)
+    plt.legend(prop={'size': legendsize})
+    plt.show()
+
+    # Plotting with omega_v-values from 0.3 to 0.7 with interactions
+    for f in f_list:
+        d = read_data(f"remaining_particles_f:{f}_1_from_omega:0.300000.txt") # dictionary containing omega_v values and number of remaining perticles in the trap
+        plt.plot(d["omega_v"], d["N"], label=f"f={f}")
+
+    plt.title("Remaining particles with interactions",fontsize=fontsize)
+    plt.xticks(size=ticksize)
+    plt.yticks(size=ticksize)
+    plt.xlabel(f"$\ omega_v [MHz]$",fontsize=fontsize)
+    plt.ylabel("N",fontsize=fontsize)
+    plt.legend(prop={'size': legendsize})
+    plt.show()
+
 
     #Testing: We tested which dt-values is reasonable to use for estimating error
     #by simulating for diffent dt-values and plotting in the xy-plane:
