@@ -18,7 +18,7 @@ The file particle.cpp contains a class that stores the charge, mass, position an
 
 The file penningtrap.cpp contains a class that stores the particle information given in particle.cpp, in addition to the magnetic field strength, the applied potential, and the characteristic dimension. This class evaluates the electric and magnetic fields, as well as the force due to the interaction among particles, and simulates the movement of one or more particles using either an RK4-method or Euler-method. 
 
-There are two header files, particle.hpp and functoins.hpp. In these, all the functions are decleared and the needed libraries are imported. 
+There are two header files, particle.hpp and functions.hpp. In these, all the functions are decleared and the needed libraries are imported. 
 
 In main.cpp we run the simulation and write the results to a file. 
 
@@ -32,6 +32,10 @@ testing.cpp contains early tests that were made to ensure that the code worked w
 
 How to build and run the main-functions
 ----------------------------------------
+Windows: 
+Build in: g++ particle.cpp penningtrap.cpp main.cpp -o main.exe -larmadillo -Ofast
+Run: ./main.exe
 
-Build in: g++ particle.cpp particle.hpp penningtrap.cpp penningtrap.hpp main.cpp -o main.exe -larmadillo
+Mac: 
+Build in: c++ particle.cpp penningtrap.cpp main.cpp -o main.exe -larmadillo -Ofast -std=c++11
 Run: ./main.exe
