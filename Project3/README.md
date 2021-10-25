@@ -18,13 +18,13 @@ The file particle.cpp contains a class that stores the charge, mass, position an
 
 The file penningtrap.cpp contains a class that stores the particle information given in particle.cpp, in addition to the magnetic field strength, the applied potential, and the characteristic dimension. This class evaluates the electric and magnetic fields, as well as the force due to the interaction among particles, and simulates the movement of one or more particles using either an RK4-method or Euler-method. 
 
-There are two header files, particle.hpp and functions.hpp. In these, all the functions are decleared and the needed libraries are imported. 
+There are two header files, particle.hpp and penningtrap.hpp. In these, all the functions are decleared and the needed libraries are imported. 
 
-In main.cpp we run the simulation and write the results to a file. 
+In main.cpp we have two functions for running the simulation, run_sim and run_sim_resonance, and different calls to this functions based on what we want to simulate. The results are either written to .txt files or .bin files, such that they can be used for plotting. 
 
 In plotting.py we read the files created in main.cpp and plot the motion of one or more particles. 
 
-In error.py we find the error between our numerical simulation and the analytical solution, and plot this. 
+In error.py we find the error between our numerical simulation and the analytical solution, and plot this. We also compute the error convergence rate in this file. 
 
 testing.cpp contains early tests that were made to ensure that the code worked while it was being written, and may not compile correctly anymore. 
 
