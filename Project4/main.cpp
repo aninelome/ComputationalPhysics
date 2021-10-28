@@ -35,14 +35,6 @@ int main() {
     A.fill(1); 
     A(0,1) = -1; 
     cout << A << endl; 
-    mat B(L+1,L+1); 
-
-
-    //B.fill(A)
-    B(slice(0,L-1,1++), slice(0,L-1,1++)) = A;
-    //B(0:-1,0:-1) = A; 
-
-    B(L,L) = 0; 
 
     E(B, 2, L); 
     cout << E << endl; 
