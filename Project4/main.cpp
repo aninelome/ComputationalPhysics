@@ -1,115 +1,73 @@
 #include <iostream>
 #include <armadillo>
 #include <valarray>
+#include "functions.cpp"
+//#include <cstdlib>
 
 using namespace arma;
 using namespace std;
 
-int index(int i, int L) {
-  // Function dealing with periodic boundary conditions
-    return (i+L)%L;
-}
-
-int spinmat(mat A, int L, int i, int j) {
-  // Helpfunction to avoid manually calling index() every time we want a element (i,j)
-  // from matrix A
-    return A(index(i, L), index(j, L));
-}
-
-double energy(mat A, int L) {
-    // Func. that returns the total energy of the system
-    double sum = 0;
-    for (int j=0; j<=L-1; j++) {
-        for (int i=0; i<=L-1; i++) {
-            sum += spinmat(A,L,i,j)*spinmat(A,L,i+1,j) + spinmat(A,L,i,j)*spinmat(A,L,i,j+1);
-        }
-    }
-    return -sum;
-}
-
-int delta_E(mat A, int L, int i, int j){
-  // Func. computing difference in energy after flipping a single spin at index (i,j)
-  return 2*(spinmat(A, L, i, j)*spinmat(A, L, i-1, j)
-          + spinmat(A, L, i, j)*spinmat(A, L, i+1, j)
-          + spinmat(A, L, i, j)*spinmat(A, L, i, j-1)
-          + spinmat(A, L, i, j)*spinmat(A, L, i, j+1));
-}
-
-double boltzmann_factor(mat A, int L, int i, int j, double beta){
-  // Func. returning the Boltzmann factor at a given index (i,j)
-  vec boltzmann_list  = vec(17);
-  boltzmann_list = {exp(8*beta), 0, 0, 0, exp(4*beta), 0, 0, 0, 1, 0, 0, 0, exp(-4*beta), 0, 0, 0, exp(-8*beta)};
-  return boltzmann_list(delta_E(A, L, i, j) + 8);
-}
-
-void test(int L, int i, int j){
-  // Func. testing some functions in our code
-  double tol = 1e-8;
-  int beta = 1;
-  mat A(L, L); // Make test-matrix
-  A.fill(1); // Let all elements have state s_i = +1
-
-  // Test energy()
-  double E = energy(A, L);
-  double E_analytic = -8;
-  if (abs(E-E_analytic) > tol){
-    cout << "Computed energy, E, not equal to analytic value"<< endl;
-  }
-
-  // Test delta_E()
-  int dE = delta_E(A, L, i, j);
-  double dE_analytic = 8;
-  if (abs(dE-dE_analytic) > tol){
-    cout << "Computed delta energy, dE, not equal to analytic value"<< endl;
-  }
-
-  // Test boltzmann_factor()
-  double Boltzmann_factor = boltzmann_factor(A, L, i, j, beta);
-  double Boltzmann_factor_analytic = exp(-8*beta);
-  if (abs(Boltzmann_factor-Boltzmann_factor_analytic) > tol){
-    cout << "Computed Boltzmann factor not equal to analytic value"<< endl;
-  }
-}
-
-/*
-double M(int L) {
-    // Func. that returns the total magnetization of the system
-    // given by the sum over all the spins in the system
-    double sum = 0;
-    int N = L**2;
-    for (i=0; i=N-1; i++) {
-        sum += A(i);
-    }
-    return sum
-}
-
-
-double eps(mat A, double J, int L, int N) {
-    // function that returns energy per spin
-    eps = E(mat A, double J, int L)/N;
-    mean_eps = integrate eps(s) * probability(s) ds;
-    return eps, mean_eps;
-}
-
-double m(int L) {
-    // function that returns magnetization per spin
-    m = M(L)/N;
-    mean_m = ;
-    return m, mean_m;
-}
-
-double Cv() {
-    return 1/(kB*T**2) * ()
-}
-*/
-
-
 int main() {
 
     int L = 2;
-    double Tk_b = 1.0;
-    double beta = 1/Tk_b;
-    test(L, 0, 1);
+    int N = L*L;
+    int N_cycle = 10000;
+    double Tk_B = 1.0;
+    double beta = 1/Tk_B;
+    int E_sys;
+    int E_tot;
+    int E_tot2;
+    int M_sys = 0;
+    int M_tot;
+    int M_tot2;
+    int M_abs;
+    int T = 1; //[J/k_B]
 
+    mat S = make_matrix(L, &M_sys);
+    S.print("S = ");
+
+    E_sys = energy(S,L);
+    E_tot = E_sys;
+    E_tot2 = E_sys*E_sys;
+    M_tot = M_sys;
+    M_tot2 = M_sys*M_sys;
+    cout << "E0 = " << E_sys << endl;
+    cout << "M0 = " << M_sys << endl;
+
+    for (int i = 0; i < N_cycle; i++){
+      for (int j = 0; j < N; j++){
+        mat S_new = metropolis(S, L, beta, &E_sys, &M_sys);
+      E_tot += E_sys;
+      M_tot += M_sys;
+
+      E_tot2 += E_sys*E_sys;
+      M_tot2 += M_sys*M_sys;
+
+      M_abs = fabs(M_tot);
+
+      }
+    }
+
+    //mat S_new = metropolis(S, L, beta, &E_sys, &M_sys);
+    //S_new.print("S_new = ");
+    //cout << "E_sys = " << E_sys << endl;
+    //cout << "M_sys = " << M_sys << endl;
+    //cout << "E_tot = " << E_tot << endl;
+    //cout << "M_tot = " << M_tot << endl;
+    //cout << "M_abs = " << M_abs << endl;
+    cout << "-----------------------------------\n" << endl;
+    double eps_exp = E_tot/(N_cycle*N);
+    double m_exp = M_tot/(N_cycle*N);
+    double eps2_exp = E_tot2/(N_cycle*N);
+    double m2_exp = M_tot2/(N_cycle*N);
+    double m_abs_exp = M_abs/(N_cycle*N);
+    double C_v = beta/T*(eps2_exp - (eps_exp*eps_exp));
+    double X = beta*(m2_exp - (m_exp*m_exp));
+
+    cout << "C_v = " << C_v << endl;
+    cout << "X = " << X << endl;
+    cout << "m_abs_exp = " <<  m_abs_exp << endl;
+    cout << "eps_exp = " << eps_exp << endl;
     return 0;
+
 }
