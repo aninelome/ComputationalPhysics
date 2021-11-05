@@ -6,18 +6,33 @@
 using namespace arma;
 using namespace std;
 
-int index(int i, int L);
+class IsingModel
+{
+private:
+    beta_;
+    T_; 
+    L_;
+    N_cycles_;    
 
-int spinmat(mat S, int L, int i, int j);
+public:
+    int index(int i, int L);
 
-double energy(mat S, int L);
+    int spinmat(mat S, int L, int i, int j);
 
-int delta_E(mat S, int L, int i, int j);
+    double energy(mat S, int L);
 
-double boltzmann_factor(mat S, int L, int i, int j, double beta);
+    int delta_E(mat S, int L, int i, int j);
 
-mat make_matrix(int L);
+    double boltzmann_factor(mat S, int L, int i, int j, double beta);
 
-mat S = mat(L,L);
+    mat make_matrix(int L);
 
-mat metropolis(mat S, int L, double beta);
+    mat S = mat(L,L);
+
+    mat metropolis(mat S, int L, double beta);
+    
+    vec boltzmann_list;
+    
+}
+
+
