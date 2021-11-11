@@ -197,13 +197,7 @@ void IsingModel::burnintime(int N_burn)
         for (int j = 0; j < N; j++)
         {
             metropolis_burnin(S);
-<<<<<<< HEAD
         }  
     }
 }
 
-=======
-        }
-    }
-}
->>>>>>> 71fbdce94e6fde7ea1338aaa95dfdf0448b265f7
