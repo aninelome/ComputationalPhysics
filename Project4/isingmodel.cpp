@@ -144,7 +144,7 @@ void IsingModel::mcmc(vec* eps_vec, vec* m_abs_vec)
     cout << "M_abs = " << M_abs << endl;
     cout << "-----------------------------------\n"
          << endl;
-         
+
     double eps_exp = E_tot / (N_cycles_ * N);
     double m_exp = M_tot / (N_cycles_ * N);
     double eps2_exp = (E_tot2 / N_cycles_) *1/(N * N);
@@ -163,24 +163,26 @@ void IsingModel::mcmc(vec* eps_vec, vec* m_abs_vec)
 
 void IsingModel::metropolis_burnin(imat &S)
 {
-   
+
     int i_index = randi(distr_param(0,L_-1));
     int j_index = randi(distr_param(0,L_-1));
 
     int dE = delta_E(S, i_index, j_index);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 71fbdce94e6fde7ea1338aaa95dfdf0448b265f7
 
     if (dE <= 0)
     {
         S(i_index, j_index) *= -1;
-      
+
     }
     else if(randu() <= boltzmann_factor(boltzmann_list, dE)){
         S(i_index, j_index) *= -1;
 
     }
 }
-
 
 void IsingModel::burnintime(int N_burn)
 {
@@ -195,7 +197,13 @@ void IsingModel::burnintime(int N_burn)
         for (int j = 0; j < N; j++)
         {
             metropolis_burnin(S);
+<<<<<<< HEAD
         }  
     }
 }
 
+=======
+        }
+    }
+}
+>>>>>>> 71fbdce94e6fde7ea1338aaa95dfdf0448b265f7
