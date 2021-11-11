@@ -1,10 +1,10 @@
 all: compile link run
 
 compile:
-	c++ -c main.cpp functions.cpp -std=c++11
+	c++ -c main.cpp isingmodel.cpp -std=c++11
 
 link:
-	c++ main.o -o main.exe -larmadillo
+	c++ -o main.exe main.o isingmodel.o -larmadillo
 
 run:
 	./main.exe
