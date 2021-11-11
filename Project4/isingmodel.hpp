@@ -36,6 +36,8 @@ public:
 
     void mcmc(vec* eps_vec, vec* m_abs_vec);
 
+    void metropolis_burnin(imat &S);
+
     void burnintime(int N_burn);
     
     vec boltzmann_list;

@@ -134,6 +134,7 @@ void IsingModel::mcmc(vec* eps_vec, vec* m_abs_vec)
         (*m_abs_vec)(i+1) = M_abs/(N*(i+1));
         //lagre eps i en vec her? for å hente ut data til å generere fire plott, oppgave 5
     }
+
     cout << "-----------------------------------\n"
          << endl;
     cout << "E_sys = " << E_sys << endl;
@@ -143,10 +144,11 @@ void IsingModel::mcmc(vec* eps_vec, vec* m_abs_vec)
     cout << "M_abs = " << M_abs << endl;
     cout << "-----------------------------------\n"
          << endl;
+         
     double eps_exp = E_tot / (N_cycles_ * N);
     double m_exp = M_tot / (N_cycles_ * N);
-    double eps2_exp = E_tot2 / (N_cycles_ * N * N);
-    double m2_exp = M_tot2 / (N_cycles_ * N * N);
+    double eps2_exp = (E_tot2 / N_cycles_) *1/(N * N);
+    double m2_exp = (M_tot2 / N_cycles_) *1/(N * N);
     double m_abs_exp = M_abs / (N_cycles_ * N);
     double C_v = beta_ / T_ * (E_tot2/N_cycles_ - (E_tot/N_cycles_ * E_tot/N_cycles_));
     double X = beta_ * (M_tot2/N_cycles_ - (M_abs/N_cycles_ * M_abs/N_cycles_));
@@ -159,62 +161,43 @@ void IsingModel::mcmc(vec* eps_vec, vec* m_abs_vec)
     cout << "m2_exp = " << m2_exp << endl;
 }
 
-// void IsingModel::metropolis(imat &S, double *E_sys, double *M_sys)
-// {
+void IsingModel::metropolis_burnin(imat &S)
+{
    
-//     int i_index = randi(distr_param(0,L_-1));
-//     int j_index = randi(distr_param(0,L_-1));
+    int i_index = randi(distr_param(0,L_-1));
+    int j_index = randi(distr_param(0,L_-1));
 
-//     //S_prime(i_index, j_index) = -S_prime(i_index, j_index);
-//     //int dE = delta_E(S_prime, L, i_index, j_index);
-//     int dE = delta_E(S, i_index, j_index);
-//     //cout << "dE = " << dE << endl;
+    int dE = delta_E(S, i_index, j_index);
 
-//     if (dE <= 0)
-//     {
-//         S(i_index, j_index) *= -1;
+
+    if (dE <= 0)
+    {
+        S(i_index, j_index) *= -1;
       
-//     }
-//     else if(randu() <= boltzmann_factor(boltzmann_list, dE)){
-//         S(i_index, j_index) *= -1;
+    }
+    else if(randu() <= boltzmann_factor(boltzmann_list, dE)){
+        S(i_index, j_index) *= -1;
 
-//     }
-// }
+    }
+}
 
 
-// void IsingModel::burnintime(int N_burn)
-// {
-//     double E_sys;
-//     double E_tot;
-//     double E_tot2;
-//     double M_sys = 0;
-//     double M_tot;
-//     double M_tot2;
-//     double M_abs;
-//     int N = L_ * L_;
-//     boltzmann_list = {exp(8 * beta_), 0, 0, 0, exp(4 * beta_), 0, 0, 0, 1, 0, 0, 0, exp(-4 * beta_), 0, 0, 0, exp(-8 * beta_)};
+void IsingModel::burnintime(int N_burn)
+{
+    double M_sys = 0;
+    int N = L_ * L_;
+    boltzmann_list = {exp(8 * beta_), 0, 0, 0, exp(4 * beta_), 0, 0, 0, 1, 0, 0, 0, exp(-4 * beta_), 0, 0, 0, exp(-8 * beta_)};
 
-//     imat S = make_matrix(&M_sys);
+    imat S = make_matrix(&M_sys);
 
-//     E_sys = 1.*energy(S);
-//     E_tot = E_sys;
-//     E_tot2 = E_sys * E_sys;
-//     M_tot = M_sys;
-//     M_tot2 = M_sys * M_sys;
-//     (*eps_vec)(0) = E_tot/N_cycles_;
-//     (*m_abs_vec)(0) = M_abs/N_cycles_;
-
-//     cout << "E0 = " << E_sys << endl;
-//     cout << "M0 = " << M_sys << endl;
-
-//     for (int i = 0; i < N_cycles_; i++)
-//     {
-//         for (int j = 0; j < N; j++)
-//         {
-//             metropolis(S, &E_sys, &M_sys);
-//         }  
-//     }
-// }
+    for (int i = 0; i < N_cycles_; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
+            metropolis_burnin(S);
+        }  
+    }
+}
 
 /*
 double M(int L) {
