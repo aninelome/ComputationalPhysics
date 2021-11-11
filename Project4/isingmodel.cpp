@@ -8,6 +8,9 @@ IsingModel::IsingModel(double beta, double T, int L, int N_cycles)
     T_ = T;
     L_ = L;
     N_cycles_ = N_cycles;
+    M_sys = 0;
+    S = make_matrix(&M_sys);
+    //S = imat(L,L).fill(1);
 }
 
 // Function dealing with periodic boundary conditions
@@ -92,27 +95,29 @@ void IsingModel::metropolis(imat &S, double *E_sys, double *M_sys)
     }
 }
 
-void IsingModel::mcmc(vec* eps_vec, vec* m_abs_vec)
+void IsingModel::mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec)
 {
     double E_sys;
     double E_tot;
     double E_tot2;
-    double M_sys = 0;
+
     double M_tot;
     double M_tot2;
     double M_abs;
     int N = L_ * L_;
     boltzmann_list = {exp(8 * beta_), 0, 0, 0, exp(4 * beta_), 0, 0, 0, 1, 0, 0, 0, exp(-4 * beta_), 0, 0, 0, exp(-8 * beta_)};
 
-    imat S = make_matrix(&M_sys);
+
 
     E_sys = 1.*energy(S);
     E_tot = E_sys;
     E_tot2 = E_sys * E_sys;
     M_tot = M_sys;
     M_tot2 = M_sys * M_sys;
-    (*eps_vec)(0) = E_tot/N_cycles_;
-    (*m_abs_vec)(0) = M_abs/N_cycles_;
+    (*eps_vec)(0) = (E_tot/N_cycles_)* 1/N;
+    (*m_abs_vec)(0) = (M_abs/N_cycles_)* 1/N;
+    (*eps_vec)(0) = E_sys/N;
+
 
     cout << "E0 = " << E_sys << endl;
     cout << "M0 = " << M_sys << endl;
@@ -130,8 +135,10 @@ void IsingModel::mcmc(vec* eps_vec, vec* m_abs_vec)
         E_tot2 += E_sys * E_sys;
         M_tot2 += M_sys * M_sys;
 
-        (*eps_vec)(i+1) = E_tot/(N*(i+1));
+        (*eps_exp_vec)(i+1) = E_tot/(N*(i+1));
         (*m_abs_vec)(i+1) = M_abs/(N*(i+1));
+        (*eps_vec)(i+1) = E_sys/(N);
+
         //lagre eps i en vec her? for å hente ut data til å generere fire plott, oppgave 5
     }
 
