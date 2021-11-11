@@ -40,7 +40,7 @@ double IsingModel::energy(imat S)
 // Func. computing difference in energy after flipping a single spin at index (i,j)
 int IsingModel::delta_E(imat &S, int i, int j)
 {
-    
+
     return 2 * spinmat(S, i, j)*(spinmat(S, i - 1, j) +  spinmat(S, i + 1, j) + spinmat(S, i, j - 1) + spinmat(S, i, j + 1));
 }
 
@@ -67,7 +67,7 @@ imat IsingModel::make_matrix(double *M_sys)
 // Function implementing the Metropolis algorithm
 void IsingModel::metropolis(imat &S, double *E_sys, double *M_sys)
 {
-   
+
     int i_index = randi(distr_param(0,L_-1));
     int j_index = randi(distr_param(0,L_-1));
 
@@ -161,6 +161,7 @@ void IsingModel::mcmc(vec* eps_vec, vec* m_abs_vec)
     cout << "m2_exp = " << m2_exp << endl;
 }
 
+<<<<<<< HEAD
 void IsingModel::metropolis_burnin(imat &S)
 {
    
@@ -168,8 +169,16 @@ void IsingModel::metropolis_burnin(imat &S)
     int j_index = randi(distr_param(0,L_-1));
 
     int dE = delta_E(S, i_index, j_index);
+=======
+// void IsingModel::metropolis(imat &S, double *E_sys, double *M_sys)
+// {
+
+//     int i_index = randi(distr_param(0,L_-1));
+//     int j_index = randi(distr_param(0,L_-1));
+>>>>>>> edbbf509d801c423effc89733adedb014a1dab13
 
 
+<<<<<<< HEAD
     if (dE <= 0)
     {
         S(i_index, j_index) *= -1;
@@ -198,6 +207,53 @@ void IsingModel::burnintime(int N_burn)
         }  
     }
 }
+=======
+//     if (dE <= 0)
+//     {
+//         S(i_index, j_index) *= -1;
+
+//     }
+//     else if(randu() <= boltzmann_factor(boltzmann_list, dE)){
+//         S(i_index, j_index) *= -1;
+
+//     }
+// }
+
+
+// void IsingModel::burnintime(int N_burn)
+// {
+//     double E_sys;
+//     double E_tot;
+//     double E_tot2;
+//     double M_sys = 0;
+//     double M_tot;
+//     double M_tot2;
+//     double M_abs;
+//     int N = L_ * L_;
+//     boltzmann_list = {exp(8 * beta_), 0, 0, 0, exp(4 * beta_), 0, 0, 0, 1, 0, 0, 0, exp(-4 * beta_), 0, 0, 0, exp(-8 * beta_)};
+
+//     imat S = make_matrix(&M_sys);
+
+//     E_sys = 1.*energy(S);
+//     E_tot = E_sys;
+//     E_tot2 = E_sys * E_sys;
+//     M_tot = M_sys;
+//     M_tot2 = M_sys * M_sys;
+//     (*eps_vec)(0) = E_tot/N_cycles_;
+//     (*m_abs_vec)(0) = M_abs/N_cycles_;
+
+//     cout << "E0 = " << E_sys << endl;
+//     cout << "M0 = " << M_sys << endl;
+
+//     for (int i = 0; i < N_cycles_; i++)
+//     {
+//         for (int j = 0; j < N; j++)
+//         {
+//             metropolis(S, &E_sys, &M_sys);
+//         }
+//     }
+// }
+>>>>>>> edbbf509d801c423effc89733adedb014a1dab13
 
 /*
 double M(int L) {
