@@ -199,34 +199,3 @@ void IsingModel::burnintime(int N_burn)
     }
 }
 
-/*
-double M(int L) {
-    // Func. that returns the total magnetization of the system
-    // given by the sum over all the spins in the system
-    double sum = 0;
-    int N = L**2;
-    for (i=0; i=N-1; i++) {
-        sum += S(i);
-    }
-    return sum
-}
-
-
-double eps(mat S, double J, int L, int N) {
-    // function that returns energy per spin
-    eps = E(mat S, double J, int L)/N;
-    mean_eps = integrate eps(s) * probability(s) ds;
-    return eps, mean_eps;
-}
-
-double m(int L) {
-    // function that returns magnetization per spin
-    m = M(L)/N;
-    mean_m = ;
-    return m, mean_m;
-}
-
-double Cv() {
-    return 1/(kB*T**2) * ()
-}
-*/
