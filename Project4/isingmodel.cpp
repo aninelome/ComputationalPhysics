@@ -40,7 +40,7 @@ double IsingModel::energy(imat S)
 // Func. computing difference in energy after flipping a single spin at index (i,j)
 int IsingModel::delta_E(imat &S, int i, int j)
 {
-    
+
     return 2 * spinmat(S, i, j)*(spinmat(S, i - 1, j) +  spinmat(S, i + 1, j) + spinmat(S, i, j - 1) + spinmat(S, i, j + 1));
 }
 
@@ -67,7 +67,7 @@ imat IsingModel::make_matrix(double *M_sys)
 // Function implementing the Metropolis algorithm
 void IsingModel::metropolis(imat &S, double *E_sys, double *M_sys)
 {
-   
+
     int i_index = randi(distr_param(0,L_-1));
     int j_index = randi(distr_param(0,L_-1));
 
@@ -161,7 +161,7 @@ void IsingModel::mcmc(vec* eps_vec, vec* m_abs_vec)
 
 // void IsingModel::metropolis(imat &S, double *E_sys, double *M_sys)
 // {
-   
+
 //     int i_index = randi(distr_param(0,L_-1));
 //     int j_index = randi(distr_param(0,L_-1));
 
@@ -173,7 +173,7 @@ void IsingModel::mcmc(vec* eps_vec, vec* m_abs_vec)
 //     if (dE <= 0)
 //     {
 //         S(i_index, j_index) *= -1;
-      
+
 //     }
 //     else if(randu() <= boltzmann_factor(boltzmann_list, dE)){
 //         S(i_index, j_index) *= -1;
@@ -212,7 +212,7 @@ void IsingModel::mcmc(vec* eps_vec, vec* m_abs_vec)
 //         for (int j = 0; j < N; j++)
 //         {
 //             metropolis(S, &E_sys, &M_sys);
-//         }  
+//         }
 //     }
 // }
 
