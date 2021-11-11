@@ -168,10 +168,6 @@ void IsingModel::metropolis_burnin(imat &S)
     int j_index = randi(distr_param(0,L_-1));
 
     int dE = delta_E(S, i_index, j_index);
-<<<<<<< HEAD
-
-=======
->>>>>>> 71fbdce94e6fde7ea1338aaa95dfdf0448b265f7
 
     if (dE <= 0)
     {
