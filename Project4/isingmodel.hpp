@@ -18,9 +18,23 @@ private:
     int N_cycles_;
     double M_sys;
     imat S;
+    double E_sys;
+    double E_tot;
+    double E_tot2;
+    double M_tot;
+    double M_tot2;
+    double M_abs;
 
 
 public:
+  // Public observables
+
+    double C_v;
+    double X;
+    double eps_exp;
+    double m_abs_exp;
+
+
     IsingModel(double beta, double T, int L, int N_cycles);
 
     int index(int i);
@@ -35,13 +49,10 @@ public:
 
     imat make_matrix(double* M);
 
-    void metropolis(imat &S, double* E_sys, double* M_sys);
+    void metropolis(imat &S, double* E_sys, double* M_sys, int thread_num, int base_seed);
 
-    void mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec);
+    void mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec, int N_burn, int i, vec* C_v, vec* X_vec, vec* eps_exp_temp, vec* m_abs_temp);
 
-    void metropolis_burnin(imat &S);
-
-    void burnintime(int N_burn);
 
     vec boltzmann_list;
 
