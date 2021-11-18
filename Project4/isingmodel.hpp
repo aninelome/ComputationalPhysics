@@ -37,6 +37,8 @@ public:
 
     IsingModel(double beta, double T, int L, int N_cycles);
 
+    void reset_variables(double* M_tot, double*  M_tot2, double*  M_abs);
+
     int index(int i);
 
     int spinmat(imat S, int i, int j);

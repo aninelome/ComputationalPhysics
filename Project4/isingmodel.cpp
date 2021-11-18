@@ -9,9 +9,15 @@ IsingModel::IsingModel(double beta, double T, int L, int N_cycles)
     T_ = T;
     L_ = L;
     N_cycles_ = N_cycles;
-    M_sys = 0;
-    S = make_matrix(&M_sys);
+    //S = make_matrix(&M_sys);
     //S = imat(L,L).fill(1);
+}
+void IsingModel::reset_variables(double* M_tot, double*  M_tot2, double*  M_abs){
+    S = make_matrix(&M_sys);
+    (*M_tot)= 0;
+    (*M_tot2) = 0;
+    (*M_abs)= 0;
+
 }
 
 // Function dealing with periodic boundary conditions
@@ -58,6 +64,7 @@ double IsingModel::boltzmann_factor(vec boltzmann_list, int dE)
 imat IsingModel::make_matrix(double *M_sys)
 {
     imat S = 2*randi(L_, L_, distr_param(0, 1)) - 1;
+    (*M_sys) = 0;
     for (int j = 0; j <= L_ - 1; j++)
     {
         for (int i = 0; i <= L_ - 1; i++)
@@ -95,6 +102,7 @@ void IsingModel::mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec, int N_burn
 {
     int N = L_ * L_;
     boltzmann_list = {exp(8 * beta_), 0, 0, 0, exp(4 * beta_), 0, 0, 0, 1, 0, 0, 0, exp(-4 * beta_), 0, 0, 0, exp(-8 * beta_)};
+    reset_variables(&M_tot, &M_tot2, &M_abs);
 
     E_sys = 1.*energy(S);
     E_tot = E_sys;
@@ -118,7 +126,7 @@ void IsingModel::mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec, int N_burn
         }
     }
 
-    #ifdef _OPENMP
+    //#ifdef _OPENMP
     {
     #pragma omp parallel
     {
@@ -130,7 +138,7 @@ void IsingModel::mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec, int N_burn
 
       arma::arma_rng::set_seed(thread_num + 42);
       int base_seed = 0;
-      //double start = omp_get_wtime();
+      double start = omp_get_wtime();
       #pragma omp for reduction(+:E_tot, M_tot, M_abs, E_tot2, M_tot2)
       for (int i = 0; i < N_cycles_; i++)
       {
@@ -144,6 +152,7 @@ void IsingModel::mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec, int N_burn
 
           E_tot2 += E_local * E_local;
           M_tot2 += M_local * M_local;
+          //cout << "M_sys" << M_sys << endl;
 
       }
       //double end = omp_get_wtime();
@@ -154,27 +163,27 @@ void IsingModel::mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec, int N_burn
 
     }
   }
-  #else
-  {
-    for (int i = 0; i < N_cycles_; i++)
-    {
-        for (int j = 0; j < N; j++)
-        {
-            metropolis(S, &E_sys, &M_sys, 1, base_seed);
-          }
-        E_tot += E_sys;
-        M_tot += M_sys;
-        M_abs += fabs(M_sys);
+  //#else
+  //{
+  //  for (int i = 0; i < N_cycles_; i++)
+  //  {
+  //      for (int j = 0; j < N; j++)
+  //      {
+  //          metropolis(S, &E_sys, &M_sys, 1, base_seed);
+  //        }
+  //      E_tot += E_sys;
+  //      M_tot += M_sys;
+  //      M_abs += fabs(M_sys);
 
-        E_tot2 += E_sys * E_sys;
-        M_tot2 += M_sys * M_sys;
+  //      E_tot2 += E_sys * E_sys;
+  //      M_tot2 += M_sys * M_sys;
 
-        (*eps_exp_vec)(i+1) = E_tot*(1./(N*(i+1)));
-        (*m_abs_vec)(i+1) = M_abs*(1./(N*(i+1)));
-        (*eps_vec)(i+1) = E_sys*(1./N);
-  }
-  }
-  #endif
+  //      (*eps_exp_vec)(i+1) = E_tot*(1./(N*(i+1)));
+  //      (*m_abs_vec)(i+1) = M_abs*(1./(N*(i+1)));
+  //      (*eps_vec)(i+1) = E_sys*(1./N);
+  //}
+  //}
+  //#endif
 
   //cout << "-----------------------------------\n"
   //     << endl;
@@ -194,8 +203,8 @@ void IsingModel::mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec, int N_burn
   double C_v = beta_ / T_ * (E_tot2/N_cycles_ - (E_tot/N_cycles_ * E_tot/N_cycles_));
   double X = beta_ * (M_tot2/N_cycles_ - (M_abs/N_cycles_ * M_abs/N_cycles_));
 
-  (*C_v_vec)(i) = C_v;
-  (*X_vec)(i) = X;
+  (*C_v_vec)(i) = C_v / N;
+  (*X_vec)(i) = X / N;
   (*eps_exp_temp)(i) = eps_exp;
   (*m_abs_temp)(i) = m_abs_exp;
   //cout << "C_v = " << C_v << endl;
@@ -203,7 +212,7 @@ void IsingModel::mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec, int N_burn
   //cout << "i:"<< i << endl;
 
 
-  //cout << "X = " << X << endl;
+  //cout << "X = " << X/N << endl;
   //cout << "m_abs_exp = " << m_abs_exp << endl;
   //cout << "eps_exp = " << eps_exp << endl;
   //cout << "eps2_exp = " << eps2_exp << endl;
