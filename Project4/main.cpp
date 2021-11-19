@@ -7,30 +7,42 @@
 using namespace arma;
 using namespace std;
 
-void run_sim(int T, int L, int N_cycles, int N_burn, int i, vec C_v_vec, vec X_vec, vec eps_exp_temp, vec m_abs_temp){
-  double Tk_B = T;
-  double beta = 1/Tk_B;
-  vec eps_exp_vec = vec(N_cycles+1);
-  vec m_abs_vec = vec(N_cycles+1);
-  vec eps_vec = vec(N_cycles+1);
-  IsingModel isingmodel = IsingModel(beta, T,  L,  N_cycles);
-  isingmodel.mcmc(&eps_exp_vec, &m_abs_vec, &eps_vec, N_burn, i, &C_v_vec, &X_vec, &eps_exp_temp, &m_abs_temp);
-}
+//void run_sim(int T, int L, int N_cycles, int N_burn, int i, vec C_v_vec, vec X_vec, vec eps_exp_temp, vec m_abs_temp){
+//  double Tk_B = T;
+//  double beta = 1/Tk_B;
+//  vec eps_exp_vec = vec(N_cycles+1);
+//  vec m_abs_vec = vec(N_cycles+1);
+//  vec eps_vec = vec(N_cycles+1);
+//  IsingModel isingmodel = IsingModel(beta, T,  L,  N_cycles);
+//  isingmodel.mcmc(&eps_exp_vec, &m_abs_vec, &eps_vec, N_burn, i, &C_v_vec, &X_vec, &eps_exp_temp, &m_abs_temp);
+//}
 
 
 int main(int argc, const char* argv[]){
-  int N_cycles = 100000;
-  int N_burn = 1000;
-  vec T_list = linspace(2.1, 2.4, 15);
+  int N_cycles = 1000000;
+  int N_burn = 10000;
+  vec T_list = linspace(2.1, 2.4, 10);
   vec C_v_vec = vec(T_list.size());
   vec X_vec = vec(T_list.size());
   vec eps_exp_temp = vec(T_list.size());
   vec m_abs_temp = vec(T_list.size());
   vec L_list = vec(1);
-  L_list(0) = 10;
+  //L_list(0) = 20;
   //L_list(1) = 60;
-  //L_list(2) = 80;
-  //L_list(3) = 100;
+  L_list(0) = 80;
+  //L_list(0) = 100;
+  //double T = 1;
+  //double L = 20;
+  //double beta = 1./T;
+  //IsingModel isingmodel = IsingModel(beta, T,  L,  N_cycles);
+  ////double start = omp_get_wtime();
+  //isingmodel.mcmc(N_burn, 0, &C_v_vec, &X_vec, &eps_exp_temp, &m_abs_temp);
+
+  //double end = omp_get_wtime();
+  //double timeused = end-start;
+  //cout << "timeused = " << timeused << " seconds " << endl;
+  //exit(1);
+
 
   for (int j = 0; j < L_list.size(); j++){
     int L = L_list(j);
@@ -43,13 +55,13 @@ int main(int argc, const char* argv[]){
       vec m_abs_vec = vec(N_cycles+1);
       vec eps_vec = vec(N_cycles+1);
       IsingModel isingmodel = IsingModel(beta, T,  L,  N_cycles);
-      isingmodel.mcmc(&eps_exp_vec, &m_abs_vec, &eps_vec, N_burn, i, &C_v_vec, &X_vec, &eps_exp_temp, &m_abs_temp);
+      isingmodel.mcmc(N_burn, i, &C_v_vec, &X_vec, &eps_exp_temp, &m_abs_temp);
       //run_sim(T_list(i), L, N_cycles, N_burn, i, C_v_vec, X_vec, eps_exp_temp, m_abs_temp);
       //exit(1);
       }
 
 
-      //cout << "C_v_vec = " << C_v_vec << endl;
+      cout << "C_v_vec = " << C_v_vec << endl;
       C_v_vec.save("C_v_vec"+to_string(L)+".bin");
       X_vec.save("X_vec"+to_string(L)+".bin");
       eps_exp_temp.save("eps_exp_temp"+to_string(L)+".bin");

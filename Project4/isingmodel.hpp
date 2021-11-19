@@ -24,6 +24,9 @@ private:
     double M_tot;
     double M_tot2;
     double M_abs;
+    vec boltzmann_list;
+    int N_;
+
 
 
 public:
@@ -43,7 +46,7 @@ public:
 
     int spinmat(imat S, int i, int j);
 
-    double energy(imat S);
+    double energy(imat &S);
 
     int delta_E(imat &S, int i, int j);
 
@@ -51,12 +54,11 @@ public:
 
     imat make_matrix(double* M);
 
-    void metropolis(imat &S, double* E_sys, double* M_sys, int thread_num, int base_seed);
+    void metropolis(imat &S, double* E_sys, double* M_sys);
 
-    void mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec, int N_burn, int i, vec* C_v, vec* X_vec, vec* eps_exp_temp, vec* m_abs_temp);
+    void mcmc(int N_burn, int i, vec* C_v, vec* X_vec, vec* eps_exp_temp, vec* m_abs_temp);
 
 
-    vec boltzmann_list;
 
 };
 #endif

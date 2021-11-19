@@ -55,7 +55,7 @@ eps.load("eps_vec.bin")
 # C_v_vec.save("C_v_vec"+to_string(L)+".bin");
 
 #L_list = [40, 60, 80, 100]
-L = 10
+L = 80
 
 C_v = pa.mat()
 X = pa.mat()
@@ -117,6 +117,7 @@ spl.set_smoothing_factor(0.5)
 plt.plot(T, spl(T))
 plt.show()
 
+print(spl.derivative().roots())
 critical_temp = np.array([spl.derivative().roots()]) # Findig the maximum point of the interpolated C_v against T
 test = np.array([2.35, 2.3, 2.29, 2.28])
 
@@ -134,4 +135,4 @@ ax.set_ylim(2.25, 2.37)
 
 ax.plot(linreg)
 
-plt.show()
+#plt.show()
