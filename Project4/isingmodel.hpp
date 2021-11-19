@@ -56,7 +56,10 @@ public:
 
     void metropolis(imat &S, double* E_sys, double* M_sys);
 
-    void mcmc(int N_burn, int i, vec* C_v, vec* X_vec, vec* eps_exp_temp, vec* m_abs_temp);
+    void mcmc(vec* eps_exp_vec, vec* m_abs_vec, vec* eps_vec, int N_burn);
+
+
+    //void mcmc(int N_burn, int i, vec* C_v, vec* X_vec, vec* eps_exp_temp, vec* m_abs_temp);
 
 
 
