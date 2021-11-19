@@ -5,8 +5,8 @@
 using namespace arma;
 using namespace std;
 
+// Function testing some functionality of our code
 void test(int L, int i, int j){
-  // Func. testing some functions in our code
   double tol = 1e-8;
   int beta = 1;
   mat S(L, L); // Make test-matrix
@@ -39,5 +39,5 @@ int main() {
   double Tk_b = 1.0;
   double beta = 1/Tk_b;
   test(2, 0, 1);
-    return 0;
+  return 0;
 }
