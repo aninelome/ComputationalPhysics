@@ -2,7 +2,6 @@
 #include <armadillo>
 #include <valarray>
 #include "isingmodel.hpp"
-//#include <cstdlib>
 
 using namespace arma;
 using namespace std;
@@ -43,7 +42,7 @@ int main(int argc, const char* argv[]){
       isingmodel.mcmc(N_burn, i, &C_v_vec, &X_vec, &eps_exp_temp, &m_abs_temp);
     }
 
-      // Storing final results in .bin files 
+      // Storing final results in .bin files
       C_v_vec.save("C_v_vec"+to_string(L)+".bin");
       X_vec.save("X_vec"+to_string(L)+".bin");
       eps_exp_temp.save("eps_exp_temp"+to_string(L)+".bin");

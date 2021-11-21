@@ -164,7 +164,6 @@ void IsingModel::mcmc(int N_burn, int i, vec* C_v_vec, vec* X_vec, vec* eps_exp_
   #endif
 
 
-
   // Computing expectation values, heat capacity and susceptibility
   double eps_exp = E_tot / (N_cycles_ * N);
   double m_exp = M_tot / (N_cycles_ * N);
