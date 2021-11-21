@@ -4,9 +4,9 @@ import pyarma as pa
 from scipy.interpolate import UnivariateSpline
 from scipy.stats import linregress
 
-fontsize = 13
-ticksize = 13
-legendsize = 13
+fontsize = 35
+ticksize = 35
+legendsize = 35
 
 
 # Problem 6
@@ -47,39 +47,43 @@ eps1_o.load("eps_vec_T:1_o.bin")
 eps_exp24_o = pa.mat()
 eps24_o = pa.mat()
 m_abs24_o = pa.mat()
-N_c24_o = pa.mat()
+N_c_mag = pa.mat()
+N_c_e = pa.mat()
+
 
 eps_exp24_o.load("eps_exp_vec_T:24_o.bin")
 m_abs24_o.load("m_abs_vec_T:24_o.bin")
-N_c24_o.load("N_c_vec_T:24_o.bin")
+N_c_e.load("N_c_vec__eT:24.bin")
+N_c_mag.load("N_c_vec__magT:24.bin")
+
 
 eps24_o.load("eps_vec_T:24_o.bin")
 
 
-plt.plot(N_c1, m_abs1, label="T=1, unordered")
-plt.plot(N_c1, m_abs1_o, label="T=1, ordered")
-plt.plot(N_c1, m_abs24, label="T=2.4, unordered")
-plt.plot(N_c1, m_abs24_o, label="T=2.4, ordered")
+plt.plot(N_c_mag, m_abs1, label="T=1 J/k$_B$, unordered")
+plt.plot(N_c_mag, m_abs1_o, label="T=1 J/k$_B$, ordered")
+plt.plot(N_c_mag, m_abs24, label="T=2.4 J/k$_B$, unordered")
+plt.plot(N_c_mag, m_abs24_o, label="T=2.4 J/k$_B$, ordered")
 
-plt.xlabel("N_cycles")
-plt.ylabel("<|m|> [Enhet?]") #FIKS ENHET!!!
-plt.legend(prop={'size': 13})
+plt.xlabel("$N_{cycles}$", size=fontsize)
+plt.ylabel("<|m|>", size=fontsize) #FIKS ENHET!!!
+plt.legend(prop={'size': fontsize}, loc=7)
 plt.xticks(size=ticksize)
 plt.yticks(size=ticksize)
-plt.title("",fontsize=fontsize)
+plt.title("Expectation value of magnetization per spin \n as a function of $N_{cycles}$",fontsize=fontsize)
 plt.show()
 
-plt.plot(N_c1, eps_exp1, label="T=1, unordered")
-plt.plot(N_c1, eps_exp1_o, label="T=1, ordered")
-plt.plot(N_c1, eps_exp24, label="T=2.4, unordered")
-plt.plot(N_c1, eps_exp24_o, label="T=2.4, ordered")
+plt.plot(N_c_e, eps_exp1, label="T=1 J/k$_B$, unordered")
+plt.plot(N_c_e, eps_exp1_o, label="T=1 J/k$_B$, ordered")
+plt.plot(N_c_e, eps_exp24, label="T=2.4 J/k$_B$, unordered")
+plt.plot(N_c_e, eps_exp24_o, label="T=2.4 J/k$_B$, ordered")
 
-plt.xlabel("N_cycles")
-plt.ylabel(f"$<\epsilon>$ [J]")
-plt.legend(prop={'size': 13})
+plt.xlabel("$N_{cycles}$", size=fontsize)
+plt.ylabel(f"$<\epsilon>$ [J]", size=fontsize)
+plt.legend(prop={'size': fontsize}, loc=4)
 plt.xticks(size=ticksize)
 plt.yticks(size=ticksize)
-plt.title("",fontsize=fontsize)
+plt.title("Expectation value of energy per spin \n as a function of  $N_{cycles}$",fontsize=fontsize)
 plt.show()
 
 

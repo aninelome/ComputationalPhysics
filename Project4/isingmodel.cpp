@@ -14,8 +14,8 @@ IsingModel::IsingModel(double beta, double T, int L, int N_cycles)
 
 }
 void IsingModel::reset_variables(double* M_tot, double*  M_tot2, double*  M_abs){
-    S = make_matrix(&M_sys);
-    //S = imat(L_,L_).fill(-1);
+    //S = make_matrix(&M_sys);
+    S = imat(L_,L_).fill(-1);
 
     (*M_tot)= 0;
     (*M_tot2) = 0;

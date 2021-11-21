@@ -126,22 +126,26 @@ using namespace std;
 int main(int argc, const char* argv[]) {
 
     int L = 20;
-    int N_cycles = 100000;
-    double Tk_B = 2.2;
+    int N_cycles = 1000000;
+    double Tk_B = 1;
     double beta = 1/Tk_B;
-    double T = 2.2;
-    int N_burn = 1000;
+    double T = 1;
+    int N_burn = 0;
     vec eps_exp_vec = vec(N_cycles+1);
     vec m_abs_vec = vec(N_cycles+1);
-    vec N_c_vec = linspace(0,N_cycles, N_cycles+1);
+    vec N_c_vec_mag = linspace(0,N_cycles, N_cycles+1);
+    //vec N_c_vec_e = linspace(0,N_cycles, N_cycles+1);
+
     vec eps_vec = vec(N_cycles+1);
     cout << "N_cycles = " << N_cycles << endl;
     IsingModel isingmodel = IsingModel(beta, T,  L,  N_cycles);
     isingmodel.mcmc(&eps_exp_vec, &m_abs_vec, &eps_vec, N_burn);
-    eps_exp_vec.save("eps_exp_vec_T:24_o.bin");
-    m_abs_vec.save("m_abs_vec_T:24_o.bin");
-    N_c_vec.save("N_c_vec_T:24_o.bin");
-    eps_vec.save("eps_vec_T:24_o.bin");
+    //eps_exp_vec.save("eps_exp_vec_T:24.bin");
+    m_abs_vec.save("m_abs_vec_T:1_o.bin");
+    N_c_vec_mag.save("N_c_vec__magT:24.bin");
+    //N_c_vec_e.save("N_c_vec__eT:24.bin");
+
+    //eps_vec.save("eps_vec_T:24.bin");
 
 
     return 0;
