@@ -21,41 +21,36 @@ N_c.load("N_c_vec.bin")
 
 eps.load("eps_vec.bin")
 
-#plt.plot(N_c, m_abs)
-#plt.xlabel("N_cycles")
-#plt.ylabel("<|m|> [Enhet?]") #FIKS ENHET!!!
-#plt.legend(prop={'size': 13})
-#plt.xticks(size=ticksize)
-#plt.yticks(size=ticksize)
-#plt.title("",fontsize=fontsize)
-#plt.show()
-#
-#plt.plot(N_c, eps_exp)
-#plt.xlabel("N_cycles")
-#plt.ylabel(f"$<\epsilon>$ [J]")
-#plt.legend(prop={'size': 13})
-#plt.xticks(size=ticksize)
-#plt.yticks(size=ticksize)
-#plt.title("",fontsize=fontsize)
-#plt.show()
-#
-#
-#plt.hist(eps, 100, density=True)
-#plt.xlabel(f"$\epsilon$ [J]")
-#plt.ylabel(f"$p$")
-#plt.legend(prop={'size': 13})
-#plt.xticks(size=ticksize)
-#plt.yticks(size=ticksize)
-#plt.title("",fontsize=fontsize)
-#plt.show()
-#
-# Problem 8
+plt.plot(N_c, m_abs)
+plt.xlabel("N_cycles")
+plt.ylabel("<|m|> [Enhet?]") #FIKS ENHET!!!
+plt.legend(prop={'size': 13})
+plt.xticks(size=ticksize)
+plt.yticks(size=ticksize)
+plt.title("",fontsize=fontsize)
+plt.show()
+
+plt.plot(N_c, eps_exp)
+plt.xlabel("N_cycles")
+plt.ylabel(f"$<\epsilon>$ [J]")
+plt.legend(prop={'size': 13})
+plt.xticks(size=ticksize)
+plt.yticks(size=ticksize)
+plt.title("",fontsize=fontsize)
+plt.show()
 
 
-# C_v_vec.save("C_v_vec"+to_string(L)+".bin");
+plt.hist(eps, 100, density=True)
+plt.xlabel(f"$\epsilon$ [J]")
+plt.ylabel(f"$p$")
+plt.legend(prop={'size': 13})
+plt.xticks(size=ticksize)
+plt.yticks(size=ticksize)
+plt.title("",fontsize=fontsize)
+plt.show()
 
-#L_list = [40, 60, 80, 100]
-L = 80
+#Problem 8
+L_list = [40, 60, 80, 100]
 
 C_v = pa.mat()
 X = pa.mat()
@@ -103,7 +98,7 @@ plt.show()
 # as a function of temperature
 plt.plot(T, m_abs_temp)
 plt.xlabel(f"T $[J/k_B]$")
-plt.ylabel("<|m|> [Enhet?]") #FIKS ENHET!!!
+plt.ylabel("<|m|> [Enhet?]") #FIKS ENHET!!
 plt.legend(prop={'size': 13})
 plt.xticks(size=ticksize)
 plt.yticks(size=ticksize)
@@ -119,11 +114,11 @@ plt.show()
 
 print(spl.derivative().roots())
 critical_temp = np.array([spl.derivative().roots()]) # Findig the maximum point of the interpolated C_v against T
-test = np.array([2.35, 2.3, 2.29, 2.28])
+
 
 x = [100,80,60,40]
-#y = np.flip(critical_temp)
-y = np.flip(test)
+y = np.flip(critical_temp)
+
 
 
 linreg = linregress([x,y])
