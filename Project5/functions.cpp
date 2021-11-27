@@ -1,20 +1,18 @@
-#include <iostream>
-#include <armadillo>
-#include <valarray>
-#include <stdexcept>
-#include <vector>
-#include <string>
-#include <complex>
+#include "functions.hpp"
+
 using namespace arma;
 using namespace std;
 
-
+// Function translating a pair of indices (i,j) into a corresponding single
+// index k that gives the position of u_{ij} in the vector u
 int index(int i, int j, int M)
 {
   int k = i + j*(M-2);
   return k;
 }
 
+// Function making the vectors a and b that should be on the diagonal of
+// respectively the A and B matrices
 void make_diag_vectors(cx_vec &a,cx_vec &b, int M, double h, double dt, mat V, cx_double r)
 {
   cx_double w = cx_double(0, dt/2.);
@@ -28,6 +26,7 @@ void make_diag_vectors(cx_vec &a,cx_vec &b, int M, double h, double dt, mat V, c
   }
 }
 
+// Function making the A and B matrices
 void make_A_B(cx_vec &a, cx_vec &b, cx_double r, int M, sp_cx_mat &A,  sp_cx_mat &B)
 {
   for (int i = 0; i <= M-3; i++)
@@ -57,16 +56,9 @@ void make_A_B(cx_vec &a, cx_vec &b, cx_double r, int M, sp_cx_mat &A,  sp_cx_mat
       B(i+j*(M-2), i+1+j*(M-2)) = r;
     }
   }
-
-  for (int i = 0; i < (M-2)*(M-2); i++){
-    for (int j = 0; j < (M-2)*(M-2); j++){
-      //cout << A(i, j) << " ";
-    }
-    //cout << " " << endl;
-  }
-
 }
 
+// Funtion solving the matrix equation Au^{n+1} = b for the unknown uu^{n+1}
 void solve_matrix_eq(sp_cx_mat &A,  sp_cx_mat &B, int N_t, cx_vec u_init)
 {
   cx_vec u_n = u_init/norm(u_init);
@@ -85,6 +77,8 @@ void solve_matrix_eq(sp_cx_mat &A,  sp_cx_mat &B, int N_t, cx_vec u_init)
 
 }
 
+// Function setting up the initial state u^{0} based on an
+// expression for a Gaussian wave packet
 cx_vec wave_func(vec x, double mu, double sigma, double k)
 {
   cx_vec f = exp(-0.5*pow((x-mu/sigma),2))%exp(1.0i*k*x);
@@ -92,6 +86,11 @@ cx_vec wave_func(vec x, double mu, double sigma, double k)
   return f;
 }
 
+
+// Function that initializes the potential V. Use this to construct the
+// barriers used for the single-, double- and tripple slit.
+// NB! Pay attention to the parametres d, l and N_slit vs M.
+// Trying to set N_slit = 3 on a small matrix may lead to "std:out_of_range"
 mat set_potential(int M, double v0, double d, double l, int N_slit)
 {
   mat V = mat(M-2, M-2).fill(0);
@@ -119,68 +118,20 @@ mat set_potential(int M, double v0, double d, double l, int N_slit)
     }
 
   }
-
-
   V.print("V = ");
 
   return V;
 }
 
-
-int main(int argc, char const *argv[]) {
-  int M = 10;
-  double d = 1;
-  //double l = int(M/10);
-  double l = 1;
-  double T = 10;
-  double v0 = pow(2, 30);
-  int N_slit = 3;
-  double dt = 0.1;
-  //int N_t = 10;
-  int N_t = T/dt;
-  vec t_list = linspace(0, T, N_t);
-  t_list.save("t_list.bin");
-  double h = 1./(M-1);
-  double mu_x = 0.5;
-  double sigma_x = 0.2;
-  double k_x = 1;
-  double mu_y = 0.5;
-  double sigma_y = 0.2;
-  double k_y = 0;
-  cx_double r = cx_double(0, dt/(2.*h*h));
-  //mat V = mat(M-2, M-2).fill(0);
-  mat V = mat(M-2, M-2);
-  cx_vec a((M-2)*(M-2));
-  cx_vec b((M-2)*(M-2));
-  sp_cx_mat A = sp_cx_mat((M-2)*(M-2), (M-2)*(M-2));
-  sp_cx_mat B = sp_cx_mat((M-2)*(M-2), (M-2)*(M-2));
-  vec x = vec(M-2);
-  vec y = vec(M-2);
-
-  for (int i = 0; i < M-2; i++)
+// Funtion printing a given (sp_cx_mat) matrix in a nice layout
+void print_matrix(sp_cx_mat &A, int M)
+{
+  for (int i = 0; i < (M-2)*(M-2); i++)
   {
-    x(i) = (i+1)*h;
-    y(i) = (i+1)*h;
-  }
-
-  x.save("x.bin");
-  y.save("y.bin");
-
-
-  cx_vec f_x = wave_func(x, mu_x, sigma_x, k_x);
-  cx_vec f_y = wave_func(y, mu_y, sigma_y, k_y);
-
-  cx_vec u_init = cx_vec((M-2)*(M-2));
-
-  for (int i = 0; i < M-2; i++){
-    for (int j = 0; j < M-2; j++){
-      u_init(i*(M-2) + j) = f_x(i)*f_y(j);
+    for (int j = 0; j < (M-2)*(M-2); j++)
+    {
+      cout << A(i, j) << " ";
     }
+    cout << " " << endl;
   }
-  V = set_potential(M, v0, d, l, N_slit);
-  make_diag_vectors(a, b, M, h, dt, V, r);
-  make_A_B(a, b, r, M, A, B);
-  solve_matrix_eq(A, B, N_t, u_init);
-
-  return 0;
 }

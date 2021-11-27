@@ -1,10 +1,10 @@
 all: compile link run
 
 compile:
-	g++-10 -c functions.cpp
+	g++-10 -c functions.cpp main.cpp
 
 link:
-	g++-10 functions.o -o main.exe -larmadillo
+	g++-10 functions.o main.o -o main.exe -larmadillo
 
 run:
 	./main.exe
