@@ -3,7 +3,7 @@
 
 
 int main(int argc, char const *argv[]) {
-  int M = 11;                       // number of points along the x- and y-axis,
+  int M = 5;                       // number of points along the x- and y-axis,
                                     // including the boundary points
 
   int N_slit = 2;                   // number of slits
@@ -12,8 +12,8 @@ int main(int argc, char const *argv[]) {
                                     // barriere-column to the slit(s)
   //double l = int(M/10);
 
-  double T = 10;                    // final time step
-  double dt = 0.1;                  // step size for time
+  double T = 9;                    // final time step
+  double dt = 1;                  // step size for time
   int N_t = T/dt;                   // number of time steps
   //int N_t = 10;
   vec t_list = linspace(0, T, N_t); // list of all time steps
@@ -36,6 +36,8 @@ int main(int argc, char const *argv[]) {
   vec y = vec(M-2);                 // declaring vector for y postions
 
   cx_vec u_init = cx_vec((M-2)*(M-2)); // declaring the initial state
+  mat P = mat((M-2)*(M-2), N_t);
+
 
   double mu_x = 0.5;                //
   double sigma_x = 0.2;             //
@@ -64,10 +66,10 @@ int main(int argc, char const *argv[]) {
   }
 
   V = set_potential(M, v0, d, l, N_slit);
-  make_diag_vectors(a, b, M, h, dt, V, r);  
-  make_A_B(a, b, r, M, A, B);              
+  make_diag_vectors(a, b, M, h, dt, V, r);
+  make_A_B(a, b, r, M, A, B);
   //print_matrix(B, M);
-  solve_matrix_eq(A, B, N_t, u_init);      
+  solve_matrix_eq(A, B, N_t, u_init, P);
 
 
   return 0;
