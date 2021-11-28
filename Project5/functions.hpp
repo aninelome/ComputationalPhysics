@@ -23,7 +23,9 @@ mat set_potential(int M, double v0, double d, double l, int N_slit);
 
 cx_vec wave_func(vec x, double mu, double sigma, double k);
 
-void solve_matrix_eq(sp_cx_mat &A,  sp_cx_mat &B, int N_t, cx_vec u_init);
+//void solve_matrix_eq(sp_cx_mat &A,  sp_cx_mat &B, int N_t, cx_vec u_init);
+void solve_matrix_eq(sp_cx_mat &A,  sp_cx_mat &B, int N_t, cx_vec u_init, mat &P);
+
 
 void print_matrix(sp_cx_mat &A, int M);
 

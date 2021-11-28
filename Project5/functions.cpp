@@ -59,7 +59,7 @@ void make_A_B(cx_vec &a, cx_vec &b, cx_double r, int M, sp_cx_mat &A,  sp_cx_mat
 }
 
 // Funtion solving the matrix equation Au^{n+1} = b for the unknown uu^{n+1}
-void solve_matrix_eq(sp_cx_mat &A,  sp_cx_mat &B, int N_t, cx_vec u_init)
+void solve_matrix_eq(sp_cx_mat &A,  sp_cx_mat &B, int N_t, cx_vec u_init, mat &P)
 {
   cx_vec u_n = u_init/norm(u_init);
   for (int i = 0; i < N_t; i++)
@@ -69,11 +69,13 @@ void solve_matrix_eq(sp_cx_mat &A,  sp_cx_mat &B, int N_t, cx_vec u_init)
     u_new.save("u_n"+to_string(i)+".bin");
     cx_vec p_cx = conj(u_new)%u_new;
     vec p = real(p_cx);
+    P.col(i) = p;
     //p.print("p ");
-    p.save("p"+to_string(i)+".bin");
+    //p.save("p"+to_string(i)+".bin");
     u_n = u_new;
-
   }
+  //P.print("P ");
+  P.save("P.bin");
 
 }
 
