@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import pyarma as pa
 
 
-fontsize = 40
-ticksize = 40
-legendsize = 40
+fontsize = 36
+ticksize = 36
+legendsize = 36
 
 P = pa.mat()
 U_re = pa.mat()
@@ -37,30 +37,34 @@ for i in range(len(P_tot)):
 no_inf = np.logical_not(np.isinf(diff_array))
 diff_array = diff_array[no_inf]
 time_array = time_array[no_inf]
-
+print(diff_array)
 # Plot of the total probability as function of time:
 fig, ax1 = plt.subplots()
-l, b, h, w = .2, .2, .3, .3
+l, b, h, w = .2, .2, .32, .33
 ax2 = fig.add_axes([l, b, w, h])
 for v,t in zip(diff_array,time_array):
     ax1.scatter(t, v)
-    ax1.set_xticklabels(t, fontsize=fontsize)
-    ax1.set_yticklabels(v, fontsize=fontsize)
+ax1.set_xticks([0,0.002,0.004,0.006,0.008])
+ax1.set_yticks([-15.5,-14.5,-13.5])
+ax1.set_xticklabels([0,0.002,0.004,0.006,0.008], fontsize=fontsize)
+ax1.set_yticklabels([-15.5,-14.5,-13.5], fontsize=fontsize)
+ax1.set_xlabel("time", fontsize=fontsize)
+#ax1.set_ylabel("probability", fontsize=fontsize)
+#ax1.set_xticks()
+#ax1.set_yticks()
+#ax1.set_xticklabels(t_list,fontsize=fontsize)
+#ax1.set_yticklabels(P_tot,fontsize=fontsize)
+#ax2.set_xlabel("time", fontsize=fontsize)
 ax2.plot(t_list, P_tot)
 ax2.set_ylim(-1,2)
 ax2.set_xticks([0,0.004,0.008])
-ax1.set_xticks([0,0.002,0.004,0.006,0.008])
-ax1.set_xlabel("time", fontsize=fontsize)
-ax1.set_ylabel("probability", fontsize=fontsize)
-ax1.set_xticks()
-ax1.set_yticks()
-ax1.set_xticklabels(t_list,fontsize=fontsize)
-ax1.set_yticklabels(P_tot,fontsize=fontsize)
-ax2.set_xlabel("time", fontsize=fontsize)
-ax2.set_ylabel("probability", fontsize=fontsize)
+ax2.set_yticks([-1,0,1,2])
+ax2.set_xticklabels([0,0.004,0.008], fontsize=fontsize)
+ax2.set_yticklabels([-1,0,1,2], fontsize=fontsize)
+#ax2.set_ylabel("probability", fontsize=fontsize)
 #plt.legend(prop={'size': 13})
-ax2.xticks(size=ticksize)
-ax2.yticks(size=ticksize)
+#ax2.set_xticks(size=ticksize)
+#ax2.set_yticks(size=ticksize)
 plt.show()
 
 # Colourmap plots that illustrate the time evolution
@@ -80,7 +84,7 @@ for j in times:
     plt.legend(prop={'size': 13})
     plt.xticks(size=ticksize)
     plt.yticks(size=ticksize)
-    plt.show()
+    #plt.show()
 
 ## Colourmap plots that show Re(u_ij) and Im(u_ij):
 #plt.plot()
