@@ -4,7 +4,7 @@
 
 int main(int argc, char const *argv[]) {
   arma::mat Param;
-  Param.load("prob8.txt", arma::raw_ascii);
+  Param.load("prob7_2.txt", arma::raw_ascii);
 
   double h = Param(0);              // step size in x and y direction
   int M = int((1./h) + 1);          // number of points along the x- and y-axis,
