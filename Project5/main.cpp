@@ -4,8 +4,7 @@
 
 int main(int argc, char const *argv[]) {
   arma::mat Param;
-  Param.load("prob7_1.txt", arma::raw_ascii);
-  cout << Param << endl;
+  Param.load("prob8.txt", arma::raw_ascii);
 
   double h = Param(0);              // step size in x and y direction
   int M = int((1./h) + 1);          // number of points along the x- and y-axis,
@@ -14,9 +13,18 @@ int main(int argc, char const *argv[]) {
   int N_slit = 2;                   // number of slits
   int d = int(0.05*(M-2));          // width of the slit(s) in the y_direction
   int w = int(0.02*(M-2));          // width of the slit(s) in the x_direction
-  int l = int(0.025*(M-2));                     // distance from the middle of the
+  int l = int(0.025*(M-2));         // distance from the middle of the
                                     // barriere-column to the slit(s)
-  //double l = int(M/10);
+
+  //int N_slit = 1;                   // number of slits
+  //int d = int(0.05*(M-2));          // width of the slit(s) in the y_direction
+  //int w = int(0.02*(M-2));          // width of the slit(s) in the x_direction
+  //int l = 0;
+
+  //int N_slit = 3;                   // number of slits
+  //int d = int(0.025*(M-2));         // width of the slit(s) in the y_direction
+  //int w = int(0.02*(M-2));          // width of the slit(s) in the x_direction
+  //int l = int(0.05*(M-2));
 
   double T = Param(2);                    // final time step
   double dt = Param(1);                  // step size for time
@@ -53,7 +61,6 @@ int main(int argc, char const *argv[]) {
   double sigma_y = Param(7);            //
   double p_x = Param(5);
   double p_y = Param(8);
-
 
 
   // Fill x and y vectors

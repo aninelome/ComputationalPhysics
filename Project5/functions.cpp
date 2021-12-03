@@ -74,7 +74,7 @@ void solve_matrix_eq(sp_cx_mat &A,  sp_cx_mat &B, int N_t, cx_vec u_init, mat &P
     vec p = real(p_cx);
     P.col(i) = p;
     P_tot(i) = sum(p);
-    p.print("p ");
+    //p.print("p ");
     //p.save("p"+to_string(i)+".bin");
     u_n = u_new;
   }
@@ -98,7 +98,7 @@ void wave_func(vec x, vec y, double x_c, double y_c, double sigma_x, double sigm
   {
     for (int j = 0; j < M-2; j++)
     {
-      u_init(i*(M-2) + j) = f_x(i)*f_y(j);
+      u_init(i + j*(M-2)) = f_x(i)*f_y(j);
     }
   }
 }
