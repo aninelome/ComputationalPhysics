@@ -69,16 +69,12 @@ void solve_matrix_eq(sp_cx_mat &A,  sp_cx_mat &B, int N_t, cx_vec u_init, mat &P
     cx_vec u_new = spsolve(A,y);
     U_re.col(i) = real(u_new);
     U_im.col(i) = imag(u_new);
-    //u_new.save("u_n"+to_string(i)+".bin");
     cx_vec p_cx = conj(u_new)%u_new;
     vec p = real(p_cx);
     P.col(i) = p;
     P_tot(i) = sum(p);
-    //p.print("p ");
-    //p.save("p"+to_string(i)+".bin");
     u_n = u_new;
   }
-  //P.print("P ");
   P.save("P.bin");
   U_re.save("U_re.bin");
   U_im.save("U_im.bin");
