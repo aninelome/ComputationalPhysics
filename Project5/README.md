@@ -10,11 +10,11 @@ Files:
 - main.cpp
 - plotting.py
 
-The file functions.cpp contains functions making matrices A and B required for the Crank-Nicolson approach, and solving the required matrix equations. We also make the potential and the initial wave function in this file.
+The file functions.cpp contains functions that makes matrices A and B required for the Crank-Nicolson approach, sets up the potential and makes the initial wave function. We also solve the required matrix equations in this file, as well as saving the desired results to bins. 
 
-In main.cpp we run the simluation and save the desired results to bins.
+In main.cpp we run the simluation. 
 
-In plotting.py we read the bins created in main.cpp and plot the results.
+In plotting.py we read the bins containing the results and make desired plots. 
 
 
 ## How to build and run the program
